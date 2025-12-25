@@ -2,6 +2,7 @@ import React from "react";
 import { GoArrowUpRight } from "react-icons/go";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Sponsors - Breeze '25",
@@ -22,23 +23,30 @@ const Sponsors = () => {
               <span className="font-fraunces-italic">Current</span> Partners!
             </div>
           </div>
-          <Link href="https://stoknchill.com/" className="w-1/5 m-2 bg-opacity-50 rounded-s-3xl md:h-96 h-40 max-xl:w-10/12 max-xl:rounded-2xl p-4 flex justify-center items-center hover:-translate-y-2 transition-all">
+          <Link
+            href="https://stoknchill.com/"
+            className="w-1/5 m-2 bg-opacity-50 rounded-s-3xl md:h-96 h-40 max-xl:w-10/12 max-xl:rounded-2xl p-4 flex justify-center items-center hover:-translate-y-2 transition-all"
+          >
             {/* <Link href="https://stoknchill.com/"> */}
-              <img
-                src="/images/sponsors/StokNChill.png"
-                alt="Sponsor"
-                className="max-w-full max-h-full object-contain rounded-2xl"
-              />
-          {/* </div> */}
-            </Link>
+            <Image
+              src="/images/sponsors/StokNChill.png"
+              alt="Sponsor"
+              width={400}
+              height={400}
+              className="max-w-full max-h-full object-contain rounded-2xl"
+            />
+            {/* </div> */}
+          </Link>
           <Link
             href="https://www.group-108.com/"
             className="w-1/5 m-2 bg-opacity-50 rounded-e-3xl md:h-96 h-44 max-xl:w-10/12 max-xl:rounded-2xl flex justify-center items-center hover:-translate-y-2 transition-all"
           >
             {/* <Link href="https://www.group-108.com/" > */}
-            <img
+            <Image
               src="/images/sponsors/Group108.png"
               alt="Sponsor"
+              width={400}
+              height={400}
               className="max-w-[92%] max-h-full object-contain md:rounded-2xl"
             />
           </Link>

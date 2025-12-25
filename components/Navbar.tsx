@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import heroimg from "./breeze.png";
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { FaBars } from "react-icons/fa";
@@ -25,8 +26,6 @@ const Navbar = ({ className }: NavbarProps) => {
     { name: "Home", href: "/" },
     { name: "Events", href: "/events" },
     { name: "Merch", href: "/merch" },
-    { name: "Sponsors", href: "/sponsors" },
-    { name: "Team", href: "/team" },
     { name: "Contact Us", href: "/get-in-touch" },
   ];
 
@@ -71,16 +70,16 @@ const Navbar = ({ className }: NavbarProps) => {
   return (
     <nav
       className={cn(
-        "w-full fixed top-0 left-0 z-50 bg-orange-600 transition-transform duration-300",
+        "w-full fixed top-0 left-0 z-50 bg-[#1a0a2e] backdrop-blur-sm border-b border-purple-900/30 transition-transform duration-300",
         visible ? "translate-y-0" : "-translate-y-full",
         className
       )}
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* LOGO */}
-        <Link href="/">
+        <Link href="/" className="-my-3">
           <Image
-            src="/images/logo/logo.png"
+            src={heroimg}
             className="md:w-[90px] md:h-[50px] w-[60px] h-[40px] object-contain"
             alt="Breeze Logo"
             width={100}
@@ -157,7 +156,7 @@ const Navbar = ({ className }: NavbarProps) => {
 
       {/* MOBILE SIDEBAR */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent className="border-0 m-0 bg-orange-600">
+        <SheetContent className="border-0 m-0 bg-[#1a0a2e] border-l border-purple-900/30">
           <SheetHeader className="mt-10">
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) =>

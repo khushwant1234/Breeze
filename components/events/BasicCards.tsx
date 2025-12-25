@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 interface EventItem {
   id: string;
@@ -14,6 +15,7 @@ interface EventItem {
   event_date: string;
   event_venue: string;
   image_url: string;
+  registration_open?: boolean;
 }
 
 const BasicCards = ({ event }: { event: EventItem[] }) => {
@@ -31,13 +33,27 @@ const BasicCards = ({ event }: { event: EventItem[] }) => {
             <div>
               <div className="relative w-full aspect-[3/4] rounded-t-lg overflow-hidden">
                 <Image
-                  src={`https://media.breezesnu.com/${item.image_url}`}
+                  src={
+                    item.image_url.startsWith("http")
+                      ? item.image_url
+                      : `https://media.breezesnu.com/${item.image_url}`
+                  }
                   alt={`${item.event_name} poster`}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority={id < 4}
                 />
+                {item.registration_open === false && (
+                  <div className="absolute top-2 right-2">
+                    <Badge
+                      variant="destructive"
+                      className="text-xs font-semibold"
+                    >
+                      Registrations Closed
+                    </Badge>
+                  </div>
+                )}
               </div>
             </div>
             <div className="p-4 space-y-3">
@@ -46,7 +62,7 @@ const BasicCards = ({ event }: { event: EventItem[] }) => {
                   {item.event_org}
                 </p>
                 <p className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
-                  {item.event_price === 0 ? 'FREE' : `₹${item.event_price}`}
+                  {item.event_price === 0 ? "FREE" : `₹${item.event_price}`}
                 </p>
               </div>
               <div className="text-xl h-14 max-h-14 font-bold line-clamp-2">

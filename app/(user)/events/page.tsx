@@ -24,7 +24,12 @@ const fraunces = Fraunces({
   style: ["normal", "italic"],
 });
 
-const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const params = await searchParams;
   const cultural = await prisma.eventItem.findMany({
     select: {
       event_name: true,
@@ -36,6 +41,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
       event_date: true,
       image_url: true,
       id: true,
+      registration_open: true,
     },
     where: {
       event_type: {
@@ -55,6 +61,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
       event_date: true,
       image_url: true,
       id: true,
+      registration_open: true,
     },
     where: {
       event_type: {
@@ -157,7 +164,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
           </div>
         </div>
       </div>
-      <div className="mt-4 mb-12 px-12">
+      <div className="mt-4 mb-40 px-12">
         <BasicCards event={technical} />
       </div>
     </div>

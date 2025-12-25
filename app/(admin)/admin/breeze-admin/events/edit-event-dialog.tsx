@@ -15,8 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { EventItem, Roles } from "@prisma/client";
+import { EventItem } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { updateEvent } from "./actions";
 import { useRouter } from "next/navigation";
@@ -25,11 +24,9 @@ export function EditEventDialog({
   event,
   open,
   onOpenChange,
-  curr_club,
 }: {
   event: EventItem | null;
   open: boolean;
-  curr_club: Roles;
   onOpenChange: (open: boolean) => void;
 }) {
   const [eventData, setEventData] = useState<EventItem | null>(null);
@@ -48,7 +45,9 @@ export function EditEventDialog({
           <DialogTitle className="text-3xl font-bold text-[#202020] tracking-tight">
             Edit Event
           </DialogTitle>
-          <p className="text-sm text-gray-500 mt-2">Update event details</p>
+          <p className="text-sm text-gray-500 mt-2">
+            Update event details (Admin)
+          </p>
         </DialogHeader>
         <form
           onSubmit={async (e) => {
@@ -60,8 +59,6 @@ export function EditEventDialog({
           }}
           className="space-y-5 pt-4"
         >
-          <input type="hidden" name="event_org" value={curr_club.club_name} />
-
           <div className="space-y-2">
             <Label
               className="text-sm font-semibold text-[#202020]"
@@ -84,13 +81,50 @@ export function EditEventDialog({
             >
               Description
             </Label>
-            <Textarea
+            <Input
               id="event_description"
               name="event_description"
               defaultValue={eventData.event_description}
-              rows={3}
               className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label
+                className="text-sm font-semibold text-[#202020]"
+                htmlFor="event_org"
+              >
+                Organizing Club
+              </Label>
+              <Input
+                id="event_org"
+                name="event_org"
+                defaultValue={eventData.event_org || ""}
+                className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-sm font-semibold text-[#202020]"
+                htmlFor="event_type"
+              >
+                Event Type
+              </Label>
+              <Select
+                name="event_type"
+                defaultValue={eventData.event_type || "Cultural"}
+              >
+                <SelectTrigger className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50">
+                  <SelectValue placeholder="Select event type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cultural">Cultural</SelectItem>
+                  <SelectItem value="Technical">Technical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -137,8 +171,7 @@ export function EditEventDialog({
               <Input
                 id="event_date"
                 name="event_date"
-                type="date"
-                defaultValue={eventData.event_date}
+                defaultValue={eventData.event_date || ""}
                 className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
               />
             </div>
@@ -153,32 +186,10 @@ export function EditEventDialog({
               <Input
                 id="event_time"
                 name="event_time"
-                type="time"
                 defaultValue={eventData.event_time || ""}
                 className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
               />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label
-              className="text-sm font-semibold text-[#202020]"
-              htmlFor="event_type"
-            >
-              Event Type
-            </Label>
-            <Select
-              name="event_type"
-              defaultValue={eventData.event_type || "Cultural"}
-            >
-              <SelectTrigger className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50">
-                <SelectValue placeholder="Select event type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Cultural">Cultural</SelectItem>
-                <SelectItem value="Technical">Technical</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="flex gap-3 pt-4 border-t border-[#202020]/10">

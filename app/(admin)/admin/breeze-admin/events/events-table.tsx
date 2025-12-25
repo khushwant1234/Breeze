@@ -1,5 +1,5 @@
 "use client";
-import { EventItem, Roles } from "@prisma/client";
+import { EventItem } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -28,13 +28,7 @@ import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 
-export default function EventTable({
-  curr_club,
-  events,
-}: {
-  curr_club: Roles;
-  events: EventItem[];
-}) {
+export default function EventsTable({ events }: { events: EventItem[] }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
@@ -46,16 +40,15 @@ export default function EventTable({
     <>
       <Table className="border rounded-lg">
         <TableCaption className="text-lg font-medium mb-4">
-          Event List
+          Event List - {events.length} events
         </TableCaption>
         <TableHeader>
           <TableRow className="bg-gray-50">
             <TableHead className="font-semibold">Event Name</TableHead>
-            <TableHead className="font-semibold">Description</TableHead>
+            <TableHead className="font-semibold">Club</TableHead>
+            <TableHead className="font-semibold">Type</TableHead>
             <TableHead className="font-semibold">Price</TableHead>
-            <TableHead className="font-semibold">Venue</TableHead>
             <TableHead className="font-semibold">Date</TableHead>
-            <TableHead className="font-semibold">Time</TableHead>
             <TableHead className="font-semibold">Registration</TableHead>
             <TableHead className="font-semibold">Actions</TableHead>
           </TableRow>
@@ -64,16 +57,21 @@ export default function EventTable({
           {events.length > 0 ? (
             events.map((event) => (
               <TableRow key={event.id} className="hover:bg-gray-50">
-                <TableCell className="font-medium">
+                <TableCell className="font-medium max-w-[200px] truncate">
                   {event.event_name}
                 </TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {event.event_description}
+                <TableCell>{event.event_org}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={
+                      event.event_type === "Cultural" ? "default" : "secondary"
+                    }
+                  >
+                    {event.event_type}
+                  </Badge>
                 </TableCell>
                 <TableCell>₹{event.event_price}</TableCell>
-                <TableCell>{event.event_venue}</TableCell>
                 <TableCell>{event.event_date}</TableCell>
-                <TableCell>{event.event_time}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Switch
@@ -126,7 +124,7 @@ export default function EventTable({
           ) : (
             <TableRow>
               <TableCell
-                colSpan={8}
+                colSpan={7}
                 className="text-center text-muted-foreground py-8"
               >
                 No events found
@@ -136,7 +134,6 @@ export default function EventTable({
         </TableBody>
       </Table>
       <EditEventDialog
-        curr_club={curr_club}
         event={selectedEvent}
         open={dialogOpen}
         onOpenChange={setDialogOpen}

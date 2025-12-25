@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -38,31 +38,31 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
   };
 
   const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(':');
+    const [hours, minutes] = timeString.split(":");
     const date = new Date();
     date.setHours(parseInt(hours), parseInt(minutes));
     return format(date, "h:mm a");
   };
 
   async function handleSubmit(formData: FormData) {
-    const posterFile = formData.get('event_poster') as File;
-    
+    const posterFile = formData.get("event_poster") as File;
+
     if (!validateFileSize(posterFile)) {
       setError("Image size must be less than 4MB");
       return;
     }
 
-    const rawDate = formData.get('event_date') as string;
-    const rawTime = formData.get('event_time') as string;
-    
+    const rawDate = formData.get("event_date") as string;
+    const rawTime = formData.get("event_time") as string;
+
     const formattedDate = formatDate(rawDate);
     const formattedTime = formatTime(rawTime);
-    
+
     const modifiedFormData = new FormData();
     formData.forEach((value, key) => {
-      if (key === 'event_date') {
+      if (key === "event_date") {
         modifiedFormData.append(key, formattedDate);
-      } else if (key === 'event_time') {
+      } else if (key === "event_time") {
         modifiedFormData.append(key, formattedTime);
       } else {
         modifiedFormData.append(key, value);
@@ -79,85 +79,131 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
   }
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end mb-8">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-primary hover:bg-primary/90">
-            Create Event
+          <Button className="bg-[#202020] hover:bg-[#303030] text-white font-medium px-6 py-2.5 rounded-lg transition-all">
+            + Create Event
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] p-6">
-          <DialogHeader className="mb-6">
-            <DialogTitle className="text-2xl font-bold">
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white border-[#202020]/10">
+          <DialogHeader className="pb-4 border-b border-[#202020]/10">
+            <DialogTitle className="text-3xl font-bold text-[#202020] tracking-tight">
               Create New Event
             </DialogTitle>
+            <p className="text-sm text-gray-500 mt-2">
+              Fill in the details to create a new event for your club
+            </p>
           </DialogHeader>
           {error && (
-            <div className="text-destructive text-sm font-medium">{error}</div>
+            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm font-medium">
+              {error}
+            </div>
           )}
-          <form action={handleSubmit} className="space-y-6">
+          <form action={handleSubmit} className="space-y-5 pt-4">
             <input type="hidden" name="event_org" value={curr_club.club_name} />
+
             <div className="space-y-2">
-              <label className="text-sm font-medium">Event Name</label>
+              <label className="text-sm font-semibold text-[#202020]">
+                Event Name *
+              </label>
               <Input
                 name="event_name"
-                className="w-full"
-                placeholder="Enter event name"
+                className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                placeholder="e.g., Annual Music Concert"
                 required
               />
             </div>
+
             <div className="space-y-2">
-              <label className="text-sm font-medium">Description</label>
+              <label className="text-sm font-semibold text-[#202020]">
+                Description *
+              </label>
               <Textarea
                 name="event_description"
-                className="w-full"
-                placeholder="Enter event description"
+                className="w-full min-h-[100px] border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50 resize-none"
+                placeholder="Describe what attendees can expect from this event..."
                 required
               />
             </div>
+
             <div className="space-y-2">
-              <label className="text-sm font-medium">Price</label>
-              <Input
-                type="number"
-                name="event_price"
-                className="w-full"
-                placeholder="Enter event price"
+              <label className="text-sm font-semibold text-[#202020]">
+                Event Type *
+              </label>
+              <select
+                name="event_type"
+                className="w-full h-10 px-3 border border-[#202020]/20 rounded-md focus:border-[#202020] focus:ring-[#202020] focus:ring-1 bg-gray-50 text-sm"
                 required
-              />
+              >
+                <option value="">Select event type</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Technical">Technical</option>
+              </select>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Venue</label>
-              <Input
-                name="event_venue"
-                className="w-full"
-                placeholder="Enter event venue"
-                required
-              />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-[#202020]">
+                  Price (₹) *
+                </label>
+                <Input
+                  type="number"
+                  name="event_price"
+                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                  placeholder="500"
+                  min="0"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-[#202020]">
+                  Venue *
+                </label>
+                <Input
+                  name="event_venue"
+                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                  placeholder="Main Auditorium"
+                  required
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Date</label>
-              <Input
-                type="date"
-                name="event_date"
-                className="w-full"
-                required
-              />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-[#202020]">
+                  Date *
+                </label>
+                <Input
+                  type="date"
+                  name="event_date"
+                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-[#202020]">
+                  Time *
+                </label>
+                <Input
+                  type="time"
+                  name="event_time"
+                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                  required
+                />
+              </div>
             </div>
+
             <div className="space-y-2">
-              <label className="text-sm font-medium">Time</label>
-              <Input
-                type="time"
-                name="event_time"
-                className="w-full"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Event Poster</label>
+              <label className="text-sm font-semibold text-[#202020]">
+                Event Poster *
+              </label>
               <Input
                 type="file"
                 name="event_poster"
-                className="w-full"
+                className="w-full border-[#202020]/20 focus:border-[#202020] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#202020] file:text-white hover:file:bg-[#303030] file:cursor-pointer bg-gray-50"
                 accept="image/*"
                 required
                 onChange={(e) => {
@@ -169,11 +215,27 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
                   }
                 }}
               />
-              <span className="text-xs text-gray-500">Max file size: 4MB</span>
+              <span className="text-xs text-gray-500">
+                Max file size: 4MB • Recommended: 1200×800px • JPG, PNG, WEBP
+              </span>
             </div>
-            <Button type="submit" className="w-full">
-              Create Event
-            </Button>
+
+            <div className="flex gap-3 pt-4 border-t border-[#202020]/10">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+                className="flex-1 border-[#202020]/20 text-gray-600 hover:bg-gray-50"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-[#202020] hover:bg-[#303030] text-white font-semibold"
+              >
+                Create Event
+              </Button>
+            </div>
           </form>
         </DialogContent>
       </Dialog>

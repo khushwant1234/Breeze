@@ -4,7 +4,12 @@ import BasicCards from "@/components/events/BasicCards";
 import BottomButtons from "@/components/events/bottombuttons";
 import { prisma } from "@/lib/prisma";
 
-const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const params = await searchParams;
   const all_events = await prisma.eventItem.findMany({
     select: {
       event_name: true,
@@ -16,6 +21,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
       event_date: true,
       image_url: true,
       id: true,
+      registration_open: true,
     },
     where: {
       event_type: {
@@ -24,7 +30,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
     },
   });
 
-  const currentPage = Number(searchParams.page) || 1;
+  const currentPage = Number(params.page) || 1;
   const totalItems = all_events.length;
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -33,7 +39,7 @@ const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
   return (
     <div className="pt-20">
       <title>Technical Events - Breeze '25</title>
-      <Heading2 content="Here's all the technical events Breeze 25' has in store for you"/>
+      <Heading2 content="Here's all the technical events Breeze 25' has in store for you" />
 
       <div className="m-10 mt-0">
         <div className="flex justify-center py-10">

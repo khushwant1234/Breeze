@@ -2,6 +2,7 @@ import React from "react";
 import { prisma } from "@/lib/prisma";
 import { AddToCartEvent } from "@/components/product/AddToCart";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Page({
   params,
@@ -38,6 +39,16 @@ export default async function Page({
             className="object-cover transition-transform duration-300 hover:scale-105"
             priority
           />
+          {!event.registration_open && (
+            <div className="absolute top-4 right-4">
+              <Badge
+                variant="destructive"
+                className="text-sm font-semibold px-3 py-1"
+              >
+                Registrations Closed
+              </Badge>
+            </div>
+          )}
         </div>
 
         {/* Event Details Section */}
@@ -70,7 +81,18 @@ export default async function Page({
             {event.event_price === 0 ? "Free" : `Rs. ${event.event_price}`}
           </h3>
           <div className="md:mt-4 -mt-4 self-center text-2xl">
-            <AddToCartEvent event_id={event.id} />
+            {event.registration_open ? (
+              <AddToCartEvent event_id={event.id} />
+            ) : (
+              <div className="flex flex-col items-center gap-2 mt-4">
+                <Badge variant="destructive" className="text-lg px-4 py-2">
+                  Registrations Closed
+                </Badge>
+                <p className="text-sm text-gray-500">
+                  This event is no longer accepting registrations
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

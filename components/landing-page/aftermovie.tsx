@@ -3,6 +3,7 @@
 import { Fraunces, PT_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import React, { useState } from "react";
+import Image from "next/image";
 import "../../app/globals.css";
 
 const fraunces = Fraunces({
@@ -50,10 +51,11 @@ export default function AfterMovie({ className }: AfterMovieProps) {
                 className="relative w-full h-full group"
                 onClick={() => setPlayVideo(true)}
               >
-                <img
+                <Image
                   src="https://img.youtube.com/vi/etUeoHcrbQU/maxresdefault.jpg"
                   alt="Breeze 22 Aftermovie"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
 
                 {/* Dark overlay */}

@@ -1,422 +1,336 @@
 "use client";
-import Image from "next/image";
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 
-// Photo data with scattered positions - centered but asymmetric
-const photos = [
+import { useEffect } from "react";
+import { motion, stagger, useAnimate } from "motion/react";
+import Image from "next/image";
+
+import Floating, { FloatingElement } from "@/components/ui/parallax-floating";
+
+// Gallery images - using Breeze event/festival themed images
+const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=280&h=210&fit=crop",
-    width: 280,
-    height: 210,
-    top: 5,
-    left: 32,
+    url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=400&fit=crop",
+    title: "Festival Crowd",
   },
   {
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=320&h=240&fit=crop",
-    width: 320,
-    height: 240,
-    top: 8,
-    left: 58,
+    url: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=500&fit=crop",
+    title: "Concert Lights",
   },
   {
-    src: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=220&h=165&fit=crop",
-    width: 220,
-    height: 165,
-    top: 12,
-    left: 42,
+    url: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=500&h=600&fit=crop",
+    title: "Stage Performance",
   },
   {
-    src: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?w=290&h=190&fit=crop",
-    width: 290,
-    height: 190,
-    top: 18,
-    left: 28,
+    url: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&h=400&fit=crop",
+    title: "Music Festival",
   },
   {
-    src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=240&h=180&fit=crop",
-    width: 240,
-    height: 180,
-    top: 15,
-    left: 68,
+    url: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=450&h=450&fit=crop",
+    title: "Dance Floor",
   },
   {
-    src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=330&h=250&fit=crop",
-    width: 330,
-    height: 250,
-    top: 24,
-    left: 38,
+    url: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&h=400&fit=crop",
+    title: "Festival Night",
   },
   {
-    src: "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=260&h=195&fit=crop",
-    width: 260,
-    height: 195,
-    top: 22,
-    left: 62,
+    url: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=350&fit=crop",
+    title: "Crowd Celebration",
   },
   {
-    src: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=285&h=215&fit=crop",
-    width: 285,
-    height: 215,
-    top: 30,
-    left: 25,
+    url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=350&h=400&fit=crop",
+    title: "Party Vibes",
   },
   {
-    src: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=235&h=175&fit=crop",
-    width: 235,
-    height: 175,
-    top: 28,
-    left: 72,
+    url: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=400&h=400&fit=crop",
+    title: "Concert Energy",
   },
   {
-    src: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=310&h=230&fit=crop",
-    width: 310,
-    height: 230,
-    top: 35,
-    left: 48,
+    url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=450&h=350&fit=crop",
+    title: "Festival Atmosphere",
   },
   {
-    src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=230&h=170&fit=crop",
-    width: 230,
-    height: 170,
-    top: 38,
-    left: 35,
+    url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=500&fit=crop",
+    title: "Live Music",
   },
   {
-    src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=300&h=225&fit=crop",
-    width: 300,
-    height: 225,
-    top: 42,
-    left: 65,
+    url: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=350&h=400&fit=crop",
+    title: "Stage Lights",
   },
   {
-    src: "https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=245&h=185&fit=crop",
-    width: 245,
-    height: 185,
-    top: 48,
-    left: 30,
+    url: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=400&h=350&fit=crop",
+    title: "Night Event",
   },
   {
-    src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=275&h=205&fit=crop",
-    width: 275,
-    height: 205,
-    top: 45,
-    left: 70,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1468276311594-df7cb65d8df6?w=315&h=235&fit=crop",
-    width: 315,
-    height: 235,
-    top: 52,
-    left: 45,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=255&h=190&fit=crop",
-    width: 255,
-    height: 190,
-    top: 55,
-    left: 26,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=340&h=255&fit=crop",
-    width: 340,
-    height: 255,
-    top: 58,
-    left: 60,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=250&h=185&fit=crop",
-    width: 250,
-    height: 185,
-    top: 65,
-    left: 38,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=295&h=220&fit=crop",
-    width: 295,
-    height: 220,
-    top: 62,
-    left: 68,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=265&h=200&fit=crop",
-    width: 265,
-    height: 200,
-    top: 72,
-    left: 33,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=325&h=245&fit=crop",
-    width: 325,
-    height: 245,
-    top: 70,
-    left: 55,
+    url: "https://images.unsplash.com/photo-1578946956088-940c3b502864?w=450&h=400&fit=crop",
+    title: "Celebration",
   },
 ];
 
-// Memoized photo component to prevent unnecessary re-renders
-const PhotoCard = ({
-  photo,
-  idx,
-  dispersed,
-}: {
-  photo: (typeof photos)[0];
-  idx: number;
-  dispersed: boolean;
-}) => {
-  const photoZIndex = idx % 3 === 0 ? 8 : 3;
-
-  return (
-    <div
-      className="absolute will-change-transform"
-      style={{
-        top: dispersed ? `${photo.top}%` : "20vh",
-        left: dispersed ? `${photo.left}%` : "50%",
-        transform: "translate(-50%, -50%)",
-        transition: "top 1.5s ease-out, left 1.5s ease-out",
-        zIndex: photoZIndex,
-      }}
-    >
-      <div className="rounded-2xl overflow-hidden bg-white shadow-2xl">
-        <Image
-          src={photo.src}
-          alt={`Sponsor ${idx + 1}`}
-          width={photo.width}
-          height={photo.height}
-          className="block object-contain"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  );
-};
-
 export default function Gallery() {
-  const [scrollY, setScrollY] = useState(0);
-  const [dispersed, setDispersed] = useState(false);
-  const galleryRef = useRef<HTMLDivElement>(null);
-  const [galleryBounds, setGalleryBounds] = useState({ top: 0, height: 0 });
-  const rafRef = useRef<number | null>(null);
+  const [scope, animate] = useAnimate();
 
-  // Update gallery bounds on mount and resize
   useEffect(() => {
-    const updateBounds = () => {
-      if (galleryRef.current) {
-        const rect = galleryRef.current.getBoundingClientRect();
-        setGalleryBounds({
-          top: window.scrollY + rect.top,
-          height: rect.height,
-        });
-      }
-    };
-
-    // Run immediately and also after a short delay to ensure DOM is ready
-    updateBounds();
-    const timeoutId = setTimeout(updateBounds, 100);
-
-    window.addEventListener("resize", updateBounds);
-    window.addEventListener("scroll", updateBounds, { passive: true });
-
-    return () => {
-      window.removeEventListener("resize", updateBounds);
-      window.removeEventListener("scroll", updateBounds);
-      clearTimeout(timeoutId);
-    };
-  }, []);
-
-  // Intersection observer for dispersion trigger
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setDispersed(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
+    animate(
+      ".gallery-image",
+      { opacity: [0, 1], scale: [0.8, 1] },
+      { duration: 0.6, delay: stagger(0.1) }
     );
-
-    if (galleryRef.current) {
-      observer.observe(galleryRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Optimized scroll handler with requestAnimationFrame
-  useEffect(() => {
-    const handleScroll = () => {
-      if (rafRef.current) return;
-
-      rafRef.current = requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-        rafRef.current = null;
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  // Calculate text position state
-  const windowHeight = typeof window !== "undefined" ? window.innerHeight : 800;
-
-  // Define scroll zones
-  const entryZoneStart = galleryBounds.top - windowHeight; // When gallery top enters viewport
-  const entryZoneEnd = galleryBounds.top; // When viewport top reaches gallery top
-  const exitZoneStart = galleryBounds.top + galleryBounds.height - windowHeight; // Start scrolling out
-  const exitZoneEnd = galleryBounds.top + galleryBounds.height; // Gallery fully passed
-
-  // Calculate which zone we're in and the progress within that zone
-  const textPosition = useMemo(() => {
-    // Don't calculate position until bounds are properly initialized
-    if (galleryBounds.height === 0) {
-      return { top: "50%", position: "fixed" as const, visible: true };
-    }
-
-    const galleryStart = galleryBounds.top;
-    const galleryEnd = galleryBounds.top + galleryBounds.height;
-    const viewportBottom = scrollY + windowHeight;
-
-    // Before gallery enters viewport - text below screen
-    if (viewportBottom < galleryStart) {
-      return { top: "150%", position: "fixed" as const, visible: true };
-    }
-
-    // Scrolling in phase - gallery is entering viewport from bottom
-    // Text moves from bottom (150%) to center (50%)
-    if (scrollY < galleryStart) {
-      const scrollIntoGallery = viewportBottom - galleryStart;
-      const progress = Math.min(1, scrollIntoGallery / windowHeight);
-      const topPercent = 150 - progress * 100; // 150% -> 50%
-      return {
-        top: `${Math.max(50, topPercent)}%`,
-        position: "fixed" as const,
-        visible: true,
-      };
-    }
-
-    // Pinned phase - scrolling through gallery
-    if (scrollY < exitZoneStart) {
-      return { top: "50%", position: "fixed" as const, visible: true };
-    }
-
-    // Scrolling out phase - text moves from center to top
-    if (scrollY < galleryEnd) {
-      const progress = (scrollY - exitZoneStart) / windowHeight;
-      const topPercent = 50 - progress * 100; // 50% -> -50%
-      return {
-        top: `${topPercent}%`,
-        position: "fixed" as const,
-        visible: true,
-      };
-    }
-
-    // After gallery - text above viewport
-    return { top: "-50%", position: "fixed" as const, visible: true };
-  }, [scrollY, galleryBounds, windowHeight, exitZoneStart]);
-
-  const isInGalleryZone = useMemo(
-    () =>
-      scrollY >= galleryBounds.top &&
-      scrollY < galleryBounds.top + galleryBounds.height - windowHeight,
-    [scrollY, galleryBounds, windowHeight]
-  );
-  const hasPassedGallery = useMemo(
-    () => scrollY >= galleryBounds.top + galleryBounds.height - windowHeight,
-    [scrollY, galleryBounds, windowHeight]
-  );
-
-  // Check if we're anywhere within the gallery component
-  const isInGallery = useMemo(
-    () =>
-      scrollY + windowHeight > galleryBounds.top &&
-      scrollY < galleryBounds.top + galleryBounds.height,
-    [scrollY, galleryBounds, windowHeight]
-  );
-
-  // Background position styles
-  const bgPositionStyle = useMemo(
-    () =>
-      ({
-        position: isInGalleryZone ? "fixed" : "absolute",
-        top: isInGalleryZone ? 0 : hasPassedGallery ? "auto" : 0,
-        bottom: hasPassedGallery ? 0 : "auto",
-        left: 0,
-        right: 0,
-        height: "100vh",
-        zIndex: 0,
-      } as React.CSSProperties),
-    [isInGalleryZone, hasPassedGallery]
-  );
-
-  // Text position styles - scroll in, pin, scroll out
-  const textPositionStyle = useMemo(
-    () =>
-      ({
-        position: textPosition.position,
-        top: textPosition.top,
-        left: "50%",
-        transform: "translate(-50%, -50%) translateX(5%)",
-        zIndex: 1,
-        pointerEvents: "none",
-        visibility: textPosition.visible ? "visible" : "hidden",
-      } as React.CSSProperties),
-    [textPosition]
-  );
+  }, [animate]);
 
   return (
     <div
-      ref={galleryRef}
-      className="relative bg-black overflow-hidden"
-      style={{ height: "5500px", zIndex: 1 }}
+      className="relative w-full min-h-screen bg-black overflow-hidden"
+      ref={scope}
     >
-      {/* Fixed background with purple circles and gallery text */}
-      <div
-        className="pointer-events-none transition-all duration-300 ease-out"
-        style={bgPositionStyle}
-      >
-        {/* Purple circles */}
+      {/* Purple gradient circles for Breeze theme */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute bg-purple-900 rounded-full opacity-40"
-          style={{ top: "-60px", right: "-60px", width: 280, height: 280 }}
+          className="absolute bg-purple-900 rounded-full opacity-40 blur-3xl"
+          style={{ top: "-10%", right: "-5%", width: 400, height: 400 }}
         />
         <div
-          className="absolute bg-purple-900 rounded-full opacity-40"
-          style={{ top: "20%", left: "-80px", width: 240, height: 240 }}
+          className="absolute bg-pink-900 rounded-full opacity-30 blur-3xl"
+          style={{ top: "30%", left: "-10%", width: 350, height: 350 }}
         />
         <div
-          className="absolute bg-purple-900 rounded-full opacity-40"
-          style={{ top: "55%", right: "-70px", width: 260, height: 260 }}
-        />
-        <div
-          className="absolute bg-purple-900 rounded-full opacity-40"
-          style={{ bottom: "-100px", left: "-90px", width: 300, height: 300 }}
+          className="absolute bg-purple-800 rounded-full opacity-35 blur-3xl"
+          style={{ bottom: "-5%", right: "20%", width: 300, height: 300 }}
         />
       </div>
 
-      {/* "THE GALLERY" text - fixed to center */}
-      <div style={textPositionStyle}>
-        <div className="relative w-[600px] h-[180px]">
-          <span className="absolute top-2 left-3 text-white text-[86px] leading-[0.9] tracking-[10px] font-bold uppercase">
+      {/* Center text */}
+      <motion.div
+        className="absolute inset-0 z-50 flex flex-col items-center justify-center pointer-events-none"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1 }}
+      >
+        <div className="relative text-center">
+          <span className="block text-white text-5xl md:text-7xl lg:text-8xl tracking-[10px] font-bold uppercase">
             THE
           </span>
-          <span className="absolute left-2.5 top-[52px] text-[#ff1fb7] text-[138px] leading-[0.85] font-normal">
+          <span className="block text-[#ff1fb7] text-6xl md:text-8xl lg:text-[140px] font-normal italic -mt-2 md:-mt-4">
             gallery
           </span>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Photo gallery */}
-      <div className="absolute inset-0 pointer-events-none">
-        {photos.map((photo, idx) => (
-          <PhotoCard key={idx} photo={photo} idx={idx} dispersed={dispersed} />
-        ))}
-      </div>
+      {/* Floating images */}
+      <Floating sensitivity={-1} className="overflow-hidden">
+        {/* Top row */}
+        <FloatingElement
+          depth={0.5}
+          className="top-[15%] left-[2%] md:top-[2%] md:left-[5%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[0].url}
+              alt={galleryImages[0].title}
+              width={240}
+              height={240}
+              className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={1.2}
+          className="top-[8%] left-[25%] md:top-[5%] md:left-[28%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[1].url}
+              alt={galleryImages[1].title}
+              width={280}
+              height={340}
+              className="w-32 h-40 md:w-48 md:h-60 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={2}
+          className="top-[10%] left-[60%] md:top-[3%] md:left-[55%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[2].url}
+              alt={galleryImages[2].title}
+              width={320}
+              height={400}
+              className="w-36 h-44 md:w-52 md:h-64 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={0.8}
+          className="top-[18%] left-[85%] md:top-[2%] md:left-[82%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[3].url}
+              alt={galleryImages[3].title}
+              width={220}
+              height={220}
+              className="w-24 h-24 md:w-36 md:h-36 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        {/* Second row */}
+        <FloatingElement
+          depth={1.8}
+          className="top-[30%] left-[5%] md:top-[28%] md:left-[8%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[8].url}
+              alt={galleryImages[8].title}
+              width={260}
+              height={200}
+              className="w-32 h-24 md:w-48 md:h-36 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={0.6}
+          className="top-[28%] left-[78%] md:top-[32%] md:left-[85%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[9].url}
+              alt={galleryImages[9].title}
+              width={220}
+              height={280}
+              className="w-28 h-36 md:w-40 md:h-52 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        {/* Middle row - around center text */}
+        <FloatingElement
+          depth={1.5}
+          className="top-[45%] left-[1%] md:top-[42%] md:left-[3%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[4].url}
+              alt={galleryImages[4].title}
+              width={280}
+              height={280}
+              className="w-36 h-36 md:w-52 md:h-52 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={2.5}
+          className="top-[42%] left-[72%] md:top-[38%] md:left-[78%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[5].url}
+              alt={galleryImages[5].title}
+              width={300}
+              height={240}
+              className="w-40 h-32 md:w-56 md:h-44 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={1.0}
+          className="top-[60%] left-[3%] md:top-[55%] md:left-[5%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[10].url}
+              alt={galleryImages[10].title}
+              width={240}
+              height={300}
+              className="w-28 h-36 md:w-44 md:h-56 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={2.2}
+          className="top-[62%] left-[75%] md:top-[58%] md:left-[80%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[11].url}
+              alt={galleryImages[11].title}
+              width={220}
+              height={220}
+              className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        {/* Bottom row */}
+        <FloatingElement
+          depth={3}
+          className="top-[75%] left-[8%] md:top-[72%] md:left-[6%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[6].url}
+              alt={galleryImages[6].title}
+              width={340}
+              height={280}
+              className="w-40 h-32 md:w-60 md:h-48 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={1.4}
+          className="top-[80%] left-[28%] md:top-[75%] md:left-[32%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[12].url}
+              alt={galleryImages[12].title}
+              width={260}
+              height={200}
+              className="w-32 h-24 md:w-48 md:h-36 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={1.2}
+          className="top-[78%] left-[58%] md:top-[70%] md:left-[56%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[7].url}
+              alt={galleryImages[7].title}
+              width={260}
+              height={300}
+              className="w-32 h-40 md:w-48 md:h-56 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+
+        <FloatingElement
+          depth={2.0}
+          className="top-[85%] left-[82%] md:top-[78%] md:left-[80%]"
+        >
+          <motion.div className="gallery-image" initial={{ opacity: 0 }}>
+            <Image
+              src={galleryImages[13].url}
+              alt={galleryImages[13].title}
+              width={280}
+              height={220}
+              className="w-36 h-28 md:w-52 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
+            />
+          </motion.div>
+        </FloatingElement>
+      </Floating>
     </div>
   );
 }

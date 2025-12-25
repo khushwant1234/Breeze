@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 
 interface PageProps {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
 export const metadata = {
@@ -12,7 +12,8 @@ export const metadata = {
 };
 
 export default async function CheckoutPage({ searchParams }: PageProps) {
-  const token = searchParams.token;
+  const params = await searchParams;
+  const token = params.token;
   if (!token) {
     redirect("/cart");
   }

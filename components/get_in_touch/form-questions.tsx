@@ -60,7 +60,10 @@ export default function Question() {
       </div>
       <div className="lg:pl-4 pt-6 lg:pt-0 items-center text-left gap-y-4 gap-x-4 w-[90%] self-center lg:w-1/2 flex-1 lg:ml-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+          >
             {/* Name Field */}
             <FormField
               control={form.control}
@@ -126,7 +129,7 @@ export default function Question() {
               render={({ field }) => (
                 <FormItem className="grid items-center">
                   <FormLabel className="text-xl lg:text-2xl pb-1 lg:pb-3">
-                    Description
+                    Message
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -142,7 +145,7 @@ export default function Question() {
             <div className="col-span-1 sm:col-span-2 w-full pt-8">
               <Button
                 type="submit"
-                className="rounded-lg bg-black text-white text-lg lg:text-xl h-16 w-full"
+                className="rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-lg lg:text-xl h-14 w-full font-semibold transition-colors"
               >
                 Submit
               </Button>

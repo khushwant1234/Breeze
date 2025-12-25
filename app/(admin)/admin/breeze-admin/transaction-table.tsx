@@ -217,62 +217,89 @@ export default function TransactionTable({
                               if (!open) setConfirmApproveId(null);
                             }}
                           >
-                            <DialogContent className="max-w-lg w-full">
-                              <DialogHeader>
-                                <DialogTitle>Confirm Approval</DialogTitle>
-                                <DialogDescription>
+                            <DialogContent className="max-w-lg w-full bg-white border-[#202020]/10">
+                              <DialogHeader className="pb-4 border-b border-[#202020]/10">
+                                <DialogTitle className="text-3xl font-bold text-[#202020] tracking-tight">
+                                  Confirm Approval
+                                </DialogTitle>
+                                <DialogDescription className="text-sm text-gray-500 mt-2">
                                   Are you sure you want to approve this
                                   transaction?
                                 </DialogDescription>
                               </DialogHeader>
-                              <div className="my-4 space-y-2 text-sm text-gray-700">
-                                <div>
-                                  <span className="font-semibold">Name:</span>{" "}
-                                  {transaction.name}
+                              <div className="my-4 space-y-3 text-sm bg-gray-50 p-4 rounded-lg border border-[#202020]/10">
+                                <div className="flex justify-between">
+                                  <span className="font-semibold text-[#202020]">
+                                    Name:
+                                  </span>
+                                  <span className="text-gray-700">
+                                    {transaction.name}
+                                  </span>
                                 </div>
-                                <div>
-                                  <span className="font-semibold">Email:</span>{" "}
-                                  {transaction.email}
+                                <div className="flex justify-between">
+                                  <span className="font-semibold text-[#202020]">
+                                    Email:
+                                  </span>
+                                  <span className="text-gray-700">
+                                    {transaction.email}
+                                  </span>
                                 </div>
-                                <div>
-                                  <span className="font-semibold">Phone:</span>{" "}
-                                  {transaction.phone}
+                                <div className="flex justify-between">
+                                  <span className="font-semibold text-[#202020]">
+                                    Phone:
+                                  </span>
+                                  <span className="text-gray-700">
+                                    {transaction.phone}
+                                  </span>
                                 </div>
-                                <div>
-                                  <span className="font-semibold">Amount:</span>{" "}
-                                  Rs.{" "}
-                                  {Number(transaction.amount).toLocaleString()}
+                                <div className="flex justify-between">
+                                  <span className="font-semibold text-[#202020]">
+                                    Amount:
+                                  </span>
+                                  <span className="text-gray-700 font-semibold">
+                                    Rs.{" "}
+                                    {Number(
+                                      transaction.amount
+                                    ).toLocaleString()}
+                                  </span>
                                 </div>
-                                <div>
-                                  <span className="font-semibold">
+                                <div className="flex justify-between">
+                                  <span className="font-semibold text-[#202020]">
                                     Submitted At:
-                                  </span>{" "}
-                                  {transaction.created_at.toLocaleString()}
+                                  </span>
+                                  <span className="text-gray-700">
+                                    {transaction.created_at.toLocaleString()}
+                                  </span>
                                 </div>
-                                <div>
-                                  <span className="font-semibold">
+                                <div className="flex flex-col gap-1">
+                                  <span className="font-semibold text-[#202020]">
                                     Address:
-                                  </span>{" "}
-                                  {transaction.address}
+                                  </span>
+                                  <span className="text-gray-700">
+                                    {transaction.address}
+                                  </span>
                                 </div>
                                 {(transaction as any).rejection_reason && (
-                                  <div>
-                                    <span className="font-semibold">
+                                  <div className="flex flex-col gap-1 pt-2 border-t border-[#202020]/10">
+                                    <span className="font-semibold text-[#202020]">
                                       Rejection Reason:
-                                    </span>{" "}
-                                    {(transaction as any).rejection_reason}
+                                    </span>
+                                    <span className="text-gray-700">
+                                      {(transaction as any).rejection_reason}
+                                    </span>
                                   </div>
                                 )}
                               </div>
-                              <DialogFooter>
+                              <DialogFooter className="gap-3 pt-4 border-t border-[#202020]/10">
                                 <Button
                                   variant="outline"
                                   onClick={() => setConfirmApproveId(null)}
+                                  className="border-[#202020]/20 text-gray-600 hover:bg-gray-50"
                                 >
                                   Cancel
                                 </Button>
                                 <Button
-                                  className="bg-green-500 hover:bg-green-600 text-white"
+                                  className="bg-[#202020] hover:bg-[#303030] text-white font-semibold"
                                   onClick={() =>
                                     handleQuickApprove(transaction.token)
                                   }
@@ -291,22 +318,22 @@ export default function TransactionTable({
                   )}
                 </TableRow>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl w-11/12 max-h-[90vh] overflow-y-auto p-6">
-                <DialogHeader>
-                  <DialogTitle>
+              <DialogContent className="max-w-4xl w-11/12 max-h-[90vh] overflow-y-auto bg-white border-[#202020]/10">
+                <DialogHeader className="pb-4 border-b border-[#202020]/10">
+                  <DialogTitle className="text-3xl font-bold text-[#202020] tracking-tight">
                     {isRejected
                       ? "Rejected Transaction Details"
                       : "Transaction Details"}
                   </DialogTitle>
-                  <DialogDescription>
+                  <DialogDescription className="text-sm text-gray-500 mt-2">
                     Review the transaction details and proof of payment
                     {!isRejected && (
                       <>
                         <br />
-                        Receipt link:{" "}
+                        <span className="text-gray-600">Receipt link: </span>
                         <a
                           href={`/reciept/${transaction.token}`}
-                          className="text-blue-600"
+                          className="text-[#202020] hover:underline font-medium"
                         >
                           https://breezesnu.com/reciept/{transaction.token}
                         </a>

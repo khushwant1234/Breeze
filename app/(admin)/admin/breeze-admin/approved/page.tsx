@@ -1,4 +1,3 @@
-
 import { prisma } from "@/lib/prisma";
 import TransactionTable from "../transaction-table";
 
@@ -21,7 +20,7 @@ export default async function ApprovedTransactionsPage() {
   );
 
   const transactions = await prisma.submittedTransaction.findMany({
-    where: { approved: true }
+    where: { approved: true },
   });
 
   return (
@@ -29,10 +28,8 @@ export default async function ApprovedTransactionsPage() {
       transactions={transactions}
       eventMap={eventItems}
       merchMap={merchItems}
-      pending={false}
     />
   );
 }
-
 
 export const dynamic = "force-dynamic";

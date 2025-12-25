@@ -1,23 +1,22 @@
-import CardSection from "@/components/merch-2024/CardSection";
-import BottomSection from "@/components/merch-2024/BottomSection";
-import Heading from "@/components/merch-2024/Heading";
-import { Metadata } from "next";
+"use client";
 
-export const metadata = {
-  title: "Merch - Breeze '25",
-  description: "Merch Store",
-};
-export default function page() {
+import Footer from "@/components/Footer";
+import MerchScroll from "@/components/merchscroll";
+import BuyMerch from "@/components/buymerch";
+
+export default function MerchPage() {
   return (
-    <div>
-      <section className="relative h-screen">
-        {/* Pseudo-element with the blurred background */}
-        <div className="absolute inset-0 bg-[url('/images/Merch-hero.png')] bg-cover bg-center bg-no-repeat"></div>
-        {/* Content on top of the blurred background */}
-      </section>
-      <Heading></Heading>
-      <CardSection></CardSection>
-      <BottomSection></BottomSection>
+    <div className="relative w-full">
+      {/* The Scroll Animation Section */}
+      <MerchScroll />
+
+      {/* The Product Detail Section */}
+      <BuyMerch />
+
+      {/* Footer */}
+      <div className="relative z-50 bg-black text-white">
+        <Footer />
+      </div>
     </div>
   );
 }

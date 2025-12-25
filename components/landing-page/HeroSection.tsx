@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import SplineBackground from './SplineTimer';
+import React, { useState, useEffect } from "react";
 
 export default function HeroSection() {
   const [timeLeft, setTimeLeft] = useState({
@@ -13,7 +12,7 @@ export default function HeroSection() {
   });
 
   useEffect(() => {
-    const target = new Date('2026-04-07T00:00:00');
+    const target = new Date("2026-04-07T00:00:00");
     const updateTimer = () => {
       const now = new Date();
       const diff = target.getTime() - now.getTime();
@@ -39,11 +38,10 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const formatNum = (num: number) => num.toString().padStart(2, '0');
+  const formatNum = (num: number) => num.toString().padStart(2, "0");
 
   return (
     <section className="relative h-[100vh] overflow-hidden hero-bg rounded-bl-[20vh] rounded-br-[20vh]">
-      <SplineBackground />
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4">
         {/* Countdown Timer */}
         <div className="flex items-center gap-8">
@@ -74,7 +72,7 @@ export default function HeroSection() {
             </span>
             <span className="text-white text-lg mt-4">minutes</span>
           </div>
-          <span className="text-6xl text-white opacity-80">:</span> 
+          <span className="text-6xl text-white opacity-80">:</span>
           <div className="flex flex-col items-center">
             <span className="timer-number text-9xl font-bold text-white">
               {formatNum(timeLeft.seconds)}

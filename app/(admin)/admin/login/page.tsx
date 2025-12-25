@@ -32,15 +32,17 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = new FormData();
-    formData.append('email', values.email);
-    formData.append('password', values.password);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
     await login(formData);
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md space-y-8 p-8 border rounded-lg">
-        <h2 className="text-2xl font-bold text-center">Admin Login</h2>
+    <div className="flex min-h-screen items-center justify-center bg-white">
+      <div className="w-full max-w-md space-y-8 p-8 border border-[#202020]/10 rounded-lg bg-gray-50">
+        <h2 className="text-3xl font-bold text-center text-[#202020] tracking-tight">
+          Admin Login
+        </h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -48,9 +50,15 @@ export default function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-[#202020] font-medium">
+                    Email
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="email@example.com" {...field} />
+                    <Input
+                      placeholder="email@example.com"
+                      {...field}
+                      className="border-[#202020]/20 focus:border-[#202020]"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -61,15 +69,24 @@ export default function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-[#202020] font-medium">
+                    Password
+                  </FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <Input
+                      type="password"
+                      {...field}
+                      className="border-[#202020]/20 focus:border-[#202020]"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full bg-[#202020] hover:bg-[#303030] text-white"
+            >
               Sign In
             </Button>
           </form>

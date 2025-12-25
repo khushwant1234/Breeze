@@ -13,12 +13,19 @@ export default async function Page() {
     where: { event_org: curr_club.club_name },
   });
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">
-        All events for {curr_club.club_name}
-      </h1>
-      {/* <AddEvent curr_club={curr_club} /> */}
-      <EventTable curr_club={curr_club} events={events} />
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-6 py-12 space-y-8">
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-[#202020] tracking-tight mb-2">
+            All events for {curr_club.club_name}
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Manage your club's events and registrations
+          </p>
+        </div>
+        <AddEvent curr_club={curr_club} />
+        <EventTable curr_club={curr_club} events={events} />
+      </div>
     </div>
   );
 }

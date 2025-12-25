@@ -36,6 +36,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# markdown files except README
+*.md
+!README.md
+
 .package-lock.json
 .package.json
 

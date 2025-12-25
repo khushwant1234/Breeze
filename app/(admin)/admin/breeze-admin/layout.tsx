@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -33,12 +33,12 @@ export default function AdminLayout({
           >
             Approved Transactions
           </Link>
-          {/* <Link
-            href="/admin/breeze-admin/users"
+          <Link
+            href="/admin/breeze-admin/events"
             className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
           >
-            Manage Users
-          </Link> */}
+            Manage Events
+          </Link>
         </nav>
         <div className="p-4 border-t border-gray-200">
           <Button

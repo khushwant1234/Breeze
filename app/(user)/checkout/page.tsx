@@ -1,0 +1,32 @@
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { CheckoutForm } from "@/components/checkout/CheckoutForm";
+
+interface PageProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export const metadata = {
+  title: "Checkout - Breeze '25",
+  description: "Checkout Page for Transactions",
+};
+
+export default async function CheckoutPage({ searchParams }: PageProps) {
+  const token = searchParams.token;
+  if (!token) {
+    redirect("/cart");
+  }
+  const transaction = await prisma.pendingTransaction.findUnique({
+    where: { id: token },
+  });
+
+  if (!transaction) {
+    redirect("/cart");
+  }
+
+  return (
+    <div className="pt-20 container mx-auto py-8">
+      <CheckoutForm amount={Number(transaction.amount)} />
+    </div>
+  );
+}

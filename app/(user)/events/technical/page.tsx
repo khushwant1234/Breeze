@@ -1,0 +1,51 @@
+import React from "react";
+import Heading2 from "@/components/events/heading2";
+import BasicCards from "@/components/events/BasicCards";
+import BottomButtons from "@/components/events/bottombuttons";
+import { prisma } from "@/lib/prisma";
+
+const page = async ({ searchParams }: { searchParams: { page?: string } }) => {
+  const all_events = await prisma.eventItem.findMany({
+    select: {
+      event_name: true,
+      event_description: true,
+      event_price: true,
+      event_time: true,
+      event_venue: true,
+      event_org: true,
+      event_date: true,
+      image_url: true,
+      id: true,
+    },
+    where: {
+      event_type: {
+        equals: "Technical",
+      },
+    },
+  });
+
+  const currentPage = Number(searchParams.page) || 1;
+  const totalItems = all_events.length;
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const eventsForPage = all_events.slice(startIndex, startIndex + itemsPerPage);
+
+  return (
+    <div className="pt-20">
+      <title>Technical Events - Breeze '25</title>
+      <Heading2 content="Here's all the technical events Breeze 25' has in store for you"/>
+
+      <div className="m-10 mt-0">
+        <div className="flex justify-center py-10">
+          <div className="">
+            <BasicCards event={eventsForPage} />
+          </div>
+        </div>
+      </div>
+
+      <BottomButtons currentPage={currentPage} totalItems={totalItems} />
+    </div>
+  );
+};
+
+export default page;

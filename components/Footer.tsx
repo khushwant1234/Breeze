@@ -2,147 +2,301 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import heroimg from "./breeze.png";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import heroimg from "./breeze.png";
 import SocialLinks from "./sociallinks";
 
-export default function Footer({ className = "" }: { className?: string }) {
-  const footerRef = useRef<HTMLDivElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
+const BracketHeader = ({ text }: { text: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
 
-  // 🌫️ Blur state
-  const [blurAmount, setBlurAmount] = useState(0);
-
-  // ✅ Content Visibility Logic (Unchanged)
   useEffect(() => {
-    const content = contentRef.current;
-    if (!content) return;
-    content.style.opacity = "1";
-    content.style.transform = "translateY(0px)";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsOpen(true);
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
   }, []);
 
-  // 🌫️ Scroll-based blur effect above footer
+  return (
+    <div
+      ref={ref}
+      className="font-mono text-sm uppercase tracking-widest flex items-center overflow-hidden transition-all duration-1000 ease-out"
+      style={{ maxWidth: isOpen ? "100%" : "20px", opacity: isOpen ? 1 : 0.3 }}
+    >
+      <span className="shrink-0 text-white">[</span>
+      <span
+        className={`px-3 whitespace-nowrap transition-all duration-700 delay-200 ${
+          isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
+        }`}
+      >
+        {text}
+      </span>
+      <span className="shrink-0 text-white">]</span>
+    </div>
+  );
+};
+
+export default function Footer({
+  className = "",
+  nextPage = "/",
+}: {
+  className?: string;
+  nextPage?: string;
+}) {
+  const router = useRouter();
+  const [hasMounted, setHasMounted] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [loadingNext, setLoadingNext] = useState(false);
+  const [blurAmount, setBlurAmount] = useState(0);
+
+  const footerRef = useRef<HTMLDivElement | null>(null);
+  const overscrollAcc = useRef(0);
+  const touchStartY = useRef(0);
+  const decreaseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const isDecreasingRef = useRef(false);
+  const OVERSCROLL_THRESHOLD = 800;
+
+  // Fix Hydration Error: Only render logic after mount
   useEffect(() => {
-    const handleScroll = () => {
-      const footer = footerRef.current;
-      if (!footer) return;
+    setHasMounted(true);
+  }, []);
 
-      const rect = footer.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+  useEffect(() => {
+    if (!hasMounted) return;
 
-      // Trigger blur when footer starts entering viewport
-      if (rect.top < windowHeight) {
-        const progress = Math.min(1, Math.max(0, 1 - rect.top / windowHeight));
-        const blurValue = progress * 20; // max blur intensity (20px)
-        setBlurAmount(blurValue);
-      } else {
-        setBlurAmount(0);
+    const handleNavigation = () => {
+      setLoadingNext(true);
+      sessionStorage.setItem("nextPageTarget", nextPage);
+      router.push("/loading");
+    };
+
+    const stopDecrease = () => {
+      isDecreasingRef.current = false;
+      if (decreaseTimerRef.current) {
+        clearTimeout(decreaseTimerRef.current);
+        decreaseTimerRef.current = null;
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
     };
 
+    const runDecrease = () => {
+      if (!isDecreasingRef.current) return;
+
+      overscrollAcc.current = Math.max(0, overscrollAcc.current - 20);
+      const newProgress = (overscrollAcc.current / OVERSCROLL_THRESHOLD) * 100;
+      setProgress(newProgress);
+
+      if (overscrollAcc.current <= 0) {
+        stopDecrease();
+        setProgress(0);
+        setVisible(false);
+      } else {
+        animationFrameRef.current = requestAnimationFrame(runDecrease);
+      }
+    };
+
+    const startDecreaseTimer = () => {
+      stopDecrease();
+
+      if (overscrollAcc.current <= 0) return;
+
+      decreaseTimerRef.current = setTimeout(() => {
+        isDecreasingRef.current = true;
+        animationFrameRef.current = requestAnimationFrame(runDecrease);
+      }, 1100);
+    };
+
+    const updateProgress = (delta: number) => {
+      if (loadingNext) return;
+
+      const isAtBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 50;
+
+      // User is scrolling down at the bottom - increase progress
+      if (isAtBottom && delta > 0) {
+        stopDecrease();
+
+        setVisible(true);
+        overscrollAcc.current += delta;
+        const nextProgress = Math.min(
+          (overscrollAcc.current / OVERSCROLL_THRESHOLD) * 100,
+          100
+        );
+        setProgress(nextProgress);
+
+        if (nextProgress >= 100) {
+          handleNavigation();
+        } else {
+          startDecreaseTimer();
+        }
+      }
+      // User scrolls up - start decrease timer
+      else if (delta < 0 && overscrollAcc.current > 0) {
+        startDecreaseTimer();
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      updateProgress(e.deltaY);
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const deltaY = touchStartY.current - e.touches[0].clientY;
+      const isAtBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 80;
+      if (isAtBottom && deltaY > 0) {
+        if (e.cancelable) e.preventDefault();
+        updateProgress(deltaY * 2);
+      } else if (deltaY < 0) {
+        updateProgress(deltaY);
+      }
+      touchStartY.current = e.touches[0].clientY;
+    };
+    const onTouchEnd = () => {
+      if (
+        overscrollAcc.current > 0 &&
+        overscrollAcc.current < OVERSCROLL_THRESHOLD
+      ) {
+        startDecreaseTimer();
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      stopDecrease();
+    };
+  }, [hasMounted, router, loadingNext, nextPage]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current) return;
+      const rect = footerRef.current.getBoundingClientRect();
+      const p = Math.min(Math.max(0, 1 - rect.top / window.innerHeight), 1);
+      setBlurAmount(p * 15);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Hydration Guard
+  if (!hasMounted) return null;
+
   return (
     <>
-      {/* 🌫️ BLUR OVERLAY */}
+      {/* Blur Overlay */}
       <div
-        className="fixed top-0 left-0 w-full h-full pointer-events-none z-20"
+        className="fixed inset-0 pointer-events-none z-20"
         style={{
           backdropFilter: `blur(${blurAmount}px)`,
           WebkitBackdropFilter: `blur(${blurAmount}px)`,
-          background: `linear-gradient(to bottom,
-            rgba(0, 0, 0, ${Math.min(blurAmount / 60, 0.15)}) 0%,
-            rgba(0, 0, 0, 0) 100%)`,
-          transition: "backdrop-filter 0.3s ease-out, background 0.4s ease-out",
+          background: `linear-gradient(to bottom, rgba(0,0,0,${Math.min(
+            blurAmount / 50,
+            0.2
+          )}) 0%, transparent 100%)`,
+          transition: "backdrop-filter 0.3s ease-out",
         }}
-      ></div>
+      />
 
-      {/* FOOTER */}
+      {/* Progress Indicator */}
       <div
-        id="contact"
-        ref={footerRef}
-        className={`relative w-full min-h-[50vh] overflow-hidden z-20 scroll-mt-[90px] ${className}`}
-        style={{
-          background: "linear-gradient(to top, #440065 0%, #000000 100%)",
-        }}
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:bottom-10 md:right-10 z-[100] flex items-center gap-4
+        text-white text-[10px] tracking-[0.3em] font-bold transition-all duration-500 whitespace-nowrap
+        ${
+          visible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
       >
-        <div
-          ref={contentRef}
-          className="relative z-20 py-14 max-w-7xl mx-auto w-full text-white
-          flex flex-col min-h-[60vh] transition-all duration-500 ease-out"
-          style={{ opacity: 0, transform: "translateY(24px)" }}
-        >
-          <div className="w-full grid grid-cols-4 h-full px-10 md:px-16">
-            {/* LEFT */}
-            <div className="font-mono uppercase tracking-widest text-white flex flex-col justify-between h-full col-span-2">
-              <div className="absolute left-0 top-5 text-sm opacity-90 whitespace-nowrap">
-                <p>The Flagship Techno</p>
-                <p>Cultural Fest Of Shiv Nadar University</p>
+        <span>NEXT PAGE</span>
+        <div className="relative w-16 md:w-20 h-[2px] bg-white/20 overflow-hidden">
+          <div
+            className="absolute h-full bg-white transition-all duration-150 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
+      <footer
+        ref={footerRef}
+        id="contact"
+        className={`relative w-full h-auto md:min-h-[70vh] flex flex-col justify-center overflow-hidden z-30 scroll-mt-[90px] ${className}`}
+        style={{ background: "linear-gradient(to top, #2a003e 0%, #000 100%)" }}
+      >
+        {/* Full Height Dotted Line (Desktop) */}
+        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px border-l-2 border-dotted border-white/20 -translate-x-1/2 z-0 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-12 md:py-20 z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+            {/* Left Section */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left justify-between space-y-8 md:space-y-12">
+              <div className="relative right-20 bottom-20 order-2 md:order-1 space-y-2 opacity-80">
+                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase">
+                  The Flagship Techno
+                </p>
+                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-purple-400">
+                  Cultural Fest of SNU
+                </p>
               </div>
-              <div className="absolute left-0 top-[360px] z-20 w-[300px] h-[200px]">
+
+              <div className="relative right-35 top-30 order-1 md:order-2 w-48 md:w-full max-w-[300px] md:max-w-[400px] aspect-video">
                 <Image
-                  src={heroimg.src}
-                  alt="Event hero"
+                  src={heroimg}
+                  alt="Breeze Logo"
                   fill
                   className="object-contain"
                 />
               </div>
             </div>
 
-            {/* RIGHT */}
-            <div
-              className="font-mono uppercase tracking-wider text-white/95 
-            flex flex-col justify-between h-full border-l-[1.5px] border-dashed border-white/30 pl-10 
-            absolute top-0 bottom-0 right-[80px] w-[25%] z-20"
-            >
-              <div>
-                <p className="absolute top-10 text-s mb-20">[ Get In Touch ]</p>
-
-                <div className="mt-24 space-y-4">
-                  <p className="text-sm font-semibold">Email ID</p>
-
-                  <div className="relative w-full max-w-xs">
+            {/* Right Section */}
+            <div className="border-t-2 border-dotted border-white/20 md:border-0 h-full pt-10 md:pt-0 pl-0 md:pl-16 space-y-12 md:space-y-16">
+              <div className="space-y-8">
+                <BracketHeader text="Get In Touch" />
+                <div className="space-y-6">
+                  <div className="relative group max-w-full md:max-w-sm">
                     <input
                       type="email"
-                      placeholder="Enter your Email ID"
-                      className="w-full bg-transparent border border-white/40 rounded-md px-4 py-2 pr-10 text-sm placeholder-white/60 focus:outline-none focus:border-white transition-all duration-300"
+                      placeholder="ENTER EMAIL"
+                      className="w-full bg-transparent border-b border-white/20 pb-2 text-sm tracking-widest focus:outline-none focus:border-purple-500 transition-colors rounded-none text-white"
                     />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="white"
-                      className="absolute right-3 top-2.5 w-5 h-5 opacity-70"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21.75 8.25l-9.75 6.75L2.25 8.25m19.5 0A2.25 2.25 0 0019.5 6H4.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25v-9z"
-                      />
-                    </svg>
                   </div>
-
-                  <p className="text-xs text-white/80 leading-relaxed max-w-xs">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                    et massa mi. Aliquam in hendrerit urna. Pellentesque sit
-                    amet sapien fringilla.
+                  <p className="text-xs text-white/40 leading-relaxed max-w-full md:max-w-xs font-mono">
+                    STAY UPDATED WITH THE LATEST ANNOUNCEMENTS AND EVENT
+                    SCHEDULES.
                   </p>
                 </div>
+              </div>
 
-                <p className="absolute bottom-10 left-10 text-s mb-20">
-                  [ Find Us At ]
-                </p>
-                <div className="absolute bottom-20 z-20">
-                  <SocialLinks />
-                </div>
+              <div className="space-y-8">
+                <BracketHeader text="Find Us At" />
+                <SocialLinks />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 }

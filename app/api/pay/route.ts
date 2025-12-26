@@ -13,7 +13,7 @@ const paymentSchema = z.object({
   college_status: z.string().min(6, "Invalid student details"),
   amount: z.string().transform((val) => Number(val)),
   proofImage: z.instanceof(File).optional().nullable(),
-  token: z.string().optional(),
+  token: z.string().min(1, "Transaction token is required"),
 });
 
 export async function POST(req: NextRequest) {
@@ -52,6 +52,14 @@ export async function POST(req: NextRequest) {
     const cart = await prisma.pendingTransaction.findUnique({
       where: { id: validatedData.token },
     });
+    
+    if (!cart) {
+      return NextResponse.json(
+        { success: false, error: "Transaction token not found or already processed" },
+        { status: 404 }
+      );
+    }
+    
     await prisma.$transaction([
       prisma.submittedTransaction.create({
         data: {
@@ -143,12 +151,22 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    console.error("Payment API Error:", error);
+    
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, errors: error.errors },
         { status: 400 }
       );
     }
+    
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      );
+    }
+    
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }

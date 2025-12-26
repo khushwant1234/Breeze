@@ -417,17 +417,22 @@ export default function TransactionVerify({
                     Reject
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[500px]">
-                  <DialogHeader>
-                    <DialogTitle>Reject Transaction</DialogTitle>
-                    <DialogDescription>
+                <DialogContent className="sm:max-w-[500px] bg-white border border-gray-200 shadow-xl">
+                  <DialogHeader className="pb-4 border-b border-gray-200">
+                    <DialogTitle className="text-xl font-bold text-gray-900">
+                      Reject Transaction
+                    </DialogTitle>
+                    <DialogDescription className="text-sm text-gray-600 mt-2">
                       Please provide a reason for rejecting this transaction.
                       The customer will be notified via email.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="rejection-reason">
+                      <Label
+                        htmlFor="rejection-reason"
+                        className="text-gray-700 font-medium"
+                      >
                         Rejection Reason <span className="text-red-500">*</span>
                       </Label>
                       <Textarea
@@ -435,27 +440,34 @@ export default function TransactionVerify({
                         placeholder="e.g., Payment proof is unclear, incorrect amount, duplicate transaction..."
                         value={rejectionReason}
                         onChange={(e) => setRejectionReason(e.target.value)}
-                        className="min-h-[100px]"
+                        className="min-h-[100px] bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-red-500"
                       />
                     </div>
-                    <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-800">
-                      <p className="font-medium mb-1">📧 Email Notification</p>
-                      <p>
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
+                      <p className="font-semibold text-amber-800 mb-1 flex items-center gap-2">
+                        <Mail size={16} />
+                        Email Notification
+                      </p>
+                      <p className="text-amber-700">
                         The customer will receive an email with your rejection
                         reason and instructions to contact support.
                       </p>
                     </div>
                   </div>
-                  <DialogFooter>
+                  <DialogFooter className="pt-4 border-t border-gray-200 gap-2">
                     <DialogClose asChild>
-                      <Button variant="outline" disabled={isDenying}>
+                      <Button
+                        variant="outline"
+                        disabled={isDenying}
+                        className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                      >
                         Cancel
                       </Button>
                     </DialogClose>
                     <Button
                       onClick={handleDeny}
                       disabled={isDenying || !rejectionReason.trim()}
-                      className="bg-red-500 hover:bg-red-600 text-white"
+                      className="bg-red-500 hover:bg-red-600 text-white font-semibold"
                     >
                       {isDenying ? "Rejecting..." : "Confirm Rejection"}
                     </Button>

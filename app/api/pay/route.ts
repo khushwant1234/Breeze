@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 import * as z from "zod";
 import { prisma } from "@/lib/prisma";
@@ -16,9 +16,13 @@ const paymentSchema = z.object({
   token: z.string().min(1, "Transaction token is required"),
 });
 
+// File validation constants
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+
 export async function POST(req: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const formData = await req.formData();
     const data = {
@@ -36,11 +40,29 @@ export async function POST(req: NextRequest) {
     let uploadData = null;
 
     if (validatedData.proofImage) {
+      const file = validatedData.proofImage;
+
+      // Validate file size
+      if (file.size > MAX_FILE_SIZE) {
+        return NextResponse.json(
+          { success: false, error: "File too large. Maximum size is 5MB." },
+          { status: 400 }
+        );
+      }
+
+      // Validate file type
+      if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+        return NextResponse.json(
+          { success: false, error: "Invalid file type. Only JPEG, PNG, and WebP images are allowed." },
+          { status: 400 }
+        );
+      }
+
       const { data: imageData, error: uploadError } = await supabase.storage
         .from("transaction-proofs")
         .upload(
           `${validatedData.email}-${Date.now()}`,
-          validatedData.proofImage
+          file
         );
 
       if (uploadError) {

@@ -30,7 +30,7 @@ const BracketHeader = ({ text }: { text: string }) => {
     >
       <span className="shrink-0 text-white">[</span>
       <span
-        className={`px-3 whitespace-nowrap transition-all duration-700 delay-200 ${
+        className={`px-3 whitespace-nowrap transition-all duration-700 delay-200 text-white ${
           isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
         }`}
       >
@@ -113,7 +113,7 @@ export default function Footer({
       decreaseTimerRef.current = setTimeout(() => {
         isDecreasingRef.current = true;
         animationFrameRef.current = requestAnimationFrame(runDecrease);
-      }, 1100);
+      }, 800);
     };
 
     const updateProgress = (delta: number) => {
@@ -252,10 +252,10 @@ export default function Footer({
             {/* Left Section */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left justify-between space-y-8 md:space-y-12">
               <div className="relative right-20 bottom-20 order-2 md:order-1 space-y-2 opacity-80">
-                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase">
+                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-white">
                   The Flagship Techno
                 </p>
-                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-purple-400">
+                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-white">
                   Cultural Fest of SNU
                 </p>
               </div>
@@ -282,7 +282,7 @@ export default function Footer({
                       className="w-full bg-transparent border-b border-white/20 pb-2 text-sm tracking-widest focus:outline-none focus:border-purple-500 transition-colors rounded-none text-white"
                     />
                   </div>
-                  <p className="text-xs text-white/40 leading-relaxed max-w-full md:max-w-xs font-mono">
+                  <p className="text-xs text-white leading-relaxed max-w-full md:max-w-xs font-mono">
                     STAY UPDATED WITH THE LATEST ANNOUNCEMENTS AND EVENT
                     SCHEDULES.
                   </p>

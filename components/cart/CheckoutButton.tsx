@@ -33,10 +33,10 @@ export default function CheckoutButton({ accommodation }: CheckoutButtonProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cart: cartData,
-          accommodation
-        })
+          accommodation,
+        }),
       });
-      const data: {message: string, id: string} = await response.json();
+      const data: { message: string; id: string } = await response.json();
       if (response.ok) {
         router.push(`/checkout?token=${data.id}`);
       }
@@ -57,7 +57,7 @@ export default function CheckoutButton({ accommodation }: CheckoutButtonProps) {
       <Button
         onClick={handleCheckout}
         disabled={isLoading}
-        className="font-semibold py-2 px-4"
+        className="font-semibold py-3 px-8 text-lg border-2 border-[#ffbc00] bg-[#ffbc00] hover:bg-[#ffbc00]/90 text-[#8200C1] rounded-lg shadow-lg transition-all"
       >
         {isLoading ? "Processing..." : "Proceed to Checkout"}
       </Button>

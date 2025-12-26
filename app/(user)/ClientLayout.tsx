@@ -10,14 +10,14 @@ export default function ClientLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="min-h-screen text-white bg-black">
       <Navbar />
 
-      <main className="min-h-screen">{children}</main>
+      <main>{children}</main>
 
       <div>
         <Footer />
       </div>
-    </>
+    </div>
   );
 }

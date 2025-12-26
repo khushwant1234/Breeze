@@ -32,9 +32,7 @@ export default function SoundButton({ isPlaying, onToggle }: SoundButtonProps) {
     if (!audioRef.current) return;
 
     if (isPlaying) {
-      audioRef.current
-        .play()
-        .catch(() => {}); // ignore autoplay warning
+      audioRef.current.play().catch(() => {}); // ignore autoplay warning
     } else {
       audioRef.current.pause();
     }
@@ -63,10 +61,9 @@ export default function SoundButton({ isPlaying, onToggle }: SoundButtonProps) {
 
       targetAmplitude.current = isPlaying ? 10 : 0;
 
-      const stiffness = 0.08;
-      const damping = 0.78;
-      const force =
-        (targetAmplitude.current - amplitude.current) * stiffness;
+      const stiffness = 0.03;
+      const damping = 0.85;
+      const force = (targetAmplitude.current - amplitude.current) * stiffness;
 
       velocity.current = velocity.current * damping + force;
       amplitude.current += velocity.current;
@@ -85,8 +82,7 @@ export default function SoundButton({ isPlaying, onToggle }: SoundButtonProps) {
       for (let i = 0; i <= steps; i++) {
         const x = startX + (i / steps) * visibleWidth;
         const angle = (i / steps) * Math.PI * 2;
-        const y =
-          Math.sin(angle + phase.current) * amplitude.current;
+        const y = Math.sin(angle + phase.current) * amplitude.current;
 
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
@@ -95,7 +91,7 @@ export default function SoundButton({ isPlaying, onToggle }: SoundButtonProps) {
       ctx.stroke();
       ctx.restore();
 
-      phase.current += isPlaying ? 0.09 : 0.02;
+      phase.current += isPlaying ? 0.04 : 0.01;
 
       rafId = requestAnimationFrame(draw);
     };

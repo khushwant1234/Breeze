@@ -26,8 +26,9 @@ export default function CartDisplay({
 
   const [isLoading, setIsLoading] = useState(true);
   const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  const [selectedDays, setSelectedDays] = useState<[boolean, boolean, boolean]>([false, false, false]);
-
+  const [selectedDays, setSelectedDays] = useState<[boolean, boolean, boolean]>(
+    [false, false, false]
+  );
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -153,18 +154,22 @@ export default function CartDisplay({
   if (allCartItems.length === 0 && !needsAccommodation) {
     return (
       <div className="mt-10">
-        <div className="mb-6 text-center">
-          <label className="block text-sm font-medium mb-2">
+        <div className="mb-6 text-center flex flex-col items-center">
+          <label className="block text-lg font-semibold mb-3 text-white">
             Do you need accommodation? (Only for external students!)
           </label>
           <select
-            className="w-full max-w-xs p-2 border rounded-md"
+            className="w-full max-w-xs p-3 border-2 border-white/30 rounded-lg bg-white/10 backdrop-blur-sm text-white font-medium cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:border-[#ffbc00] focus:ring-2 focus:ring-[#ffbc00]/50"
             onChange={(e) => {
               setNeedsAccommodation(e.target.value === "yes");
             }}
           >
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
+            <option value="no" className="bg-[#8200C1] text-white">
+              No
+            </option>
+            <option value="yes" className="bg-[#8200C1] text-white">
+              Yes
+            </option>
           </select>
         </div>
         <Image
@@ -200,7 +205,7 @@ export default function CartDisplay({
     }, 0);
 
     let num_days = 0;
-    selectedDays.forEach(day=> num_days += day ? 1 : 0);
+    selectedDays.forEach((day) => (num_days += day ? 1 : 0));
     const accommodationPrice = (() => {
       switch (num_days) {
         case 1:
@@ -221,18 +226,22 @@ export default function CartDisplay({
     <div className="pt-5">
       <div className="max-w-4xl mx-auto p-6">
         <div className="mb-6 px-2">
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-lg font-semibold mb-3 text-white">
             Do you need accommodation? (Only for external students!)
           </label>
           <select
-            className="w-full max-w-xs p-2 border rounded-md"
+            className="w-full max-w-xs p-3 border-2 border-white/30 rounded-lg bg-white/10 backdrop-blur-sm text-white font-medium cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:border-[#ffbc00] focus:ring-2 focus:ring-[#ffbc00]/50"
             onChange={(e) => {
               setNeedsAccommodation(e.target.value === "yes");
             }}
             value={needsAccommodation ? "yes" : "no"}
           >
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
+            <option value="no" className="bg-[#8200C1] text-white">
+              No
+            </option>
+            <option value="yes" className="bg-[#8200C1] text-white">
+              Yes
+            </option>
           </select>
 
           {needsAccommodation && (

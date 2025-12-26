@@ -143,6 +143,17 @@ body {
   font-family: 'Pandora Bold', sans-serif;
 }
 
+@font-face {
+  font-family: 'Urban Vogue';
+  src: url('/fonts/urban-vogue-font/urban-vogue.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-urban-vogue {
+  font-family: 'Urban Vogue', sans-serif;
+}
+
 /* .radial-bg2 {
   background: 
     repeating-conic-gradient(

@@ -110,39 +110,41 @@ export const AddToCartEvent = ({ event_id }: { event_id: string }) => {
   };
 
   return (
-    <div className="mt-8 flex flex-col space-y-4 items-center">
+    <div className="w-full space-y-3">
       {quantity > 0 ? (
         <>
-          <div className="flex space-x-4 items-center">
-            <Button
-              className="w-[8vw] h-[8vw] sm:w-[4vw] sm:h-[4vw] font-semibold rounded-lg"
+          <div className="flex items-center justify-center gap-6">
+            <button
+              className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 text-white text-2xl font-light flex items-center justify-center transition-all border border-white/30"
               onClick={handleRemoveFromCart}
             >
-              -
-            </Button>
-            <span className="text-xl font-semibold">{quantity}</span>
-            <Button
-              className="w-[8vw] h-[8vw] sm:w-[4vw] sm:h-[4vw] font-semibold rounded-lg"
+              −
+            </button>
+            <span className="text-3xl font-bold text-white min-w-[60px] text-center">
+              {quantity}
+            </span>
+            <button
+              className="w-12 h-12 rounded-full bg-[#ffbc00] hover:bg-[#ffbc00]/90 text-[#8200C1] text-2xl font-light flex items-center justify-center transition-all"
               onClick={handleAddToCart}
             >
               +
-            </Button>
+            </button>
           </div>
-          <Button
-            className="sm:w-[15vw] sm:text-[1.2vw] sm:h-[4vw] h-[10vw] font-semibold rounded-lg text-[3vw] w-[40vw]"
+
+          <button
+            className="w-full h-12 rounded-lg bg-[#ffbc00] hover:bg-[#ffbc00]/90 text-[#8200C1] font-semibold transition-all"
             onClick={() => router.push("/cart")}
-            variant="outline"
           >
-            Go to Cart →
-          </Button>
+            Go to Cart
+          </button>
         </>
       ) : (
-        <Button
-          className="sm:w-[15vw] sm:text-[1.5vw] sm:h-[4vw] h-[10vw] font-semibold rounded-lg text-[3vw] w-[30vw]"
+        <button
+          className="w-full h-12 rounded-lg bg-[#ffbc00] hover:bg-[#ffbc00]/90 text-[#8200C1] font-semibold transition-all"
           onClick={handleAddToCart}
         >
           Add to Cart
-        </Button>
+        </button>
       )}
     </div>
   );

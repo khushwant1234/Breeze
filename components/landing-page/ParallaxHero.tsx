@@ -139,7 +139,7 @@ export default function ParallaxHero() {
       {/* Animated Content Container */}
       <div className="relative z-[10] h-full flex flex-col items-center justify-center px-4">
         {/* Event Title with Animation */}
-        <div className="text-center mb-8 md:mb-12">
+        {/* <div className="text-center mb-8 md:mb-12">
           <h1
             className="text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-4 tracking-wider drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
             style={{ color: "white" }}
@@ -153,7 +153,7 @@ export default function ParallaxHero() {
             </p>
             <div className="h-[2px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/50" />
           </div>
-        </div>
+        </div> */}
 
         {/* Timer with Glass Effect */}
         <div className="bg-black/20 backdrop-blur-md px-6 md:px-10 lg:px-12 py-6 md:py-8 lg:py-10 rounded-2xl border border-white/10 shadow-2xl">

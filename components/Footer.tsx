@@ -193,8 +193,20 @@ export default function Footer({
     const handleScroll = () => {
       if (!footerRef.current) return;
       const rect = footerRef.current.getBoundingClientRect();
-      const p = Math.min(Math.max(0, 1 - rect.top / window.innerHeight), 1);
-      setBlurAmount(p * 15);
+      const footerHeight = rect.height;
+      // Calculate how much of the footer is visible in the viewport
+      const visibleHeight = Math.min(window.innerHeight - rect.top, footerHeight);
+      const visibilityRatio = visibleHeight / footerHeight;
+      
+      // Only start blur effect when footer is 75% visible (visibilityRatio >= 0.75)
+      // Then scale the blur from 0 to 15 based on remaining 25% visibility
+      if (visibilityRatio >= 0.75) {
+        // Map 0.75-1.0 visibility to 0-1 for blur calculation
+        const blurProgress = (visibilityRatio - 0.75) / 0.25;
+        setBlurAmount(blurProgress * 15);
+      } else {
+        setBlurAmount(0);
+      }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);

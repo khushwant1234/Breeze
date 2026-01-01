@@ -223,7 +223,7 @@ export default function CartDisplay({
   };
 
   return (
-    <div className="pt-5">
+    <div className="pt-5 min-h-screen">
       <div className="max-w-4xl mx-auto p-6">
         <div className="mb-6 px-2">
           <label className="block text-lg font-semibold mb-3 text-white">

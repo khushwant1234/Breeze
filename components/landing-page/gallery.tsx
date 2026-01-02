@@ -9,60 +9,44 @@ import Floating, { FloatingElement } from "@/components/ui/parallax-floating";
 // Gallery images - using Breeze event/festival themed images
 const galleryImages = [
   {
-    url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=400&fit=crop",
-    title: "Festival Crowd",
+    url: "/gallery/img-1.jpeg",
+    title: "Breeze 1",
   },
   {
-    url: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=500&fit=crop",
-    title: "Concert Lights",
+    url: "/gallery/img-2.jpeg",
+    title: "Breeze 2",
   },
   {
-    url: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=500&h=600&fit=crop",
-    title: "Stage Performance",
+    url: "/gallery/img-3.jpeg",
+    title: "Breeze 3",
   },
   {
-    url: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&h=400&fit=crop",
-    title: "Music Festival",
+    url: "/gallery/img-4.jpeg",
+    title: "Breeze 4",
   },
   {
-    url: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=450&h=450&fit=crop",
-    title: "Dance Floor",
+    url: "/gallery/img-5.jpeg",
+    title: "Breeze 5",
   },
   {
-    url: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&h=400&fit=crop",
-    title: "Festival Night",
+    url: "/gallery/img-6.jpeg",
+    title: "Breeze 6",
   },
   {
-    url: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=350&fit=crop",
-    title: "Crowd Celebration",
+    url: "/gallery/img-7.jpeg",
+    title: "Breeze 7",
   },
   {
-    url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=350&h=400&fit=crop",
-    title: "Party Vibes",
+    url: "/gallery/img-8.jpeg",
+    title: "Breeze 8",
   },
   {
-    url: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=400&h=400&fit=crop",
-    title: "Concert Energy",
+    url: "/gallery/img-9.jpeg",
+    title: "Breeze 9",
   },
   {
-    url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=450&h=350&fit=crop",
-    title: "Festival Atmosphere",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=500&fit=crop",
-    title: "Live Music",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=350&h=400&fit=crop",
-    title: "Stage Lights",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=400&h=350&fit=crop",
-    title: "Night Event",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1578946956088-940c3b502864?w=450&h=400&fit=crop",
-    title: "Celebration",
+    url: "/gallery/img-10.jpeg",
+    title: "Breeze 10",
   },
 ];
 
@@ -246,8 +230,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[10].url}
-              alt={galleryImages[10].title}
+              src={galleryImages[0].url}
+              alt={galleryImages[0].title}
               width={240}
               height={300}
               className="w-28 h-36 md:w-44 md:h-56 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
@@ -261,8 +245,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[11].url}
-              alt={galleryImages[11].title}
+              src={galleryImages[1].url}
+              alt={galleryImages[1].title}
               width={220}
               height={220}
               className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
@@ -292,8 +276,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[12].url}
-              alt={galleryImages[12].title}
+              src={galleryImages[2].url}
+              alt={galleryImages[2].title}
               width={260}
               height={200}
               className="w-32 h-24 md:w-48 md:h-36 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
@@ -322,8 +306,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[13].url}
-              alt={galleryImages[13].title}
+              src={galleryImages[3].url}
+              alt={galleryImages[3].title}
               width={280}
               height={220}
               className="w-36 h-28 md:w-52 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"

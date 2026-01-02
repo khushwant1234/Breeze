@@ -17,6 +17,12 @@ const satoshi_bold = localFont({
   style: "normal",
 });
 
+const maswen = localFont({
+  src: "../../../public/fonts/Maswen-Outline.otf",
+  weight: "400",
+  style: "normal",
+});
+
 const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
@@ -71,41 +77,51 @@ const page = async ({
     take: 5,
   });
   return (
-    <div className="pt-12 bg-background relative">
+    <div className="relative">
       <title>Events - Breeze '25</title>
 
-      <div className="relative h-[70vh]">
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/images/events-banner.png"
-            alt="Homepage image 2"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 w-full h-full bg-[#00000099]"></div>
-        <div className="absolute inset-0 flex flex-col gap-2 items-center justify-center text-white">
-          <div className="text-center px-12 lg:px-32">
-            <div className={`text-4xl lg:text-7xl ${satoshi.className}`}>
-              Here's A Sneak Peek
-            </div>
-            <div
-              className={`text-4xl lg:text-7xl ${fraunces.className} italic`}
-            >
-              At All The Amazing Events In Store!
-            </div>
-            <div className={`lg:text-2xl ${satoshi.className}`}>
-              Dive into the whirlwind of excitement! Explore the electrifying
-              lineup of events that make Breeze 2025 the ultimate fusion of
-              innovation, culture, and celebration.
-            </div>
-          </div>
+      <div className="relative w-full">
+        <Image
+          src="/events-header.png"
+          alt="Events Header"
+          width={1920}
+          height={1080}
+          className="w-full h-auto block"
+          priority
+        />
+        {/* Black tint overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+        {/* Text on bottom right */}
+        <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 text-right">
+          <p
+            className={`font-urban-vogue text-white text-2xl md:text-4xl lg:text-5xl`}
+          >
+            11th-13th February
+          </p>
+          <p
+            className={`font-urban-vogue italic text-white text-7xl md:text-9xl lg:text-[12rem] -mt-2 md:-mt-4 text-bottom`}
+          >
+            events
+          </p>
         </div>
       </div>
+
+      {/* Moving Text Banner */}
+      <div className="relative w-full overflow-hidden pt-12 pb-6 bg-transparent">
+        <div className="animate-events-marquee whitespace-nowrap flex">
+          {[...Array(10)].map((_, i) => (
+            <span
+              key={i}
+              className={`${maswen.className} text-[#FF903A] text-6xl md:text-8xl lg:text-9xl mx-8`}
+            >
+              BREEZE 2026
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-col gap-2 sm:gap-1 m-10 mb-0 px-2 sm:px-6">
-        <h1 className="text-xl sm:text-2xl font-bold font-urban-vogue">
+        <h1 className="text-xl sm:text-2xl font-urban-vogue text-[#F6FC50]">
           संस्कारी AF
         </h1>
         <div className="flex justify-between items-center flex-wrap sm:flex-nowrap sm:gap-5 gap-3 ">
@@ -139,7 +155,7 @@ const page = async ({
         <BasicCards event={cultural} />
       </div>
       <div className="flex flex-col gap-2 sm:gap-1 m-10 mb-0 px-2 sm:px-6">
-        <h1 className="text-xl sm:text-2xl font-bold font-urban-vogue">
+        <h1 className="text-xl sm:text-2xl font-urban-vogue text-[#F6FC50]">
           Challenge Your Mind !
         </h1>
         <div className="flex justify-between items-center flex-wrap sm:flex-nowrap sm:gap-5 gap-3 ">

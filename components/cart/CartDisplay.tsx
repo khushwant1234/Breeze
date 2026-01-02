@@ -265,7 +265,7 @@ export default function CartDisplay({
                     htmlFor="day1"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Day 1 (14th February)
+                    Day 1 (20th February)
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -283,7 +283,7 @@ export default function CartDisplay({
                     htmlFor="day2"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Day 2 (15th February)
+                    Day 2 (21st February)
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -301,7 +301,7 @@ export default function CartDisplay({
                     htmlFor="day3"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Day 3 (16th February)
+                    Day 3 (22nd February)
                   </label>
                 </div>
               </div>

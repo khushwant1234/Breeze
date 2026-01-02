@@ -195,9 +195,12 @@ export default function Footer({
       const rect = footerRef.current.getBoundingClientRect();
       const footerHeight = rect.height;
       // Calculate how much of the footer is visible in the viewport
-      const visibleHeight = Math.min(window.innerHeight - rect.top, footerHeight);
+      const visibleHeight = Math.min(
+        window.innerHeight - rect.top,
+        footerHeight
+      );
       const visibilityRatio = visibleHeight / footerHeight;
-      
+
       // Only start blur effect when footer is 75% visible (visibilityRatio >= 0.75)
       // Then scale the blur from 0 to 15 based on remaining 25% visibility
       if (visibilityRatio >= 0.75) {
@@ -262,8 +265,8 @@ export default function Footer({
         <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-12 md:py-20 z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             {/* Left Section */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left justify-between space-y-8 md:space-y-12">
-              <div className="relative right-20 bottom-20 order-2 md:order-1 space-y-2 opacity-80">
+            <div className="flex flex-col items-center md:items-end text-center md:text-right justify-center space-y-8 md:space-y-12">
+              <div className="order-1 space-y-2 opacity-80">
                 <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-white">
                   The Flagship Techno
                 </p>
@@ -272,7 +275,7 @@ export default function Footer({
                 </p>
               </div>
 
-              <div className="relative right-35 top-30 order-1 md:order-2 w-48 md:w-full max-w-[300px] md:max-w-[400px] aspect-video">
+              <div className="order-2 w-48 md:w-full max-w-[300px] md:max-w-[400px] aspect-video relative translate-x-4 md:translate-x-8">
                 <Image
                   src={heroimg}
                   alt="Breeze Logo"
@@ -283,22 +286,14 @@ export default function Footer({
             </div>
 
             {/* Right Section */}
-            <div className="border-t-2 border-dotted border-white/20 md:border-0 h-full pt-10 md:pt-0 pl-0 md:pl-16 space-y-12 md:space-y-16">
+            <div className="border-t-2 border-dotted border-white/20 md:border-0 h-full pt-10 md:pt-0 pl-0 md:pl-16 flex flex-col justify-center space-y-12 md:space-y-16">
               <div className="space-y-8">
-                <BracketHeader text="Get In Touch" />
-                <div className="space-y-6">
-                  <div className="relative group max-w-full md:max-w-sm">
-                    <input
-                      type="email"
-                      placeholder="ENTER EMAIL"
-                      className="w-full bg-transparent border-b border-white/20 pb-2 text-sm tracking-widest focus:outline-none focus:border-purple-500 transition-colors rounded-none text-white"
-                    />
-                  </div>
-                  <p className="text-xs text-white leading-relaxed max-w-full md:max-w-xs font-mono">
-                    STAY UPDATED WITH THE LATEST ANNOUNCEMENTS AND EVENT
-                    SCHEDULES.
-                  </p>
-                </div>
+                <a
+                  href="/get-in-touch"
+                  className="inline-block hover:opacity-80 transition-opacity"
+                >
+                  <BracketHeader text="Get In Touch" />
+                </a>
               </div>
 
               <div className="space-y-8">

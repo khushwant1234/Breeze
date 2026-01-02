@@ -70,7 +70,7 @@ const Navbar = ({ className }: NavbarProps) => {
   return (
     <nav
       className={cn(
-        "w-full fixed top-0 left-0 z-50 bg-[#1a0a2e] backdrop-blur-sm border-b border-purple-900/30 transition-transform duration-300",
+        "w-full fixed top-0 left-0 z-50 transition-transform duration-300",
         visible ? "translate-y-0" : "-translate-y-full",
         className
       )}
@@ -88,39 +88,41 @@ const Navbar = ({ className }: NavbarProps) => {
         </Link>
 
         {/* CENTER NAV LINKS - Desktop */}
-        <div className="hidden md:flex flex-1 justify-center space-x-8">
-          {navLinks.map((link) =>
-            "scrollTo" in link ? (
-              <button
-                key={link.name}
-                onClick={() =>
-                  document
-                    .getElementById(link.scrollTo)
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="text-navbar_text text-[15px] font-bold transition-colors hover:text-navbar_text_select"
-              >
-                {link.name}
-              </button>
-            ) : (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  "text-[15px] font-bold transition-colors hover:text-navbar_text_select",
-                  isActiveLink(link.href)
-                    ? "text-navbar_text_select"
-                    : "text-navbar_text"
-                )}
-              >
-                {link.name}
-              </Link>
-            )
-          )}
+        <div className="hidden md:flex flex-1 justify-center">
+          <div className="flex space-x-8 bg-black/40 backdrop-blur-md px-8 py-2 rounded-full border border-white/10">
+            {navLinks.map((link) =>
+              "scrollTo" in link ? (
+                <button
+                  key={link.name}
+                  onClick={() =>
+                    document
+                      .getElementById(link.scrollTo)
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="text-navbar_text text-[15px] font-bold transition-colors hover:text-navbar_text_select"
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-[15px] font-bold transition-colors hover:text-navbar_text_select",
+                    isActiveLink(link.href)
+                      ? "text-navbar_text_select"
+                      : "text-navbar_text"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
+          </div>
         </div>
 
         {/* RIGHT SIDE ACTIONS */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
           {/* SOUND BUTTON */}
           <SoundButton isPlaying={isPlaying} onToggle={handleTogglePlay} />
 

@@ -11,7 +11,7 @@ export default function Sponsors({ className }: SponsorsProps) {
   return (
     <section
       id="sponsorship"
-      className={`relative scroll-mt-[90px] ${className}`}
+      className={`relative scroll-mt-[90px] rounded-t-[3rem] md:rounded-t-[5rem] overflow-hidden ${className}`}
       style={{
         background:
           "linear-gradient(to bottom, #000000 0%, rgb(44, 9, 73, 0.9) 25%, rgb(44, 9, 73, 1) 50%, rgb(44, 9, 73, 0.9) 90%, #000000 100%)",

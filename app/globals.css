@@ -70,7 +70,22 @@ body{
   100% {
     transform: translateX(-33.33%);
   }
-  
+}
+
+@keyframes events-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-events-marquee {
+  animation: events-marquee 20s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Smooth scrolling for the entire page */

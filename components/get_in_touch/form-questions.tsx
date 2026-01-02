@@ -47,39 +47,43 @@ export default function Question() {
   };
 
   return (
-    <div className="bg-muted main flex px-5 flex-col lg:flex-row p-8 sm:ml-0 overflow-hidden">
-      <div className="text w-full flex self-center flex-col pt-4 gap-4 text-center flex-1">
-        <h1 className="text-2xl lg:text-4xl self-center leading-tight sm:leading-[3.5rem] font-medium">
-          We've Got All The Answers You Need.
+    <div className="min-h-screen flex flex-col lg:flex-row px-6 md:px-12 lg:px-20 pt-20 pb-4 lg:pt-24 lg:pb-0 overflow-hidden">
+      {/* Left Section - CONTACT US */}
+      <div className="w-full lg:w-1/2 flex items-center lg:items-start justify-center lg:justify-start py-4 lg:py-0">
+        <h1
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none text-center lg:text-left"
+          style={{ color: "#FF6F00" }}
+        >
+          CONTACT
+          <br />
+          US
         </h1>
-        <p className="w-[90%] self-center leading-normal text-center lg:text-lg text-muted-foreground">
-          Ready to immerse yourself in the exhilarating Breeze experience? We're
-          just a message away! Whether you have questions or need details, we're
-          here to ensure this event becomes an unforgettable memory.
-        </p>
       </div>
-      <div className="lg:pl-4 pt-6 lg:pt-0 items-center text-left gap-y-4 gap-x-4 w-[90%] self-center lg:w-1/2 flex-1 lg:ml-4">
+
+      {/* Right Section - Form */}
+      <div className="w-full lg:w-1/2 flex items-center lg:items-start justify-center lg:pl-12">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            className="w-full max-w-lg space-y-5"
           >
             {/* Name Field */}
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="grid items-center">
-                  <FormLabel className="text-xl lg:text-2xl pb-1 lg:pb-3">
+                <FormItem>
+                  <FormLabel className="text-white text-base uppercase tracking-wider mb-1">
                     Name
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      className="h-12 rounded-lg lg:text-xl w-full"
+                      placeholder="Your name"
+                      className="h-14 text-lg px-4 bg-transparent border-2 border-yellow-400 rounded-none text-white placeholder:text-white/50 focus:border-yellow-300 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
-                  <FormMessage className="text-lg lg:text-base" />
+                  <FormMessage className="text-red-400" />
                 </FormItem>
               )}
             />
@@ -88,18 +92,19 @@ export default function Question() {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="grid items-center">
-                  <FormLabel className="text-xl lg:text-2xl pb-1 lg:pb-3">
+                <FormItem>
+                  <FormLabel className="text-white text-base uppercase tracking-wider mb-1">
                     Email
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="email"
                       {...field}
-                      className="h-12 rounded-lg lg:text-xl w-full"
+                      placeholder="your@email.com"
+                      className="h-14 text-lg px-4 bg-transparent border-2 border-yellow-400 rounded-none text-white placeholder:text-white/50 focus:border-yellow-300 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
-                  <FormMessage className="text-lg lg:text-base" />
+                  <FormMessage className="text-red-400" />
                 </FormItem>
               )}
             />
@@ -108,17 +113,18 @@ export default function Question() {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="grid items-center">
-                  <FormLabel className="text-xl lg:text-2xl pb-1 lg:pb-3">
+                <FormItem>
+                  <FormLabel className="text-white text-base uppercase tracking-wider mb-1">
                     Phone
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      className="h-12 rounded-lg lg:text-xl w-full"
+                      placeholder="Your phone number"
+                      className="h-14 text-lg px-4 bg-transparent border-2 border-yellow-400 rounded-none text-white placeholder:text-white/50 focus:border-yellow-300 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
-                  <FormMessage className="text-lg lg:text-base" />
+                  <FormMessage className="text-red-400" />
                 </FormItem>
               )}
             />
@@ -127,25 +133,26 @@ export default function Question() {
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="grid items-center">
-                  <FormLabel className="text-xl lg:text-2xl pb-1 lg:pb-3">
+                <FormItem>
+                  <FormLabel className="text-white text-base uppercase tracking-wider mb-1">
                     Message
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      className="h-12 rounded-lg lg:text-xl w-full"
+                      placeholder="Your message"
+                      className="h-14 text-lg px-4 bg-transparent border-2 border-yellow-400 rounded-none text-white placeholder:text-white/50 focus:border-yellow-300 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
-                  <FormMessage className="text-lg lg:text-base" />
+                  <FormMessage className="text-red-400" />
                 </FormItem>
               )}
             />
             {/* Submit Button */}
-            <div className="col-span-1 sm:col-span-2 w-full pt-8">
+            <div className="pt-4">
               <Button
                 type="submit"
-                className="rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-lg lg:text-xl h-14 w-full font-semibold transition-colors"
+                className="w-full h-14 bg-yellow-400 hover:bg-yellow-500 text-black font-bold text-lg uppercase tracking-wider rounded-none transition-colors"
               >
                 Submit
               </Button>

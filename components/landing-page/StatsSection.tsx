@@ -55,7 +55,9 @@ const AnimatedNumber = ({
 const StatItem = ({ label, target, suffix, isVisible }: StatProps) => (
   <div className="flex flex-col items-center justify-center text-center space-y-3">
     <AnimatedNumber target={target} suffix={suffix} isVisible={isVisible} />
-    <p className="text-white text-lg font-semibold">{label}</p>
+    <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
+      {label}
+    </p>
   </div>
 );
 
@@ -84,7 +86,7 @@ export default function StatsSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-gradient-to-b from-black via-neutral-950 to-black text-white py-24"
+      className="relative w-full bg-gradient-to-b from-black via-neutral-950 to-black text-white py-24"
     >
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-around items-center gap-12">
         <StatItem

@@ -135,7 +135,7 @@ export const AddToCartEvent = ({ event_id }: { event_id: string }) => {
             className="w-full h-12 rounded-lg bg-[#ffbc00] hover:bg-[#ffbc00]/90 text-[#8200C1] font-semibold transition-all"
             onClick={() => router.push("/cart")}
           >
-            Go to Cart
+            Proceed to Cart
           </button>
         </>
       ) : (

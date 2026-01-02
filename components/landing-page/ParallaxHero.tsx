@@ -312,7 +312,10 @@ export default function ParallaxHero() {
   );
 
   return (
-    <div className="relative w-full h-screen min-h-[100vh] bg-purple-900 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden" style={{ height: '100vh', minHeight: '100vh' }}>
+    <div
+      className="relative w-full h-screen min-h-[100vh] bg-purple-900 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden"
+      style={{ height: "100vh", minHeight: "100vh" }}
+    >
       {/* Loading Screen */}
       {showLoading && <LoadingScreen isExiting={isExiting} />}
 

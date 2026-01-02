@@ -91,7 +91,7 @@ export default function StatsSection() {
       <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-evenly items-center gap-16 sm:gap-20 md:gap-24">
         <StatItem
           label="Social media reach"
-          target={100000}
+          target={1000000}
           isVisible={isVisible}
         />
         <StatItem label="Registrations" target={3000} isVisible={isVisible} />

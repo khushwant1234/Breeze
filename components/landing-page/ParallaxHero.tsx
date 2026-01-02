@@ -129,7 +129,7 @@ export default function ParallaxHero() {
         onLoadedData={() => setIsVideoLoaded(true)}
         onError={(e) => console.log("Video error:", e)}
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src="/hero-video-high-resolution.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 

@@ -88,7 +88,7 @@ export default function StatsSection() {
       ref={sectionRef}
       className="relative w-full bg-gradient-to-b from-black via-neutral-950 to-black text-white py-24"
     >
-      <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-around items-center gap-12">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-evenly items-center gap-16 sm:gap-20 md:gap-24">
         <StatItem
           label="Social media reach"
           target={100000}

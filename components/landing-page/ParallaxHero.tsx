@@ -312,7 +312,7 @@ export default function ParallaxHero() {
   );
 
   return (
-    <div className="relative w-full h-screen bg-purple-900 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden">
+    <div className="relative w-full h-screen min-h-[100vh] bg-purple-900 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden" style={{ height: '100vh', minHeight: '100vh' }}>
       {/* Loading Screen */}
       {showLoading && <LoadingScreen isExiting={isExiting} />}
 
@@ -367,26 +367,6 @@ export default function ParallaxHero() {
           <p className="text-white/70 text-xs md:text-sm text-center mt-4 tracking-wider">
             20th - 22nd Feb
           </p>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-white/60 text-sm tracking-widest uppercase">
-              Scroll
-            </span>
-            <svg
-              className="w-6 h-6 text-white/60"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-          </div>
         </div>
       </div>
 

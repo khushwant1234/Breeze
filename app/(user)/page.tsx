@@ -10,14 +10,20 @@ import StatsSection from "../../components/landing-page/StatsSection";
 
 export default function Home(): React.ReactElement {
   return (
-    <main className="min-h-screen bg-black text-white relative">
+    <main className="min-h-screen bg-black text-white relative w-full overflow-x-hidden">
       {/* Hero Section with Parallax and Timer */}
-      <div className="relative z-0">
-        <ParallaxHero />
+      <div className="relative z-0 w-full min-h-screen h-dvh">
+        {/* White gradient from left edge - behind hero rounded corners */}
+        <div className="absolute left-0 bottom-0 h-24 w-32 md:w-48 bg-gradient-to-r from-white/20 to-transparent pointer-events-none z-0" />
+        {/* White gradient from right edge - behind hero rounded corners */}
+        <div className="absolute right-0 bottom-0 h-24 w-32 md:w-48 bg-gradient-to-l from-white/20 to-transparent pointer-events-none z-0" />
+        <div className="relative z-10 w-full h-full">
+          <ParallaxHero />
+        </div>
       </div>
 
       {/* Main Content - positioned to overlap hero */}
-      <div className="relative z-10 -mt-12 md:-mt-20">
+      <div className="relative z-10">
         <div className="bg-black relative overflow-hidden">
           {/* White gradient from left edge - stats section only */}
           <div className="absolute left-0 top-0 bottom-0 w-32 md:w-48 bg-gradient-to-r from-white/20 to-transparent pointer-events-none z-10" />

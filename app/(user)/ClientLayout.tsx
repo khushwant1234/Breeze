@@ -15,7 +15,7 @@ export default function ClientLayout({
 
   return (
     <div
-      className="min-h-screen text-white"
+      className="min-h-screen w-full text-white overflow-x-hidden"
       style={{
         background: isHomepage
           ? "black"
@@ -24,7 +24,7 @@ export default function ClientLayout({
     >
       <Navbar />
 
-      <main>{children}</main>
+      <main className="w-full">{children}</main>
 
       <div>
         <Footer />

@@ -74,7 +74,7 @@ export default async function Page() {
                       Phone
                     </TableHead>
                     <TableHead className="font-semibold text-[#202020]">
-                      Address
+                      Roll Number
                     </TableHead>
                     <TableHead className="font-semibold text-[#202020]">
                       Number of Passes

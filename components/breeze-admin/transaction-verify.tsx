@@ -244,7 +244,7 @@ export default function TransactionVerify({
             </div>
             <div className="mb-4 pb-3 border-b border-gray-200">
               <h4 className="text-sm font-medium text-gray-600 mb-2">
-                Delivery Address
+                College Roll Number
               </h4>
               <div className="text-gray-800">
                 <p>{transaction.address}</p>

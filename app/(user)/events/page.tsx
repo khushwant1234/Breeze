@@ -94,12 +94,12 @@ const page = async ({
         {/* Text on bottom right */}
         <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 text-right">
           <p
-            className={`font-urban-vogue text-white text-2xl md:text-4xl lg:text-5xl`}
+            className={`font-urban-vogue text-white text-2xl md:text-4xl lg:text-5xl text-left mb-2 md:mb-4`}
           >
             11th-13th February
           </p>
           <p
-            className={`font-urban-vogue italic text-white text-7xl md:text-9xl lg:text-[12rem] -mt-2 md:-mt-4 text-bottom`}
+            className={`font-different-beginning italic text-white text-7xl md:text-9xl lg:text-[12rem] -mt-2 md:-mt-4 text-bottom`}
           >
             events
           </p>

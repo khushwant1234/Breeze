@@ -169,6 +169,17 @@ body {
   font-family: 'Urban Vogue', sans-serif;
 }
 
+@font-face {
+  font-family: 'Different Beginning';
+  src: url('/fonts/Different-Beginning.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-different-beginning {
+  font-family: 'Different Beginning', sans-serif;
+}
+
 /* .radial-bg2 {
   background: 
     repeating-conic-gradient(

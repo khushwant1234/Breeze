@@ -29,162 +29,125 @@ function calculateTimeLeft(targetDate: string): TimeLeft {
   return timeLeft;
 }
 
-// Loading screen component with diagonal text animation
-const LoadingScreen = ({ isExiting }: { isExiting: boolean }) => {
-  const lines = Array(30).fill(null);
-  const colors = ["#FF13A4", "#FF6F00", "#8200C1", "#F6FC50"];
-  const sizes = [
-    "text-3xl md:text-5xl",
-    "text-5xl md:text-8xl",
-    "text-4xl md:text-6xl",
-    "text-6xl md:text-9xl",
-  ];
+// Loading screen component with progress bar and vertical split animation
+const LoadingScreen = ({
+  isExiting,
+  isVideoLoaded,
+  onLoadingComplete,
+}: {
+  isExiting: boolean;
+  isVideoLoaded: boolean;
+  onLoadingComplete: () => void;
+}) => {
+  const [progress, setProgress] = useState(0);
+  const [canComplete, setCanComplete] = useState(false);
+  const minLoadTime = 2000; // 2 seconds minimum
+  const progressRef = useRef<number>(0);
+
+  // Animate progress to 90% over 2 seconds
+  useEffect(() => {
+    const startTime = Date.now();
+    let animationId: number;
+
+    const animateProgress = () => {
+      const elapsed = Date.now() - startTime;
+      const t = Math.min(elapsed / minLoadTime, 1); // normalized time 0-1
+      // Ease-in (accelerating): use t^2 for quadratic acceleration
+      const easedT = t * t;
+      const targetProgress = easedT * 90;
+      progressRef.current = targetProgress;
+      setProgress(targetProgress);
+
+      if (elapsed >= minLoadTime) {
+        setCanComplete(true);
+      } else {
+        animationId = requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animationId = requestAnimationFrame(animateProgress);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, []);
+
+  // Complete to 100% when both conditions met
+  useEffect(() => {
+    if (canComplete && isVideoLoaded) {
+      // Animate from current progress to 100%
+      const start = progressRef.current;
+      const startTime = Date.now();
+      const duration = 300;
+
+      const animateToComplete = () => {
+        const elapsed = Date.now() - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const currentProgress = start + (100 - start) * t;
+        setProgress(currentProgress);
+
+        if (t < 1) {
+          requestAnimationFrame(animateToComplete);
+        } else {
+          setTimeout(onLoadingComplete, 200);
+        }
+      };
+
+      requestAnimationFrame(animateToComplete);
+    }
+  }, [canComplete, isVideoLoaded, onLoadingComplete]);
 
   return (
-    <div
-      className="fixed inset-0 z-50 overflow-hidden"
-      style={{ background: "#0a0a0a" }}
-    >
-      {/* Top-left diagonal section */}
+    <div className="fixed inset-0 z-50 overflow-hidden">
+      {/* Top half */}
       <div
-        className="absolute overflow-hidden transition-transform duration-1000 ease-in-out"
+        className="absolute top-0 left-0 right-0 h-1/2 flex items-end justify-center z-10"
         style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          clipPath: "polygon(0 0, calc(100% - 15px) 0, 0 calc(100% - 15px))",
-          zIndex: 1,
-          transform: isExiting ? "translate(-100%, -100%)" : "translate(0, 0)",
+          backgroundColor: "#8200C1",
+          transform: isExiting ? "translateY(-100%)" : "translateY(0)",
+          transition: "transform 0.8s ease-in-out",
         }}
       >
-        <div
-          className="absolute flex flex-col justify-center items-start"
-          style={{
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%) rotate(-45deg)",
-            width: "300vmax",
-            height: "300vmax",
-            gap: "1.5rem",
-          }}
-        >
-          {lines.map((_, i) => (
-            <div
-              key={`top-${i}`}
-              className="whitespace-nowrap w-full"
-              style={{
-                animation: `${
-                  i % 2 === 0 ? "smoothMarqueeLeft" : "smoothMarqueeRight"
-                } ${20 + (i % 3) * 5}s linear infinite`,
-                willChange: "transform",
-              }}
-            >
-              {Array(20)
-                .fill(null)
-                .map((_, j) => (
-                  <span
-                    key={j}
-                    className={`inline-block mx-8 ${
-                      sizes[i % 4]
-                    } font-bold tracking-wider`}
-                    style={{
-                      color: colors[(i + j) % 4],
-                      textShadow: `0 0 30px ${colors[(i + j) % 4]}80`,
-                    }}
-                  >
-                    {i % 2 === 0 ? "Neon Nirvana" : "neon nirvana"}
-                  </span>
-                ))}
+        {/* Progress bar on bottom edge of top half (visible when not exiting) */}
+        {!isExiting && (
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-80 md:w-96 z-20">
+            {/* Border container */}
+            <div className="border-2 border-white p-[4px] rounded-sm">
+              {/* Inner track with gap */}
+              <div className="h-4 md:h-5 bg-transparent rounded-[2px] overflow-hidden">
+                {/* Progress fill */}
+                <div
+                  className="h-full bg-white rounded-[1px]"
+                  style={{
+                    width: `${progress}%`,
+                    transition: "width 50ms linear",
+                  }}
+                />
+              </div>
             </div>
-          ))}
-        </div>
+            {/* Percentage text */}
+            <p className="text-white text-center text-sm md:text-base mt-3 font-medium">
+              {Math.round(progress)}%
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Bottom-right diagonal section */}
+      {/* Bottom half */}
       <div
-        className="absolute overflow-hidden transition-transform duration-1000 ease-in-out"
+        className="absolute bottom-0 left-0 right-0 h-1/2"
         style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          clipPath: "polygon(100% 15px, 100% 100%, 15px 100%)",
-          zIndex: 1,
-          transform: isExiting ? "translate(100%, 100%)" : "translate(0, 0)",
+          backgroundColor: "#8200C1",
+          transform: isExiting ? "translateY(100%)" : "translateY(0)",
+          transition: "transform 0.8s ease-in-out",
         }}
-      >
-        <div
-          className="absolute flex flex-col justify-center items-start"
-          style={{
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%) rotate(135deg)",
-            width: "300vmax",
-            height: "300vmax",
-            gap: "1.5rem",
-          }}
-        >
-          {lines.map((_, i) => (
-            <div
-              key={`bottom-${i}`}
-              className="whitespace-nowrap w-full"
-              style={{
-                animation: `${
-                  i % 2 === 0 ? "smoothMarqueeRight" : "smoothMarqueeLeft"
-                } ${20 + (i % 3) * 5}s linear infinite`,
-                willChange: "transform",
-              }}
-            >
-              {Array(20)
-                .fill(null)
-                .map((_, j) => (
-                  <span
-                    key={j}
-                    className={`inline-block mx-8 ${
-                      sizes[(i + 2) % 4]
-                    } font-bold tracking-wider`}
-                    style={{
-                      color: colors[(i + j + 2) % 4],
-                      textShadow: `0 0 30px ${colors[(i + j + 2) % 4]}80`,
-                    }}
-                  >
-                    {i % 2 === 0 ? "Neon Nirvana" : "neon nirvana"}
-                  </span>
-                ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Diagonal Gap/Divider - created by the clipPath gap */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0"
-        style={{ background: "#0a0a0a" }}
       />
-
-      {/* Animations */}
-      <style jsx>{`
-        @keyframes smoothMarqueeLeft {
-          0% {
-            transform: translate3d(0, 0, 0);
-          }
-          100% {
-            transform: translate3d(-50%, 0, 0);
-          }
-        }
-        @keyframes smoothMarqueeRight {
-          0% {
-            transform: translate3d(-50%, 0, 0);
-          }
-          100% {
-            transform: translate3d(0, 0, 0);
-          }
-        }
-      `}</style>
     </div>
   );
 };
+
 
 export default function ParallaxHero() {
   const targetDate = "2026-02-19T23:59:59";
@@ -235,19 +198,16 @@ export default function ParallaxHero() {
     setIsVideoLoaded(true);
   }, []);
 
-  // Hide loading screen immediately when video loads
-  useEffect(() => {
-    if (isVideoLoaded) {
-      setIsExiting(true);
-      // Wait for exit animation to complete
-      const hideTimer = setTimeout(() => {
-        setShowLoading(false);
-      }, 500);
-      return () => clearTimeout(hideTimer);
-    }
-  }, [isVideoLoaded]);
+  // Callback when loading screen progress completes
+  const handleLoadingComplete = useCallback(() => {
+    setIsExiting(true);
+    // Wait for exit animation to complete (0.8s animation + 100ms buffer)
+    setTimeout(() => {
+      setShowLoading(false);
+    }, 900);
+  }, []);
 
-  // Fallback: Force hide loading after 10 seconds
+  // Fallback: Force video loaded after 10 seconds
   useEffect(() => {
     const fallbackTimer = setTimeout(() => {
       setIsVideoLoaded(true);
@@ -317,7 +277,13 @@ export default function ParallaxHero() {
       style={{ height: "100vh", minHeight: "100vh" }}
     >
       {/* Loading Screen */}
-      {showLoading && <LoadingScreen isExiting={isExiting} />}
+      {showLoading && (
+        <LoadingScreen
+          isExiting={isExiting}
+          isVideoLoaded={isVideoLoaded}
+          onLoadingComplete={handleLoadingComplete}
+        />
+      )}
 
       {/* Fallback gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 z-0 rounded-b-[3rem] md:rounded-b-[5rem]" />

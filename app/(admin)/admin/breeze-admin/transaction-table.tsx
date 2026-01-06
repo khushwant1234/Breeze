@@ -134,7 +134,7 @@ export default function TransactionTable({
           <TableHead className="font-semibold text-gray-700">
             Phone Number
           </TableHead>
-          <TableHead className="font-semibold text-gray-700">Address</TableHead>
+          <TableHead className="font-semibold text-gray-700">Roll Number</TableHead>
           <TableHead className="font-semibold text-gray-700">Amount</TableHead>
           {isRejected && (
             <>
@@ -273,7 +273,7 @@ export default function TransactionTable({
                                 </div>
                                 <div className="flex flex-col gap-1">
                                   <span className="font-semibold text-[#202020]">
-                                    Address:
+                                    Roll Number:
                                   </span>
                                   <span className="text-gray-700">
                                     {transaction.address}

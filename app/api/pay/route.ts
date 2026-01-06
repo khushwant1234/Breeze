@@ -9,7 +9,7 @@ const paymentSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   phone: z.string().min(10),
-  address: z.string().min(10),
+  rollNumber: z.string().min(3),
   college_status: z.string().min(6, "Invalid student details"),
   amount: z.string().transform((val) => Number(val)),
   proofImage: z.instanceof(File).optional().nullable(),
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       name: formData.get("name"),
       email: formData.get("email"),
       phone: formData.get("phone"),
-      address: formData.get("address"),
+      rollNumber: formData.get("rollNumber"),
       college_status: formData.get("college_status"),
       amount: formData.get("amount"),
       proofImage: formData.get("proofImage"),
@@ -74,21 +74,21 @@ export async function POST(req: NextRequest) {
     const cart = await prisma.pendingTransaction.findUnique({
       where: { id: validatedData.token },
     });
-    
+
     if (!cart) {
       return NextResponse.json(
         { success: false, error: "Transaction token not found or already processed" },
         { status: 404 }
       );
     }
-    
+
     await prisma.$transaction([
       prisma.submittedTransaction.create({
         data: {
           name: validatedData.name,
           email: validatedData.email,
           phone: validatedData.phone,
-          address: validatedData.address,
+          address: validatedData.rollNumber, // Storing roll number in address field
           student_details: validatedData.college_status,
           amount: validatedData.amount,
           proof: uploadData?.path || null,
@@ -135,13 +135,13 @@ export async function POST(req: NextRequest) {
               <ul>
                 <li>Transaction ID: ${validatedData.token}</li>
                 <li>Amount: ₹${validatedData.amount}</li>
-                <li>Submitted: ${new Date().toLocaleDateString('en-IN', { 
-                  day: 'numeric', 
-                  month: 'long', 
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}</li>
+                <li>Submitted: ${new Date().toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}</li>
               </ul>
               
               <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
@@ -174,21 +174,21 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error("Payment API Error:", error);
-    
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, errors: error.errors },
         { status: 400 }
       );
     }
-    
+
     if (error instanceof Error) {
       return NextResponse.json(
         { success: false, error: error.message },
         { status: 500 }
       );
     }
-    
+
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }

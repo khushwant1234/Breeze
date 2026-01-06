@@ -29,7 +29,7 @@ const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  address: z.string().min(10, "Address must be at least 10 characters"),
+  rollNumber: z.string().min(3, "Roll number must be at least 3 characters"),
   college_status: z.string().min(6, "Invalid student details"),
   proofImage: z
     .instanceof(File, {
@@ -56,7 +56,7 @@ export function CheckoutForm({ amount }: CheckoutFormProps) {
       name: "",
       email: "",
       phone: "",
-      address: "",
+      rollNumber: "",
       college_status: "",
       proofImage: null,
     },
@@ -69,7 +69,7 @@ export function CheckoutForm({ amount }: CheckoutFormProps) {
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
-      formData.append("address", values.address);
+      formData.append("rollNumber", values.rollNumber);
       formData.append("college_status", values.college_status);
       formData.append("amount", amount.toString());
       if (values.proofImage) {
@@ -166,12 +166,12 @@ export function CheckoutForm({ amount }: CheckoutFormProps) {
 
             <FormField
               control={form.control}
-              name="address"
+              name="rollNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Shipping Address</FormLabel>
+                  <FormLabel>College Roll Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your full address" {...field} />
+                    <Input placeholder="e.g., 2024UCS1234" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

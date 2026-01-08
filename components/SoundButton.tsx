@@ -15,7 +15,7 @@ export default function SoundButton({ isPlaying, onToggle }: SoundButtonProps) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
   // ✅ LOCAL MP3 PLAYLIST (public/music)
-  const playlist = ["/music/1.mp3", "/music/2.mp3"];
+  const playlist = ["/music/FireFire.mp3", "/music/2.mp3"];
 
   // Wave animation physics
   const amplitude = useRef(0);

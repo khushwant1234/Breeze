@@ -45,7 +45,6 @@ export default function TransactionTable({
       event_price: number;
       event_org: string | null;
       event_venue: string | null;
-      event_time: string | null;
       event_date: string | null;
     }
   >;

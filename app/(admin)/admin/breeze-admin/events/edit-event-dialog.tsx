@@ -160,36 +160,19 @@ export function EditEventDialog({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label
-                className="text-sm font-semibold text-[#202020]"
-                htmlFor="event_date"
-              >
-                Date
-              </Label>
-              <Input
-                id="event_date"
-                name="event_date"
-                defaultValue={eventData.event_date || ""}
-                className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                className="text-sm font-semibold text-[#202020]"
-                htmlFor="event_time"
-              >
-                Time
-              </Label>
-              <Input
-                id="event_time"
-                name="event_time"
-                defaultValue={eventData.event_time || ""}
-                className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
-              />
-            </div>
+          <div className="space-y-2">
+            <Label
+              className="text-sm font-semibold text-[#202020]"
+              htmlFor="event_date"
+            >
+              Date
+            </Label>
+            <Input
+              id="event_date"
+              name="event_date"
+              defaultValue={eventData.event_date || ""}
+              className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+            />
           </div>
 
           <div className="flex gap-3 pt-4 border-t border-[#202020]/10">

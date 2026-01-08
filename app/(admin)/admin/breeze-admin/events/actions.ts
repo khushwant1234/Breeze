@@ -27,7 +27,6 @@ export async function updateEvent(eventId: string, formData: FormData) {
       event_venue: formData.get("event_venue"),
       event_date: formData.get("event_date"),
       event_org: formData.get("event_org"),
-      event_time: formData.get("event_time"),
       event_type: formData.get("event_type") as "Cultural" | "Technical",
     };
     await prisma.eventItem.update({
@@ -39,7 +38,6 @@ export async function updateEvent(eventId: string, formData: FormData) {
         event_org: eventData.event_org?.toString() || "",
         event_venue: eventData.event_venue?.toString() || "",
         event_date: eventData.event_date?.toString() || "",
-        event_time: eventData.event_time?.toString() || "",
         event_type: eventData.event_type,
       },
     });

@@ -15,7 +15,6 @@ const page = async ({
       event_name: true,
       event_description: true,
       event_price: true,
-      event_time: true,
       event_venue: true,
       event_org: true,
       event_date: true,

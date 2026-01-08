@@ -94,13 +94,6 @@ export default async function Page({
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
                 <h3 className="text-sm font-semibold text-[#ffbc00] mb-1">
-                  Time
-                </h3>
-                <p className="text-lg">{event.event_time}</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <h3 className="text-sm font-semibold text-[#ffbc00] mb-1">
                   Location
                 </h3>
                 <p className="text-lg">{event.event_venue}</p>

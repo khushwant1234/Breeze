@@ -55,7 +55,6 @@ export default function EventTable({
             <TableHead className="font-semibold">Price</TableHead>
             <TableHead className="font-semibold">Venue</TableHead>
             <TableHead className="font-semibold">Date</TableHead>
-            <TableHead className="font-semibold">Time</TableHead>
             <TableHead className="font-semibold">Registration</TableHead>
             <TableHead className="font-semibold">Actions</TableHead>
           </TableRow>
@@ -73,7 +72,6 @@ export default function EventTable({
                 <TableCell>₹{event.event_price}</TableCell>
                 <TableCell>{event.event_venue}</TableCell>
                 <TableCell>{event.event_date}</TableCell>
-                <TableCell>{event.event_time}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Switch
@@ -126,7 +124,7 @@ export default function EventTable({
           ) : (
             <TableRow>
               <TableCell
-                colSpan={8}
+                colSpan={7}
                 className="text-center text-muted-foreground py-8"
               >
                 No events found

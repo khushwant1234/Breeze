@@ -11,7 +11,6 @@ interface EventItem {
   event_description: string;
   event_price: number;
   event_org: string;
-  event_time: string;
   event_date: string;
   event_venue: string;
   image_url: string;
@@ -72,9 +71,6 @@ const BasicCards = ({ event }: { event: EventItem[] }) => {
                 <div className="flex flex-wrap gap-2 w-full ">
                   <p className="flex items-center">
                     <span className="mr-1">📅</span> {item.event_date}
-                  </p>
-                  <p className="flex items-center">
-                    <span className="mr-1">⏰</span> {item.event_time}
                   </p>
                 </div>
                 <p className="mt-0.5 flex items-center">

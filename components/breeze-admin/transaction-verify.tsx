@@ -44,7 +44,6 @@ export default function TransactionVerify({
       event_price: number;
       event_org: string | null;
       event_venue: string | null;
-      event_time: string | null;
       event_date: string | null;
     }
   >;

@@ -18,7 +18,6 @@ model EventItem {
   event_price         Int              @db.SmallInt
   event_org           String?
   event_venue         String?
-  event_time          String?
   event_date          String?
   image_url           String?
   event_type          event_category?

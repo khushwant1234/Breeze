@@ -37,12 +37,7 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
     return format(date, "MMM do yyyy");
   };
 
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(":");
-    const date = new Date();
-    date.setHours(parseInt(hours), parseInt(minutes));
-    return format(date, "h:mm a");
-  };
+
 
   async function handleSubmit(formData: FormData) {
     const posterFile = formData.get("event_poster") as File;
@@ -53,17 +48,12 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
     }
 
     const rawDate = formData.get("event_date") as string;
-    const rawTime = formData.get("event_time") as string;
-
     const formattedDate = formatDate(rawDate);
-    const formattedTime = formatTime(rawTime);
 
     const modifiedFormData = new FormData();
     formData.forEach((value, key) => {
       if (key === "event_date") {
         modifiedFormData.append(key, formattedDate);
-      } else if (key === "event_time") {
-        modifiedFormData.append(key, formattedTime);
       } else {
         modifiedFormData.append(key, value);
       }
@@ -170,30 +160,16 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-[#202020]">
-                  Date *
-                </label>
-                <Input
-                  type="date"
-                  name="event_date"
-                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-[#202020]">
-                  Time *
-                </label>
-                <Input
-                  type="time"
-                  name="event_time"
-                  className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
-                  required
-                />
-              </div>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-[#202020]">
+                Date *
+              </label>
+              <Input
+                type="date"
+                name="event_date"
+                className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                required
+              />
             </div>
 
             <div className="space-y-2">

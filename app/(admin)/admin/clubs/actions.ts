@@ -5,49 +5,47 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
 export async function createEvent(formData: FormData) {
-    try {
-      const supabase = await createClient();
-      const eventPoster = formData.get("event_poster") as File;
-      const {data, error} = await supabase.storage.from("assets").upload(`${Date.now()}_${eventPoster.name}`, eventPoster);
-      if (error) {
-        return { success: false, error: "Failed to upload image" };
-      }
-      
-      // Get the public URL for the uploaded image
-      const { data: publicUrlData } = supabase.storage.from("assets").getPublicUrl(data.path);
-      
-      const eventData = {
-        event_name: formData.get("event_name"),
-        event_description: formData.get("event_description"),
-        event_price: Number(formData.get("event_price")),
-        event_venue: formData.get("event_venue"),
-        event_date: formData.get("event_date"),
-        event_time: formData.get("event_time"),
-        event_org: formData.get("event_org"),
-        event_type: formData.get("event_type"),
-      };
-  
-      await prisma.eventItem.create({
-        data: {
-          event_name: eventData.event_name.toString(),
-          event_description: eventData.event_description.toString(),
-          event_price: eventData.event_price,
-          event_org: eventData.event_org.toString(),
-          event_date: eventData.event_date.toString(),
-          event_time: eventData.event_time.toString(),
-          event_venue: eventData.event_venue.toString(),
-          event_type: eventData.event_type as "Cultural" | "Technical",
-          image_url: publicUrlData.publicUrl,
-          registration_open: true
-        },
-      });
-      revalidatePath("/admin/clubs");
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: "Failed to create event" };
+  try {
+    const supabase = await createClient();
+    const eventPoster = formData.get("event_poster") as File;
+    const { data, error } = await supabase.storage.from("assets").upload(`${Date.now()}_${eventPoster.name}`, eventPoster);
+    if (error) {
+      return { success: false, error: "Failed to upload image" };
     }
+
+    // Get the public URL for the uploaded image
+    const { data: publicUrlData } = supabase.storage.from("assets").getPublicUrl(data.path);
+
+    const eventData = {
+      event_name: formData.get("event_name"),
+      event_description: formData.get("event_description"),
+      event_price: Number(formData.get("event_price")),
+      event_venue: formData.get("event_venue"),
+      event_date: formData.get("event_date"),
+      event_org: formData.get("event_org"),
+      event_type: formData.get("event_type"),
+    };
+
+    await prisma.eventItem.create({
+      data: {
+        event_name: eventData.event_name.toString(),
+        event_description: eventData.event_description.toString(),
+        event_price: eventData.event_price,
+        event_org: eventData.event_org.toString(),
+        event_date: eventData.event_date.toString(),
+        event_venue: eventData.event_venue.toString(),
+        event_type: eventData.event_type as "Cultural" | "Technical",
+        image_url: publicUrlData.publicUrl,
+        registration_open: true
+      },
+    });
+    revalidatePath("/admin/clubs");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Failed to create event" };
+  }
 }
-  
+
 export async function deleteEvent(eventId: string) {
   try {
     await prisma.eventItem.delete({
@@ -71,23 +69,21 @@ export async function updateEvent(eventId: string, formData: FormData) {
       event_venue: formData.get("event_venue"),
       event_date: formData.get("event_date"),
       event_org: formData.get("event_org"),
-      event_time: formData.get("event_time"),
       event_type: formData.get("event_type") as "Cultural" | "Technical",
     };
     await prisma.eventItem.update({
       where: { id: eventId },
-      data:  {
+      data: {
         event_name: eventData.event_name?.toString() || "",
         event_description: eventData.event_description?.toString() || "",
         event_price: eventData.event_price,
         event_org: eventData.event_org?.toString() || "",
         event_venue: eventData.event_venue?.toString() || "",
         event_date: eventData.event_date?.toString() || "",
-        event_time: eventData.event_time?.toString() || "",
         event_type: eventData.event_type,
       },
     });
-    
+
     revalidatePath("/admin/clubs");
     revalidatePath("/events");
     return { success: true };

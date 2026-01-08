@@ -1,5 +1,10 @@
 // next.config.js
 module.exports = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

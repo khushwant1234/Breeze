@@ -25,7 +25,7 @@ const Navbar = ({ className }: NavbarProps) => {
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     { name: "Events", href: "/events" },
-    { name: "Merch", href: "/merch" },
+    // { name: "Merch", href: "/merch" }, // Temporarily disabled
     { name: "Contact Us", href: "/get-in-touch" },
   ];
 

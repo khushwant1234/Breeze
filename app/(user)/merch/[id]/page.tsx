@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import ProductImage from "@/components/product/ProductImage";
 import ProductInfo from "@/components/product/ProductInfo";
 import Description from "@/components/product/Description";
@@ -8,6 +9,10 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // Temporarily redirect users away from merch pages
+  redirect("/");
+
+  /* Original merch/[id] page content - temporarily disabled
   const prod = await prisma.merchItem.findUnique({
     where: { id: (await params).id },
   });
@@ -30,8 +35,5 @@ export default async function Page({
       <Description description={prod.product_description} />
     </div>
   );
+  */
 }
-
-
-
-

@@ -68,13 +68,21 @@ export default function Footer({
     setHasMounted(true);
   }, []);
 
+  // Reset progress bar state when route changes
+  useEffect(() => {
+    setProgress(0);
+    setVisible(false);
+    setLoadingNext(false);
+    setBlurAmount(0);
+    overscrollAcc.current = 0;
+  }, [nextPage]);
+
   useEffect(() => {
     if (!hasMounted) return;
 
     const handleNavigation = () => {
       setLoadingNext(true);
-      sessionStorage.setItem("nextPageTarget", nextPage);
-      router.push("/loading");
+      router.push(nextPage);
     };
 
     const stopDecrease = () => {

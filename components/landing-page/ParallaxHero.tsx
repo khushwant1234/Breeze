@@ -218,53 +218,86 @@ export default function ParallaxHero() {
 
   const time = isClient ? timeLeft : calculateTimeLeft(targetDate);
 
-  // Timer component
+  // Timer component - Bold & Impactful Design
   const Timer = () => (
-    <div className="flex items-center font-audiowide text-white gap-3 md:gap-6">
+    <div className="flex items-center font-audiowide text-white gap-4 md:gap-8">
       <div className="flex flex-col items-center">
-        <span className="font-extrabold text-3xl md:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+        <span 
+          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          style={{ 
+            textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
+            letterSpacing: '0.05em'
+          }}
+        >
           {String(time.totalDays).padStart(2, "0")}
         </span>
-        <span className="text-xs md:text-lg lg:text-xl mt-1 tracking-wider">
+        <span className="text-sm md:text-lg lg:text-xl mt-2 tracking-[0.3em] font-bold uppercase opacity-90">
           Days
         </span>
       </div>
 
-      <span className="text-2xl md:text-4xl lg:text-5xl font-bold opacity-70">
+      <span 
+        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
+      >
         :
       </span>
 
       <div className="flex flex-col items-center">
-        <span className="font-extrabold text-3xl md:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+        <span 
+          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          style={{ 
+            textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
+            letterSpacing: '0.05em'
+          }}
+        >
           {String(time.hours).padStart(2, "0")}
         </span>
-        <span className="text-xs md:text-lg lg:text-xl mt-1 tracking-wider">
+        <span className="text-sm md:text-lg lg:text-xl mt-2 tracking-[0.3em] font-bold uppercase opacity-90">
           Hours
         </span>
       </div>
 
-      <span className="text-2xl md:text-4xl lg:text-5xl font-bold opacity-70">
+      <span 
+        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
+      >
         :
       </span>
 
       <div className="flex flex-col items-center">
-        <span className="font-extrabold text-3xl md:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+        <span 
+          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          style={{ 
+            textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
+            letterSpacing: '0.05em'
+          }}
+        >
           {String(time.minutes).padStart(2, "0")}
         </span>
-        <span className="text-xs md:text-lg lg:text-xl mt-1 tracking-wider">
+        <span className="text-sm md:text-lg lg:text-xl mt-2 tracking-[0.3em] font-bold uppercase opacity-90">
           Min
         </span>
       </div>
 
-      <span className="text-2xl md:text-4xl lg:text-5xl font-bold opacity-70">
+      <span 
+        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
+      >
         :
       </span>
 
       <div className="flex flex-col items-center">
-        <span className="font-extrabold text-3xl md:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+        <span 
+          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          style={{ 
+            textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
+            letterSpacing: '0.05em'
+          }}
+        >
           {String(time.seconds).padStart(2, "0")}
         </span>
-        <span className="text-xs md:text-lg lg:text-xl mt-1 tracking-wider">
+        <span className="text-sm md:text-lg lg:text-xl mt-2 tracking-[0.3em] font-bold uppercase opacity-90">
           Sec
         </span>
       </div>
@@ -330,10 +363,10 @@ export default function ParallaxHero() {
           </div>
         </div> */}
 
-        {/* Timer with Glass Effect */}
-        <div className="bg-black/20 backdrop-blur-md px-6 md:px-10 lg:px-12 py-6 md:py-8 lg:py-10 rounded-2xl border border-white/10 shadow-2xl">
+        {/* Timer - Clean Bold Design */}
+        <div className="px-6 md:px-10 lg:px-12 py-6 md:py-8 lg:py-10">
           <Timer />
-          <p className="text-white/70 text-xs md:text-sm text-center mt-4 tracking-wider">
+          <p className="text-white/80 text-sm md:text-base text-center mt-6 tracking-[0.3em] uppercase font-semibold">
             20th - 22nd Feb
           </p>
         </div>

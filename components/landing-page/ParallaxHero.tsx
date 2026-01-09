@@ -44,6 +44,14 @@ const LoadingScreen = ({
   const minLoadTime = 2000; // 2 seconds minimum
   const progressRef = useRef<number>(0);
 
+  // Prevent scrolling while loading
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   // Animate progress to 90% over 2 seconds
   useEffect(() => {
     const startTime = Date.now();
@@ -100,35 +108,39 @@ const LoadingScreen = ({
   }, [canComplete, isVideoLoaded, onLoadingComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div className="fixed inset-0 z-[100] overflow-hidden">
       {/* Top half */}
       <div
         className="absolute top-0 left-0 right-0 h-1/2 flex items-end justify-center z-10"
         style={{
-          backgroundColor: "#8200C1",
+          backgroundColor: "rgb(44, 9, 73)",
           transform: isExiting ? "translateY(-100%)" : "translateY(0)",
           transition: "transform 0.8s ease-in-out",
         }}
       >
         {/* Progress bar on bottom edge of top half (visible when not exiting) */}
         {!isExiting && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-80 md:w-96 z-20">
-            {/* Border container */}
-            <div className="border-2 border-white p-[4px] rounded-sm">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[80vw] max-w-4xl z-20">
+            {/* Border container with glow */}
+            <div 
+              className="border-2 border-white p-[4px] rounded-sm"
+              style={{ boxShadow: '0 0 20px rgba(255,255,255,0.3)' }}
+            >
               {/* Inner track with gap */}
-              <div className="h-4 md:h-5 bg-transparent rounded-[2px] overflow-hidden">
+              <div className="h-5 md:h-6 bg-transparent rounded-[2px] overflow-hidden">
                 {/* Progress fill */}
                 <div
                   className="h-full bg-white rounded-[1px]"
                   style={{
                     width: `${progress}%`,
                     transition: "width 50ms linear",
+                    boxShadow: '0 0 10px rgba(255,255,255,0.5)',
                   }}
                 />
               </div>
             </div>
             {/* Percentage text */}
-            <p className="text-white text-center text-sm md:text-base mt-3 font-medium">
+            <p className="text-white text-center text-base md:text-lg mt-4 font-bold tracking-wider">
               {Math.round(progress)}%
             </p>
           </div>
@@ -139,7 +151,7 @@ const LoadingScreen = ({
       <div
         className="absolute bottom-0 left-0 right-0 h-1/2"
         style={{
-          backgroundColor: "#8200C1",
+          backgroundColor: "rgb(44, 9, 73)",
           transform: isExiting ? "translateY(100%)" : "translateY(0)",
           transition: "transform 0.8s ease-in-out",
         }}

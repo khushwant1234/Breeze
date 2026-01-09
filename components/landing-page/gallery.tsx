@@ -182,10 +182,10 @@ export default function Gallery() {
           </motion.div>
         </FloatingElement>
 
-        {/* Second row */}
+        {/* img-9 positioned near img-2 */}
         <FloatingElement
           depth={1.8}
-          className="top-[30%] left-[5%] md:top-[28%] md:left-[8%]"
+          className="top-[12%] left-[18%] md:top-[8%] md:left-[20%]"
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
@@ -197,10 +197,10 @@ export default function Gallery() {
             />
           </motion.div>
         </FloatingElement>
-
+        {/* img-10 positioned near img-3 */}
         <FloatingElement
           depth={0.6}
-          className="top-[28%] left-[78%] md:top-[32%] md:left-[85%]"
+          className="top-[14%] left-[52%] md:top-[10%] md:left-[48%]"
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
@@ -243,30 +243,30 @@ export default function Gallery() {
             />
           </motion.div>
         </FloatingElement>
-
+        {/* img-11 positioned near img-8 */}
         <FloatingElement
           depth={1.0}
-          className="top-[60%] left-[3%] md:top-[55%] md:left-[5%]"
+          className="top-[72%] left-[52%] md:top-[65%] md:left-[48%]"
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[0].url}
-              alt={galleryImages[0].title}
+              src={galleryImages[10].url}
+              alt={galleryImages[10].title}
               width={240}
               height={300}
               className="w-28 h-36 md:w-44 md:h-56 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
             />
           </motion.div>
         </FloatingElement>
-
+        {/* img-12 positioned near img-13 */}
         <FloatingElement
           depth={2.2}
-          className="top-[62%] left-[75%] md:top-[58%] md:left-[80%]"
+          className="top-[75%] left-[22%] md:top-[70%] md:left-[25%]"
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[1].url}
-              alt={galleryImages[1].title}
+              src={galleryImages[11].url}
+              alt={galleryImages[11].title}
               width={220}
               height={220}
               className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
@@ -296,8 +296,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[2].url}
-              alt={galleryImages[2].title}
+              src={galleryImages[12].url}
+              alt={galleryImages[12].title}
               width={260}
               height={200}
               className="w-32 h-24 md:w-48 md:h-36 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"
@@ -326,8 +326,8 @@ export default function Gallery() {
         >
           <motion.div className="gallery-image" initial={{ opacity: 0 }}>
             <Image
-              src={galleryImages[3].url}
-              alt={galleryImages[3].title}
+              src={galleryImages[13].url}
+              alt={galleryImages[13].title}
               width={280}
               height={220}
               className="w-36 h-28 md:w-52 md:h-40 object-cover rounded-xl shadow-2xl hover:scale-105 duration-200 cursor-pointer transition-transform"

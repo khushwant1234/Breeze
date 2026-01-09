@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import ParallaxHero from "../../components/landing-page/ParallaxHero";
 import Sponsorship from "../../components/landing-page/sponsorship";
@@ -9,6 +9,11 @@ import "../globals.css";
 import StatsSection from "../../components/landing-page/StatsSection";
 
 export default function Home(): React.ReactElement {
+  // Scroll to top on page load/refresh
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <main className="min-h-screen bg-black text-white relative w-full overflow-x-hidden">
       {/* Hero Section with Parallax and Timer */}

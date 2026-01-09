@@ -264,48 +264,47 @@ export default function Footer({
       <footer
         ref={footerRef}
         id="contact"
-        className={`relative w-full h-auto md:min-h-[70vh] flex flex-col justify-center overflow-hidden z-30 scroll-mt-[90px] ${className}`}
+        className={`relative w-full min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center overflow-hidden z-30 scroll-mt-[90px] ${className}`}
         style={{ background: "linear-gradient(to top, #2a003e 0%, #000 100%)" }}
       >
-        {/* Full Height Dotted Line (Desktop) */}
-        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px border-l-2 border-dotted border-white/20 -translate-x-1/2 z-0 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-12 md:py-20 z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-            {/* Left Section */}
-            <div className="flex flex-col items-center md:items-end text-center md:text-right justify-center space-y-8 md:space-y-12">
-              <div className="order-1 space-y-2 opacity-80">
-                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-white">
+        <div className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 lg:py-20 z-10">
+          <div className="flex flex-col gap-12 md:gap-16">
+            {/* Row 1: Tagline + Get In Touch */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
+              <div className="space-y-0.5 md:space-y-1">
+                <p className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
                   The Flagship Techno
                 </p>
-                <p className="text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.4em] uppercase text-white">
+                <p className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
                   Cultural Fest of SNU
                 </p>
               </div>
 
-              <div className="order-2 w-48 md:w-full max-w-[300px] md:max-w-[400px] aspect-video relative translate-x-4 md:translate-x-8">
+              <a
+                href="/get-in-touch"
+                className="inline-block hover:opacity-80 transition-opacity"
+              >
+                <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white uppercase tracking-wider hover:text-purple-300 transition-colors">
+                  Get In Touch →
+                </span>
+              </a>
+            </div>
+
+            {/* Row 2: Logo + Find Us At */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
+              <div className="w-40 sm:w-52 md:w-64 lg:w-80 h-12 sm:h-14 md:h-16 lg:h-20 relative">
                 <Image
                   src={heroimg}
                   alt="Breeze Logo"
                   fill
-                  className="object-contain"
+                  className="object-contain object-left"
                 />
               </div>
-            </div>
 
-            {/* Right Section */}
-            <div className="border-t-2 border-dotted border-white/20 md:border-0 h-full pt-10 md:pt-0 pl-0 md:pl-16 flex flex-col justify-center space-y-12 md:space-y-16">
-              <div className="space-y-8">
-                <a
-                  href="/get-in-touch"
-                  className="inline-block hover:opacity-80 transition-opacity"
-                >
-                  <BracketHeader text="Get In Touch" />
-                </a>
-              </div>
-
-              <div className="space-y-8">
-                <BracketHeader text="Find Us At" />
+              <div className="flex flex-col items-start md:items-end space-y-3 md:space-y-4">
+                <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white uppercase tracking-wider">
+                  Find Us At
+                </span>
                 <SocialLinks />
               </div>
             </div>

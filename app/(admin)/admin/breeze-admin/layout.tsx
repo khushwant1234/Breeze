@@ -39,6 +39,12 @@ export default function AdminLayout({
           >
             Manage Events
           </Link>
+          <Link
+            href="/admin/breeze-admin/contact"
+            className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+          >
+            Contact Submissions
+          </Link>
         </nav>
         <div className="p-4 border-t border-gray-200">
           <Button

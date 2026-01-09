@@ -72,14 +72,14 @@ export async function POST(req: NextRequest) {
           });
 
           await transporter.sendMail({
-            from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2025"}" <${process.env.EMAIL_FROM}>`,
+            from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2026"}" <${process.env.EMAIL_FROM}>`,
             to: transaction.email,
-            subject: "Payment Rejected - Breeze 2025",
+            subject: "Payment Rejected - Breeze 2026",
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2 style="color: #dc2626;">Payment Request Rejected</h2>
                 <p>Dear ${transaction.name},</p>
-                <p>Your payment request for Breeze 2025 has been rejected.</p>
+                <p>Your payment request for Breeze 2026 has been rejected.</p>
                 
                 <div style="background-color: #fee2e2; border-left: 4px solid #dc2626; padding: 15px; margin: 20px 0;">
                   <strong>Rejection Reason:</strong>
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
                 
                 <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
                 <p style="color: #6b7280; font-size: 12px;">
-                  Breeze 2025 - Annual Cultural & Technical Festival<br>
+                  Breeze 2026 - Annual Cultural & Technical Festival<br>
                   This is an automated email. Please do not reply directly to this message.
                 </p>
               </div>
@@ -194,20 +194,20 @@ export async function POST(req: NextRequest) {
         });
 
         const receiptUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reciept/${transaction.token}`;
-        
+
         await transporter.sendMail({
-          from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2025"}" <${process.env.EMAIL_FROM}>`,
+          from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2026"}" <${process.env.EMAIL_FROM}>`,
           to: transaction.email,
-          subject: "Payment Approved - Breeze 2025 Registration Confirmed! 🎉",
+          subject: "Payment Approved - Breeze 2026 Registration Confirmed! 🎉",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #16a34a;">Payment Approved!</h2>
               <p>Dear ${transaction.name},</p>
-              <p>Congratulations! Your payment for Breeze 2025 has been approved and your registration is confirmed.</p>
+              <p>Congratulations! Your payment for Breeze 2026 has been approved and your registration is confirmed.</p>
               
               <div style="background-color: #dcfce7; border-left: 4px solid #16a34a; padding: 15px; margin: 20px 0;">
                 <strong>✓ Registration Confirmed</strong>
-                <p style="margin: 5px 0 0 0;">You're all set for Breeze 2025!</p>
+                <p style="margin: 5px 0 0 0;">You're all set for Breeze 2026!</p>
               </div>
               
               <p><strong>Transaction Details:</strong></p>
@@ -226,11 +226,11 @@ export async function POST(req: NextRequest) {
               
               <p>Please keep this email for your records. You can access your receipt at any time using the link above.</p>
               
-              <p>We look forward to seeing you at Breeze 2025!</p>
+              <p>We look forward to seeing you at Breeze 2026!</p>
               
               <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
               <p style="color: #6b7280; font-size: 12px;">
-                Breeze 2025 - Annual Cultural & Technical Festival<br>
+                Breeze 2026 - Annual Cultural & Technical Festival<br>
                 For any queries, contact us at ${process.env.EMAIL_FROM}
               </p>
             </div>

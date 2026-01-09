@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: "Checkout - Breeze '25",
+  title: "Checkout - Breeze '26",
   description: "Checkout Page for Transactions",
 };
 

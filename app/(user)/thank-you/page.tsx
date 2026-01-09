@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Thank You - Breeze '25",
+  title: "Thank You - Breeze '26",
 };
 
 export default function Page() {

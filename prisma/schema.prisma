@@ -115,3 +115,13 @@ enum accommodation_option {
   DAY2
   DAY3
 }
+
+/// Contact form submissions from the Get In Touch page
+model ContactSubmission {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  name       String
+  email      String
+  phone      String
+  message    String
+}

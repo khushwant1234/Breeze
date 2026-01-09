@@ -48,6 +48,26 @@ const galleryImages = [
     url: "/gallery/img-10.jpeg",
     title: "Breeze 10",
   },
+  {
+    url: "/gallery/img-11.jpeg",
+    title: "Breeze 11",
+  },
+  {
+    url: "/gallery/img-12.jpeg",
+    title: "Breeze 12",
+  },
+  {
+    url: "/gallery/img-13.jpeg",
+    title: "Breeze 13",
+  },
+  {
+    url: "/gallery/img-14.jpeg",
+    title: "Breeze 14",
+  },
+  {
+    url: "/gallery/img-15.jpeg",
+    title: "Breeze 15",
+  },
 ];
 
 export default function Gallery() {

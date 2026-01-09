@@ -76,7 +76,7 @@ const page = async ({
   });
   return (
     <div className="relative">
-      <title>Events - Breeze '25</title>
+      <title>Events - Breeze '26</title>
 
       <div className="relative w-full">
         <Image
@@ -94,7 +94,7 @@ const page = async ({
           <p
             className={`font-urban-vogue text-white text-2xl md:text-4xl lg:text-5xl text-left mb-2 md:mb-4`}
           >
-            11th-13th February
+            20th-22nd February
           </p>
           <p
             className={`font-different-beginning italic text-white text-7xl md:text-9xl lg:text-[12rem] -mt-2 md:-mt-4 text-bottom`}

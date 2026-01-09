@@ -4,7 +4,7 @@ import React from "react";
 import ParallaxHero from "../../components/landing-page/ParallaxHero";
 import Sponsorship from "../../components/landing-page/sponsorship";
 import AfterMovie from "../../components/landing-page/aftermovie";
-import GalleryV2 from "../../components/landing-page/gallery-v2";
+import Gallery from "../../components/landing-page/gallery";
 import "../globals.css";
 import StatsSection from "../../components/landing-page/StatsSection";
 
@@ -43,7 +43,7 @@ export default function Home(): React.ReactElement {
           </div>
         </div>
 
-        <GalleryV2 />
+        <Gallery />
         <AfterMovie />
       </div>
     </main>

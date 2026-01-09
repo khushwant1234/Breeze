@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata = {
-  title: "Sponsors - Breeze '25",
-  description: "Sponsors of Breeze '25",
+  title: "Sponsors - Breeze '26",
+  description: "Sponsors of Breeze '26",
 };
 
 const Sponsors = () => {

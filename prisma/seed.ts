@@ -89,7 +89,7 @@ async function main() {
   const merch1 = await prisma.merchItem.create({
     data: {
       product_name: "Test Breeze T-Shirt",
-      product_description: "Test merchandise - Official Breeze 2025 T-shirt for testing",
+      product_description: "Test merchandise - Official Breeze 2026 T-shirt for testing",
       product_price: 400,
       image_url: "https://via.placeholder.com/400x400?text=Test+T-Shirt",
     },

@@ -6,7 +6,7 @@ import Question from "@/components/get_in_touch/form-questions";
 export default function Home() {
   return (
     <div className="bg-background">
-      <title>Team - Breeze '25</title>
+      <title>Team - Breeze '26</title>
       <div className="pt-16 px-8 md:pt-20 xl:pt-24">
         <Header />
       </div>

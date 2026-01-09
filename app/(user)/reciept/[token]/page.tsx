@@ -3,7 +3,7 @@ import { accommodation_option } from "@prisma/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Receipt - Breeze '25",
+  title: "Receipt - Breeze '26",
 };
 type CartItem = {
   [key: string]: {

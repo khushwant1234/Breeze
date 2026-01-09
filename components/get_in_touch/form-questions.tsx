@@ -39,7 +39,24 @@ export default function Question() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    try {
+      // Save to database
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          message: data.description,
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to save contact form:", error);
+    }
+
+    // Open mailto link
     const mailtoLink = `mailto:breeze@snu.edu.in?subject=Contact%20Form%20Submission&body=${encodeURIComponent(
       `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nDescription: ${data.description}`
     )}`;
@@ -61,7 +78,7 @@ export default function Question() {
       </div>
 
       {/* Right Section - Form */}
-      <div className="w-full lg:w-1/2 flex items-center lg:items-start justify-center lg:pl-12">
+      <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start justify-center lg:pl-12">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -159,6 +176,17 @@ export default function Question() {
             </div>
           </form>
         </Form>
+
+        {/* Tagline Section */}
+        <div className="w-full max-w-lg mt-10 text-center lg:text-left">
+          <p className="text-white/90 text-base md:text-lg leading-relaxed">
+            Let's create something unforgettable.
+            <br />
+            From ideas to collaborations and everything in between — drop us a message and be part of the energy behind
+            <br />
+            <span className="font-bold text-yellow-400">BREEZE'26: Neon Nirvana.</span>
+          </p>
+        </div>
       </div>
     </div>
   );

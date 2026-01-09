@@ -117,14 +117,14 @@ export async function POST(req: NextRequest) {
         });
 
         await transporter.sendMail({
-          from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2025"}" <${process.env.EMAIL_FROM}>`,
+          from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2026"}" <${process.env.EMAIL_FROM}>`,
           to: validatedData.email,
-          subject: "Registration Submitted - Pending Approval | Breeze 2025",
+          subject: "Registration Submitted - Pending Approval | Breeze 2026",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #2563eb;">Registration Submitted Successfully!</h2>
               <p>Dear ${validatedData.name},</p>
-              <p>Thank you for submitting your registration for Breeze 2025. We have received your payment details and they are currently under review.</p>
+              <p>Thank you for submitting your registration for Breeze 2026. We have received your payment details and they are currently under review.</p>
               
               <div style="background-color: #dbeafe; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
                 <strong>⏳ Pending Approval</strong>
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
               
               <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
               <p style="color: #6b7280; font-size: 12px;">
-                Breeze 2025 - Annual Cultural & Technical Festival<br>
+                Breeze 2026 - Annual Cultural & Technical Festival<br>
                 This is an automated confirmation email.
               </p>
             </div>

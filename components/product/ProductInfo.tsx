@@ -18,7 +18,7 @@ const ProductInfo = ({
     <div className="w-full sm:w-1/2 p-6 mx-auto space-y-8 sm:mt-5">
       <div className="flex items-center space-x-3 sm:mt-10">
         <div className="w-10 h-10 bg-gray-300 rounded-full shadow-md"></div>
-        <h2 className="text-gray-700 font-medium text-lg tracking-wide">BREEZE 2025</h2>
+        <h2 className="text-gray-700 font-medium text-lg tracking-wide">BREEZE 2026</h2>
       </div>
 
       <h1 className="text-black text-2xl sm:text-4xl font-bold leading-tight">{name}</h1>

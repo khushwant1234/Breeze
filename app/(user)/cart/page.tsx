@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import CartDisplay from "@/components/cart/CartDisplay";
 
 export const metadata = {
-  title: "Cart - Breeze '25",
+  title: "Cart - Breeze '26",
   description: "Your Shopping Cart",
 };
 

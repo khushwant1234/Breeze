@@ -37,8 +37,8 @@ const page = async ({
 
   return (
     <div className="pt-20">
-      <title>Technical Events - Breeze '25</title>
-      <Heading2 content="Here's all the technical events Breeze 25' has in store for you" />
+      <title>Technical Events - Breeze '26</title>
+      <Heading2 content="Here's all the technical events Breeze 26' has in store for you" />
 
       <div className="m-10 mt-0">
         <div className="flex justify-center py-10">

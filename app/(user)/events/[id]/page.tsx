@@ -23,7 +23,7 @@ export default async function Page({
 
   return (
     <div className="min-h-screen py-20 md:py-32 px-4 sm:px-8 lg:px-16">
-      <title>{event.event_name + " - Breeze '25"}</title>
+      <title>{event.event_name + " - Breeze '26"}</title>
 
       <div className="max-w-7xl mx-auto">
         {/* Event Name */}

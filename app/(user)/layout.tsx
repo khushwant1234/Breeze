@@ -3,8 +3,8 @@ import ClientLayout from "./ClientLayout";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Home - Breeze '25",
-  description: "Breeze 2025 Homepage",
+  title: "Home - Breeze '26",
+  description: "Breeze 2026 Homepage",
 };
 
 export default function Layout({

@@ -232,10 +232,10 @@ export default function ParallaxHero() {
 
   // Timer component - Bold & Impactful Design
   const Timer = () => (
-    <div className="flex items-center font-audiowide text-white gap-4 md:gap-8">
+    <div className="flex items-center font-audiowide text-white gap-2 sm:gap-4 md:gap-8">
       <div className="flex flex-col items-center">
         <span 
-          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          className="font-black text-3xl sm:text-5xl md:text-7xl lg:text-9xl"
           style={{ 
             textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
             letterSpacing: '0.05em'
@@ -249,7 +249,7 @@ export default function ParallaxHero() {
       </div>
 
       <span 
-        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-4 sm:-mt-6"
         style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
       >
         :
@@ -257,7 +257,7 @@ export default function ParallaxHero() {
 
       <div className="flex flex-col items-center">
         <span 
-          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          className="font-black text-3xl sm:text-5xl md:text-7xl lg:text-9xl"
           style={{ 
             textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
             letterSpacing: '0.05em'
@@ -271,7 +271,7 @@ export default function ParallaxHero() {
       </div>
 
       <span 
-        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-4 sm:-mt-6"
         style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
       >
         :
@@ -279,7 +279,7 @@ export default function ParallaxHero() {
 
       <div className="flex flex-col items-center">
         <span 
-          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          className="font-black text-3xl sm:text-5xl md:text-7xl lg:text-9xl"
           style={{ 
             textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
             letterSpacing: '0.05em'
@@ -293,7 +293,7 @@ export default function ParallaxHero() {
       </div>
 
       <span 
-        className="text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-6"
+        className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-black opacity-60 -mt-4 sm:-mt-6"
         style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}
       >
         :
@@ -301,7 +301,7 @@ export default function ParallaxHero() {
 
       <div className="flex flex-col items-center">
         <span 
-          className="font-black text-5xl md:text-7xl lg:text-9xl"
+          className="font-black text-3xl sm:text-5xl md:text-7xl lg:text-9xl"
           style={{ 
             textShadow: '0 0 40px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.5)',
             letterSpacing: '0.05em'

@@ -4,7 +4,7 @@ import DropDown from "@/components/events/DropDown";
 const Heading2 = ({content}: {content: string}) => {
   return (
     <div>
-        <div className="flex flex-col justify-center items-center pt-[3vw]">
+        <div className="flex flex-col justify-center items-center pt-[3vw] text-center">
           <h2 className="text-[17px] sm:text-[2.5vw] lg:text-[1.8vw] font-medium">
             BREEZE 2026 EVENTS
           </h2>

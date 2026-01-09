@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/pagination";
 
 const BottomButtons = ({ currentPage, totalItems}) => {
-  const totalPages = Math.ceil(totalItems/8);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const getPaginationItems = () => {
     const items = [];
     for (let i = 1; i <= totalPages; i++) {

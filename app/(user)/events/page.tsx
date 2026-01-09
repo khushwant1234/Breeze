@@ -78,13 +78,12 @@ const page = async ({
     <div className="relative">
       <title>Events - Breeze '26</title>
 
-      <div className="relative w-full">
+      <div className="relative w-full h-[25vh] md:h-[60vh] lg:h-[70vh]">
         <Image
           src="/events-header.png"
           alt="Events Header"
-          width={1920}
-          height={1080}
-          className="w-full h-auto block"
+          fill
+          className="object-cover object-top"
           priority
         />
         {/* Black tint overlay */}

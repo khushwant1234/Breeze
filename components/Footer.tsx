@@ -272,10 +272,10 @@ export default function Footer({
             {/* Row 1: Tagline + Get In Touch */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
               <div className="space-y-0.5 md:space-y-1">
-                <p className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
+                <p className="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
                   The Flagship Techno
                 </p>
-                <p className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
+                <p className="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/80 font-medium">
                   Cultural Fest of SNU
                 </p>
               </div>

@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { useState } from "react";
+
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -23,44 +25,46 @@ const formSchema = z.object({
   phone: z.string().min(10, {
     message: "Phone number must be at least 10 digits.",
   }),
-  description: z.string().min(10, {
-    message: "Description must be at least 2 characters.",
+  message: z.string().min(2, {
+    message: "Message must be at least 2 characters.",
   }),
 });
 
 export default function Question() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
-      description: "",
+      message: "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
       // Save to database
-      await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.name,
           email: data.email,
           phone: data.phone,
-          message: data.description,
+          message: data.message,
         }),
       });
+
+      if (response.ok) {
+        // Reset form and show success message
+        form.reset();
+        setIsSubmitted(true);
+      }
     } catch (error) {
       console.error("Failed to save contact form:", error);
     }
-
-    // Open mailto link
-    const mailtoLink = `mailto:breeze@snu.edu.in?subject=Contact%20Form%20Submission&body=${encodeURIComponent(
-      `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nDescription: ${data.description}`
-    )}`;
-    window.location.href = mailtoLink;
   };
 
   return (
@@ -79,6 +83,24 @@ export default function Question() {
 
       {/* Right Section - Form */}
       <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start justify-center lg:pl-12">
+        {isSubmitted ? (
+          <div className="w-full max-w-lg space-y-6 text-center lg:text-left">
+            <div className="bg-green-500/20 border-2 border-green-500 rounded-lg p-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-green-400 mb-3">
+                Message Sent Successfully!
+              </h2>
+              <p className="text-white/80 text-lg">
+                Thank you for reaching out. We'll get back to you soon.
+              </p>
+            </div>
+            <button
+              onClick={() => setIsSubmitted(false)}
+              className="text-yellow-400 hover:text-yellow-300 underline text-lg transition-colors"
+            >
+              Send another message
+            </button>
+          </div>
+        ) : (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -145,10 +167,10 @@ export default function Question() {
                 </FormItem>
               )}
             />
-            {/* Description Field */}
+            {/* Message Field */}
             <FormField
               control={form.control}
-              name="description"
+              name="message"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white text-base uppercase tracking-wider mb-1">
@@ -176,6 +198,7 @@ export default function Question() {
             </div>
           </form>
         </Form>
+        )}
 
         {/* Tagline Section */}
         <div className="w-full max-w-lg mt-10 text-center lg:text-left">

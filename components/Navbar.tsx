@@ -80,10 +80,10 @@ const Navbar = ({ className }: NavbarProps) => {
         <Link href="/" className="-my-3">
           <Image
             src={heroimg}
-            className="md:w-[90px] md:h-[50px] w-[60px] h-[40px] object-contain"
+            className="md:w-[120px] md:h-[65px] w-[80px] h-[50px] object-contain"
             alt="Breeze Logo"
-            width={100}
-            height={100}
+            width={120}
+            height={65}
           />
         </Link>
 

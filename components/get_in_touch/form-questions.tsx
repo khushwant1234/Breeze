@@ -70,7 +70,7 @@ export default function Question() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row px-6 md:px-12 lg:px-20 pt-20 pb-4 lg:pt-24 lg:pb-0 overflow-hidden">
       {/* Left Section - CONTACT US */}
-      <div className="w-full lg:w-1/2 flex items-center lg:items-start justify-center lg:justify-start py-4 lg:py-0">
+      <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start justify-center lg:justify-start py-4 lg:py-0">
         <h1
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none text-center lg:text-left"
           style={{ color: "#FF6F00" }}
@@ -79,6 +79,15 @@ export default function Question() {
           <br />
           US
         </h1>
+        
+        {/* Tagline Section */}
+        <p className="mt-6 md:mt-8 text-white/90 text-base md:text-lg leading-relaxed text-center lg:text-left max-w-md">
+          Let's create something unforgettable.
+          <br />
+          From ideas to collaborations and everything in between drop us a message and be part of the energy behind
+          <br />
+          <span className="font-bold text-yellow-400">BREEZE'26: Neon Nirvana.</span>
+        </p>
       </div>
 
       {/* Right Section - Form */}
@@ -199,17 +208,6 @@ export default function Question() {
           </form>
         </Form>
         )}
-
-        {/* Tagline Section */}
-        <div className="w-full max-w-lg mt-10 text-center lg:text-left">
-          <p className="text-white/90 text-base md:text-lg leading-relaxed">
-            Let's create something unforgettable.
-            <br />
-            From ideas to collaborations and everything in between — drop us a message and be part of the energy behind
-            <br />
-            <span className="font-bold text-yellow-400">BREEZE'26: Neon Nirvana.</span>
-          </p>
-        </div>
       </div>
     </div>
   );

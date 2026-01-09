@@ -292,7 +292,7 @@ export default function Footer({
 
             {/* Row 2: Logo + Find Us At */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
-              <div className="w-40 sm:w-52 md:w-64 lg:w-80 h-12 sm:h-14 md:h-16 lg:h-20 relative">
+              <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-10 sm:h-11 md:h-12 lg:h-14 relative">
                 <Image
                   src={heroimg}
                   alt="Breeze Logo"

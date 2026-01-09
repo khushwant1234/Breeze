@@ -9,6 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface ContactSubmission {
   id: string;
@@ -22,6 +29,7 @@ interface ContactSubmission {
 export default function ContactSubmissionsPage() {
   const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSubmission, setSelectedSubmission] = useState<ContactSubmission | null>(null);
 
   useEffect(() => {
     fetchSubmissions();
@@ -62,7 +70,8 @@ export default function ContactSubmissionsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
-                <TableHead className="max-w-md">Message</TableHead>
+                <TableHead>Message</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -87,8 +96,17 @@ export default function ContactSubmissionsPage() {
                     </a>
                   </TableCell>
                   <TableCell>{submission.phone}</TableCell>
-                  <TableCell className="max-w-md truncate">
+                  <TableCell className="max-w-[200px] truncate">
                     {submission.message}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedSubmission(submission)}
+                    >
+                      View Full
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -96,6 +114,43 @@ export default function ContactSubmissionsPage() {
           </Table>
         </div>
       )}
+
+      {/* Full Message Dialog */}
+      <Dialog open={!!selectedSubmission} onOpenChange={() => setSelectedSubmission(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Message from {selectedSubmission?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm text-gray-500">Email</p>
+              <p className="font-medium">{selectedSubmission?.email}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Phone</p>
+              <p className="font-medium">{selectedSubmission?.phone}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Message</p>
+              <p className="whitespace-pre-wrap bg-gray-50 p-3 rounded-lg">
+                {selectedSubmission?.message}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Submitted</p>
+              <p className="font-medium">
+                {selectedSubmission && new Date(selectedSubmission.created_at).toLocaleDateString("en-IN", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -15,6 +15,8 @@ interface EventItem {
   event_venue: string;
   image_url: string;
   registration_open?: boolean;
+  event_end_date?: string | null;
+  event_pair_price?: number | null;
 }
 
 const BasicCards = ({ event }: { event: EventItem[] }) => {
@@ -60,9 +62,16 @@ const BasicCards = ({ event }: { event: EventItem[] }) => {
                 <p className="text-lg h-14 max-h-14 text-muted-foreground font-medium line-clamp-2">
                   {item.event_org}
                 </p>
-                <p className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
-                  {item.event_price === 0 ? "FREE" : `₹${item.event_price}`}
-                </p>
+                <div className="flex flex-col items-end">
+                  <p className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                    {item.event_price === 0 ? "FREE" : `₹${item.event_price}`}
+                  </p>
+                  {item.event_pair_price && (
+                    <span className="text-xs text-muted-foreground mt-1">
+                      Pair: ₹{item.event_pair_price}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="text-xl h-14 max-h-14 font-bold line-clamp-2">
                 {item.event_name}
@@ -70,7 +79,9 @@ const BasicCards = ({ event }: { event: EventItem[] }) => {
               <div className="text-sm text-muted-foreground">
                 <div className="flex flex-wrap gap-2 w-full ">
                   <p className="flex items-center">
-                    <span className="mr-1">📅</span> {item.event_date}
+                    <span className="mr-1">📅</span> 
+                    {item.event_date}
+                    {item.event_end_date && ` - ${item.event_end_date}`}
                   </p>
                 </div>
                 <p className="mt-0.5 flex items-center">

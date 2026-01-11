@@ -24,6 +24,8 @@ export async function createEvent(formData: FormData) {
       event_date: formData.get("event_date"),
       event_org: formData.get("event_org"),
       event_type: formData.get("event_type"),
+      event_end_date: formData.get("event_end_date") || null,
+      event_pair_price: formData.get("event_pair_price") ? Number(formData.get("event_pair_price")) : null,
     };
 
     await prisma.eventItem.create({
@@ -36,7 +38,9 @@ export async function createEvent(formData: FormData) {
         event_venue: eventData.event_venue.toString(),
         event_type: eventData.event_type as "Cultural" | "Technical",
         image_url: publicUrlData.publicUrl,
-        registration_open: true
+        registration_open: true,
+        event_end_date: eventData.event_end_date?.toString() || null,
+        event_pair_price: eventData.event_pair_price,
       },
     });
     revalidatePath("/admin/clubs");
@@ -70,6 +74,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
       event_date: formData.get("event_date"),
       event_org: formData.get("event_org"),
       event_type: formData.get("event_type") as "Cultural" | "Technical",
+      event_end_date: formData.get("event_end_date") || null,
+      event_pair_price: formData.get("event_pair_price") ? Number(formData.get("event_pair_price")) : null,
     };
     await prisma.eventItem.update({
       where: { id: eventId },
@@ -81,6 +87,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
         event_venue: eventData.event_venue?.toString() || "",
         event_date: eventData.event_date?.toString() || "",
         event_type: eventData.event_type,
+        event_end_date: eventData.event_end_date?.toString() || null,
+        event_pair_price: eventData.event_pair_price,
       },
     });
 

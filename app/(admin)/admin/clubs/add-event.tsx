@@ -21,6 +21,8 @@ import { createEvent } from "./actions";
 export default function AddEvent({ curr_club }: { curr_club: Roles }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const [isMultiDay, setIsMultiDay] = useState(false);
+  const [hasPairPricing, setHasPairPricing] = useState(false);
   const router = useRouter();
 
   const MAX_FILE_SIZE = 4 * 1024 * 1024; // 5MB in bytes
@@ -50,10 +52,16 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
     const rawDate = formData.get("event_date") as string;
     const formattedDate = formatDate(rawDate);
 
+    // Handle end date for multi-day events
+    const rawEndDate = formData.get("event_end_date") as string;
+    const formattedEndDate = rawEndDate ? formatDate(rawEndDate) : null;
+
     const modifiedFormData = new FormData();
     formData.forEach((value, key) => {
       if (key === "event_date") {
         modifiedFormData.append(key, formattedDate);
+      } else if (key === "event_end_date" && formattedEndDate) {
+        modifiedFormData.append(key, formattedEndDate);
       } else {
         modifiedFormData.append(key, value);
       }
@@ -162,7 +170,7 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-[#202020]">
-                Date *
+                Start Date *
               </label>
               <Input
                 type="date"
@@ -170,6 +178,72 @@ export default function AddEvent({ curr_club }: { curr_club: Roles }) {
                 className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
                 required
               />
+            </div>
+
+            {/* Multi-day Event Toggle */}
+            <div className="space-y-3 p-4 bg-gray-50 rounded-lg border border-[#202020]/10">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="is_multi_day"
+                  checked={isMultiDay}
+                  onChange={(e) => setIsMultiDay(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#202020]/20"
+                />
+                <label htmlFor="is_multi_day" className="text-sm font-semibold text-[#202020]">
+                  Multi-day Event (up to 3 days)
+                </label>
+              </div>
+              {isMultiDay && (
+                <div className="space-y-2 mt-3">
+                  <label className="text-sm font-semibold text-[#202020]">
+                    End Date *
+                  </label>
+                  <Input
+                    type="date"
+                    name="event_end_date"
+                    className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                    required={isMultiDay}
+                  />
+                  <span className="text-xs text-gray-500">
+                    Maximum 3 days from start date
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Pair Pricing Toggle */}
+            <div className="space-y-3 p-4 bg-gray-50 rounded-lg border border-[#202020]/10">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="has_pair_pricing"
+                  checked={hasPairPricing}
+                  onChange={(e) => setHasPairPricing(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#202020]/20"
+                />
+                <label htmlFor="has_pair_pricing" className="text-sm font-semibold text-[#202020]">
+                  Enable Pair Ticket Pricing
+                </label>
+              </div>
+              {hasPairPricing && (
+                <div className="space-y-2 mt-3">
+                  <label className="text-sm font-semibold text-[#202020]">
+                    Pair Price (₹) *
+                  </label>
+                  <Input
+                    type="number"
+                    name="event_pair_price"
+                    className="w-full border-[#202020]/20 focus:border-[#202020] focus:ring-[#202020] bg-gray-50"
+                    placeholder="800"
+                    min="0"
+                    required={hasPairPricing}
+                  />
+                  <span className="text-xs text-gray-500">
+                    Price for a pair of tickets (usually discounted)
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">

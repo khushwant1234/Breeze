@@ -89,7 +89,10 @@ export default async function Page({
                 <h3 className="text-sm font-semibold text-[#ffbc00] mb-1">
                   Date
                 </h3>
-                <p className="text-lg">{event.event_date}</p>
+                <p className="text-lg">
+                  {event.event_date}
+                  {event.event_end_date && ` - ${event.event_end_date}`}
+                </p>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
@@ -99,20 +102,38 @@ export default async function Page({
                 <p className="text-lg">{event.event_venue}</p>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 sm:col-span-2">
                 <h3 className="text-sm font-semibold text-[#ffbc00] mb-1">
-                  Price
+                  Pricing
                 </h3>
-                <p className="text-lg font-bold">
-                  {event.event_price === 0 ? "Free" : `₹${event.event_price}`}
-                </p>
+                <div className="flex gap-4 items-center">
+                  <div>
+                    <p className="text-lg font-bold">
+                      {event.event_price === 0 ? "Free" : `₹${event.event_price}`}
+                    </p>
+                    <span className="text-xs text-white/70">Single Ticket</span>
+                  </div>
+                  {event.event_pair_price && (
+                    <>
+                      <span className="text-white/50">|</span>
+                      <div>
+                        <p className="text-lg font-bold">₹{event.event_pair_price}</p>
+                        <span className="text-xs text-white/70">Pair Ticket</span>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 
             {/* Call to Action */}
             <div className="mt-4">
               {event.registration_open ? (
-                <AddToCartEvent event_id={event.id} />
+              <AddToCartEvent 
+                event_id={event.id} 
+                event_price={event.event_price}
+                event_pair_price={event.event_pair_price}
+              />
               ) : (
                 <div className="bg-red-900/30 backdrop-blur-sm rounded-xl p-6 border border-red-500/50 text-center">
                   <Badge

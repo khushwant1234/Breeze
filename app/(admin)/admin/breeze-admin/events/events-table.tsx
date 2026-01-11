@@ -70,8 +70,26 @@ export default function EventsTable({ events }: { events: EventItem[] }) {
                     {event.event_type}
                   </Badge>
                 </TableCell>
-                <TableCell>₹{event.event_price}</TableCell>
-                <TableCell>{event.event_date}</TableCell>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span>₹{event.event_price}</span>
+                    {event.event_pair_price && (
+                      <span className="text-xs text-gray-500">
+                        Pair: ₹{event.event_pair_price}
+                      </span>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span>{event.event_date}</span>
+                    {event.event_end_date && (
+                      <span className="text-xs text-gray-500">
+                        to {event.event_end_date}
+                      </span>
+                    )}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Switch

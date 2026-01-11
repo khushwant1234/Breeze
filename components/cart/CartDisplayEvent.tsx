@@ -2,29 +2,42 @@
 import { EventItem } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
-export default function CartDisplayEvent({ items }: { items: EventItem[] }) {
-  const [cartItems, setCartItems] = useState<{
-    [key: string]: EventItem & { quantity: number };
-  }>({});
+interface CartItem {
+  id: string;
+  event_name: string;
+  event_price: number;
+  event_pair_price?: number | null;
+  singleQuantity: number;
+  pairQuantity: number;
+}
+
+export default function CartDisplayEvent({ items }: { items: (EventItem & { event_pair_price?: number | null })[] }) {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateCartFromStorage = () => {
       const cart = JSON.parse(localStorage.getItem('cart') || '{}');
-      const cartWithDetails: {
-        [key: string]: EventItem & { quantity: number };
-      } = {};
+      const itemsWithCart: CartItem[] = [];
 
       items.forEach((item) => {
-        if (cart[item.id]?.['NA']) {
-          cartWithDetails[item.id] = {
-            ...item,
-            quantity: cart[item.id]['NA'],
-          };
+        // Support both legacy "NA" key and new "SINGLE"/"PAIR" keys
+        const singleQty = cart[item.id]?.['SINGLE'] || cart[item.id]?.['NA'] || 0;
+        const pairQty = cart[item.id]?.['PAIR'] || 0;
+        
+        if (singleQty > 0 || pairQty > 0) {
+          itemsWithCart.push({
+            id: item.id,
+            event_name: item.event_name,
+            event_price: item.event_price,
+            event_pair_price: item.event_pair_price,
+            singleQuantity: singleQty,
+            pairQuantity: pairQty,
+          });
         }
       });
 
-      setCartItems(cartWithDetails);
+      setCartItems(itemsWithCart);
     };
 
     updateCartFromStorage();
@@ -38,7 +51,7 @@ export default function CartDisplayEvent({ items }: { items: EventItem[] }) {
     return <div className="text-center text-xl">Your cart is loading...</div>;
   }
 
-  if (Object.keys(cartItems).length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div className="text-center text-xl">
         You have no event tickets in your cart!
@@ -46,31 +59,48 @@ export default function CartDisplayEvent({ items }: { items: EventItem[] }) {
     );
   }
 
+  const calculateTotal = () => {
+    return cartItems.reduce((acc, item) => {
+      const singleTotal = item.event_price * item.singleQuantity;
+      const pairTotal = (item.event_pair_price || item.event_price * 2) * item.pairQuantity;
+      return acc + singleTotal + pairTotal;
+    }, 0);
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4">
-      {Object.values(cartItems).map((item) => (
+      {cartItems.map((item) => (
         <div
           key={item.id}
-          className="flex items-center justify-between border-b py-4"
+          className="flex flex-col border-b py-4"
         >
-          <div>
-            <h3 className="text-lg font-semibold">{item.event_name}</h3>
-            <p className="text-gray-600">₹{item.event_price}</p>
-          </div>
-          <div className="flex items-center">
-            <span className="mx-4">Tickets: {item.quantity}</span>
-            <span className="font-semibold">
-              Total: ₹{Number(item.event_price) * item.quantity}
-            </span>
+          <h3 className="text-lg font-semibold">{item.event_name}</h3>
+          <div className="flex flex-col gap-2 mt-2">
+            {item.singleQuantity > 0 && (
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">
+                  Single Tickets ({item.singleQuantity}x) - ₹{item.event_price} each
+                </span>
+                <span className="font-semibold">
+                  ₹{item.event_price * item.singleQuantity}
+                </span>
+              </div>
+            )}
+            {item.pairQuantity > 0 && (
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">
+                  Pair Tickets ({item.pairQuantity}x) - ₹{item.event_pair_price || item.event_price * 2} each
+                </span>
+                <span className="font-semibold">
+                  ₹{(item.event_pair_price || item.event_price * 2) * item.pairQuantity}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       ))}
       <div className="mt-6 text-right text-xl font-bold">
-        Total: ₹
-        {Object.values(cartItems).reduce(
-          (acc, item) => acc + Number(item.event_price) * item.quantity,
-          0
-        )}
+        Total: ₹{calculateTotal()}
       </div>
     </div>
   );

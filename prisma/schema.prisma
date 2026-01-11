@@ -22,6 +22,8 @@ model EventItem {
   image_url           String?
   event_type          event_category?
   registration_open   Boolean          @default(true)
+  event_end_date      String?          // End date for multi-day events (null = single day)
+  event_pair_price    Int?             @db.SmallInt  // Price for pair tickets (null = no pair pricing)
   ConfirmedEvent      ConfirmedEvent[]
 }
 

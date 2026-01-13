@@ -41,9 +41,7 @@ export default function ClientLayout({
 
       <main className="w-full">{children}</main>
 
-      <div>
-        <Footer nextPage={nextPage} />
-      </div>
+      <Footer nextPage={nextPage} />
     </div>
   );
 }

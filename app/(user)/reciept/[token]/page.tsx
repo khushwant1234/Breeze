@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 type CartItem = {
   [key: string]: {
-    [size: string]: number;
+    [sizeOrTicketType: string]: number;
   };
 };
 
@@ -17,7 +17,7 @@ export default async function Page({
   params: Promise<{ token: string }>;
 }) {
   const events = await prisma.eventItem.findMany({
-    select: { id: true, event_name: true, event_price: true },
+    select: { id: true, event_name: true, event_price: true, event_pair_price: true },
   });
   const merch = await prisma.merchItem.findMany();
 
@@ -101,26 +101,33 @@ export default async function Page({
                   </div>
                 ));
               } else if (eventsMap[id]) {
-                return Object.entries(sizes).map(([size, quantity]) => (
-                  <div
-                    key={id}
-                    className="flex justify-between items-center pt-4"
-                  >
-                    <div className="space-y-1">
-                      <h2 className="text-lg font-semibold text-foreground">
-                        {eventsMap[id].event_name}
-                      </h2>
+                return Object.entries(sizes).map(([ticketType, quantity]) => {
+                  const isPair = ticketType === "PAIR";
+                  const price = isPair ? (eventsMap[id].event_pair_price || eventsMap[id].event_price) : eventsMap[id].event_price;
+                  return (
+                    <div
+                      key={id + ticketType}
+                      className="flex justify-between items-center pt-4"
+                    >
+                      <div className="space-y-1">
+                        <h2 className="text-lg font-semibold text-foreground">
+                          {eventsMap[id].event_name}
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                          {isPair ? "Pair Ticket" : "Single Ticket"}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-muted-foreground">
+                          x{quantity}
+                        </p>
+                        <p className="text-lg font-medium">
+                          ₹{(price * quantity).toFixed(2)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">
-                        x{quantity}
-                      </p>
-                      <p className="text-lg font-medium">
-                        ₹{(eventsMap[id].event_price * quantity).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ));
+                  );
+                });
               }
             }
           )}

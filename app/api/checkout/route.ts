@@ -6,7 +6,7 @@ import { accommodation_option } from "@prisma/client";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const cart: { [key: string]: { size: number } } = data["cart"];
+    const cart: { [key: string]: { [ticketType: string]: number } } = data["cart"];
     const accommodation: [boolean, boolean, boolean] = data["accommodation"];
 
     const merch_items = await prisma.merchItem.findMany();
@@ -14,17 +14,26 @@ export async function POST(req: NextRequest) {
     const merchPrices = new Map(
       merch_items.map((item) => [item.id, item.product_price])
     );
+    // Store both single and pair prices for events
     const eventPrices = new Map(
-      event_items.map((item) => [item.id, item.event_price])
+      event_items.map((item) => [item.id, { single: item.event_price, pair: item.event_pair_price }])
     );
 
     let total = 0;
-    Object.entries(cart).forEach(([item, sizes]) => {
-      Object.entries(sizes).forEach(([size, quantity]) => {
-        if (merchPrices.has(item)) {
-          total += merchPrices.get(item) * quantity;
-        } else if (eventPrices.has(item)) {
-          total += Number(eventPrices.get(item)) * quantity;
+    Object.entries(cart).forEach(([itemId, sizes]) => {
+      Object.entries(sizes).forEach(([sizeOrTicketType, quantity]) => {
+        if (merchPrices.has(itemId)) {
+          // Merch item
+          total += merchPrices.get(itemId)! * quantity;
+        } else if (eventPrices.has(itemId)) {
+          // Event item - check for SINGLE, PAIR, or legacy NA
+          const prices = eventPrices.get(itemId)!;
+          if (sizeOrTicketType === "PAIR" && prices.pair) {
+            total += prices.pair * quantity;
+          } else {
+            // SINGLE, NA, or any other key uses single price
+            total += prices.single * quantity;
+          }
         }
       });
     });
@@ -53,16 +62,18 @@ export async function POST(req: NextRequest) {
     }
 
     const id = crypto.randomBytes(32).toString("hex");
-    try{await prisma.pendingTransaction.create({
-      data: {
-        amount: total+accommodation_price,
-        id,
-        cart,
-        accommodation_price, 
-        accommodation:
-          accommodation_array ? accommodation_array : null,
-      },
-    });}catch(e){
+    try {
+      await prisma.pendingTransaction.create({
+        data: {
+          amount: total + accommodation_price,
+          id,
+          cart,
+          accommodation_price,
+          accommodation:
+            accommodation_array ? accommodation_array : null,
+        },
+      });
+    } catch (e) {
       console.log(e)
       return NextResponse.json("Error processing checkout", { status: 500 });
     }

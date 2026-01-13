@@ -3,9 +3,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import heroimg from "./breeze.png";
 import SocialLinks from "./sociallinks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 const BracketHeader = ({ text }: { text: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +56,7 @@ export default function Footer({
   const [blurAmount, setBlurAmount] = useState(0);
 
   const footerRef = useRef<HTMLDivElement | null>(null);
+  const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const overscrollAcc = useRef(0);
   const touchStartY = useRef(0);
   const decreaseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -223,6 +224,40 @@ export default function Footer({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Letter animation effect for BREEZE text - just make visible and enable hover
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    const footerObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          letterRefs.current.forEach((ref, index) => {
+            if (!ref) return;
+            
+            // Staggered visibility - each letter appears slightly after the previous
+            setTimeout(() => {
+              ref.style.opacity = '1';
+              ref.style.transform = 'translateY(0)';
+              ref.classList.add("letter-visible");
+              ref.classList.add("letter-hover-enabled");
+            }, index * 50);
+          });
+          footerObserver.unobserve(entries[0].target);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    const parent = letterRefs.current[0]?.parentElement;
+    if (parent) {
+      footerObserver.observe(parent);
+    }
+
+    return () => {
+      footerObserver.disconnect();
+    };
+  }, [hasMounted]);
+
   // Hydration Guard
   if (!hasMounted) return null;
 
@@ -264,7 +299,7 @@ export default function Footer({
       <footer
         ref={footerRef}
         id="contact"
-        className={`relative w-full min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center overflow-hidden z-30 scroll-mt-[90px] ${className}`}
+        className={`relative w-full flex flex-col z-30 scroll-mt-[90px] ${className}`}
         style={{ background: "linear-gradient(to top, #2a003e 0%, #000 100%)" }}
       >
         <div className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 lg:py-20 z-10">
@@ -290,16 +325,22 @@ export default function Footer({
               </a>
             </div>
 
-            {/* Row 2: Logo + Find Us At */}
+            {/* Row 2: Location + Find Us At */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
-              <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-10 sm:h-11 md:h-12 lg:h-14 relative">
-                <Image
-                  src={heroimg}
-                  alt="Breeze Logo"
-                  fill
-                  className="object-contain object-left"
+              <a
+                href="https://maps.app.goo.gl/SNUGreaterNoida"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 group hover:opacity-80 transition-opacity"
+              >
+                <FontAwesomeIcon 
+                  icon={faLocationDot} 
+                  className="text-2xl sm:text-3xl md:text-4xl text-purple-400 group-hover:text-purple-300 transition-colors" 
                 />
-              </div>
+                <span className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 group-hover:text-white transition-colors">
+                  Shiv Nadar University, Greater Noida
+                </span>
+              </a>
 
               <div className="flex flex-col items-start md:items-end space-y-3 md:space-y-4">
                 <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white uppercase tracking-wider">
@@ -308,6 +349,59 @@ export default function Footer({
                 <SocialLinks />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Animated BREEZE Text - Outside padded container */}
+        <style jsx global>{`
+          .scroll-letter {
+            opacity: 0;
+            transform: translateY(80px);
+            will-change: transform, opacity, top;
+            cursor: pointer;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            transition: top 0.3s ease-out !important;
+          }
+          .letter-visible {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+          }
+          .letter-hover-enabled {
+            transition: top 0.3s ease-out !important;
+          }
+          .letter-hover-enabled:hover {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            color: #e9fff9;
+          }
+
+          @media (max-width: 768px) {
+            .scroll-letter { font-size: 10rem !important; }
+          }
+          @media (max-width: 640px) {
+            .scroll-letter { font-size: 7rem !important; }
+          }
+          @media (max-width: 480px) {
+            .scroll-letter { font-size: 5rem !important; margin: 0 -1px; }
+          }
+        `}</style>
+
+        <div
+          className="hidden lg:block relative w-full h-56 overflow-hidden"
+        >
+          <div
+            className="absolute inset-x-0 bottom-0 flex justify-center items-start md:text-[10rem] lg:text-[15rem] xl:text-[20rem] tracking-wider font-bold"
+            style={{ perspective: "1000px", fontFamily: "'Chathura', sans-serif", top: "0px" }}
+          >
+            {"BREEZE".split("").map((letter, index) => (
+              <span
+                key={index}
+                ref={(el: HTMLSpanElement | null): void => {
+                  letterRefs.current[index] = el;
+                }}
+                className="scroll-letter h-auto relative -top-20 hover:-top-28 text-white"
+              >
+                {letter}
+              </span>
+            ))}
           </div>
         </div>
       </footer>

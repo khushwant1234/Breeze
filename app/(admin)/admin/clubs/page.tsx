@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
-import AddEvent from "./add-event";
 import EventTable from "./event-table";
 
 export default async function Page() {
@@ -20,10 +19,9 @@ export default async function Page() {
             All events for {curr_club.club_name}
           </h1>
           <p className="text-gray-500 text-sm">
-            Manage your club's events and registrations
+            View your club's events and manage registrations
           </p>
         </div>
-        <AddEvent curr_club={curr_club} />
         <EventTable curr_club={curr_club} events={events} />
       </div>
     </div>

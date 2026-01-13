@@ -43,6 +43,7 @@ export default function TransactionTable({
       event_name: string;
       event_description: string;
       event_price: number;
+      event_pair_price: number | null;
       event_org: string | null;
       event_venue: string | null;
       event_date: string | null;

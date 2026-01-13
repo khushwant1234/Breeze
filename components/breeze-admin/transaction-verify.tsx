@@ -23,7 +23,7 @@ import { toast } from "sonner";
 
 type CartItem = {
   [key: string]: {
-    [size: string]: number;
+    [sizeOrTicketType: string]: number;
   };
 };
 
@@ -42,6 +42,7 @@ export default function TransactionVerify({
       event_name: string;
       event_description: string;
       event_price: number;
+      event_pair_price: number | null;
       event_org: string | null;
       event_venue: string | null;
       event_date: string | null;
@@ -292,23 +293,34 @@ export default function TransactionVerify({
                 return (
                   <li key={itemId} className="pt-2">
                     {event && (
-                      <div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium text-gray-700">
-                            {event.event_name}
-                          </span>
-                          <span className="bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded">
-                            x{Object.values(sizes)[0]}
-                          </span>
+                      <div className="space-y-2">
+                        <div className="font-medium text-gray-700">
+                          {event.event_name}
                         </div>
-
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            {event.event_org}
-                          </span>
-                          <span className="font-medium text-green-600">
-                            ₹{event.event_price * Object.values(sizes)[0]}
-                          </span>
+                        <div className="ml-4 grid grid-cols-2 gap-2">
+                          {Object.entries(sizes).map(([ticketType, quantity]) => {
+                            const isPair = ticketType === "PAIR";
+                            const price = isPair ? (event.event_pair_price || event.event_price) : event.event_price;
+                            return (
+                              <div
+                                key={ticketType}
+                                className="flex items-center justify-between bg-gray-100 px-3 py-1 rounded"
+                              >
+                                <span className="text-sm text-gray-600">
+                                  {isPair ? "Pair" : "Single"}
+                                </span>
+                                <span className="font-medium text-gray-800">
+                                  x{quantity}
+                                </span>
+                                <span className="font-medium text-green-600">
+                                  ₹{price * quantity}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-500">
+                          <span>{event.event_org}</span>
                         </div>
                       </div>
                     )}

@@ -3,7 +3,6 @@ import styles from "./SponsScroll.module.css";
 
 const sponsorsScroll = () => {
   const sponsors = [
-    "/spons-image/stok.png",
     "/spons-image/safar.png",
     "/spons-image/AUOS.png",
     "/spons-image/BD.png",
@@ -53,7 +52,6 @@ const sponsorsScroll = () => {
     "/spons-image/Jio.png",
     "/spons-image/JuniperNetworks.png",
     "/spons-image/KewauneeScientificCorp.png",
-    "/spons-image/Kingfisher.png",
     "/spons-image/L&T.png",
     "/spons-image/LiveIndiaTours.png",
     "/spons-image/MDH.png",

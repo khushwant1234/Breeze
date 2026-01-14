@@ -328,7 +328,7 @@ export default function Footer({
             {/* Row 2: Location + Find Us At */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
               <a
-                href="https://maps.app.goo.gl/SNUGreaterNoida"
+                href="https://maps.app.goo.gl/efznnSuGsLuSqLFm7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 group hover:opacity-80 transition-opacity"

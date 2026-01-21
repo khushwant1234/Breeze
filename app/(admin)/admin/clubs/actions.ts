@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
+import { verifyAuth } from "@/lib/auth";
 
 export async function createEvent(formData: FormData) {
   try {
@@ -101,6 +102,27 @@ export async function updateEvent(eventId: string, formData: FormData) {
 }
 
 export async function toggleEventRegistration(eventId: string, registrationOpen: boolean) {
+  // Verify club admin is authenticated
+  const auth = await verifyAuth();
+  if (auth.authenticated === false) {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  // Verify this event belongs to the user's club
+  const event = await prisma.eventItem.findUnique({
+    where: { id: eventId },
+    select: { event_org: true },
+  });
+
+  if (!event) {
+    return { success: false, error: "Event not found" };
+  }
+
+  // Allow BREEZE admin to toggle any event, or club admin only their own
+  if (!auth.isBreezeAdmin && event.event_org !== auth.clubName) {
+    return { success: false, error: "You can only modify your club's events" };
+  }
+
   try {
     await prisma.eventItem.update({
       where: { id: eventId },

@@ -19,6 +19,7 @@ import { EventItem } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { updateEvent } from "./actions";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function EditEventDialog({
   event,
@@ -32,13 +33,23 @@ export function EditEventDialog({
   const [eventData, setEventData] = useState<EventItem | null>(null);
   const [isMultiDay, setIsMultiDay] = useState(false);
   const [hasPairPricing, setHasPairPricing] = useState(false);
+  const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const router = useRouter();
+
+  const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB
+
+  const validateFileSize = (file: File) => {
+    return file.size <= MAX_FILE_SIZE;
+  };
 
   useEffect(() => {
     setEventData(event);
     // Set toggles based on existing event data
     setIsMultiDay(!!event?.event_end_date);
     setHasPairPricing(!!event?.event_pair_price);
+    setImagePreview(null);
+    setError("");
   }, [event]);
 
   if (!eventData) return null;
@@ -54,13 +65,31 @@ export function EditEventDialog({
             Update event details (Admin)
           </p>
         </DialogHeader>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm font-medium">
+            {error}
+          </div>
+        )}
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+            setError("");
             const formData = new FormData(e.target as HTMLFormElement);
-            await updateEvent(eventData.id, formData);
-            router.refresh();
-            onOpenChange(false);
+            
+            // Check file size if file is provided
+            const file = formData.get("event_poster") as File;
+            if (file && file.size > 0 && !validateFileSize(file)) {
+              setError("Image size must be less than 4MB");
+              return;
+            }
+
+            const result = await updateEvent(eventData.id, formData);
+            if (result.success) {
+              router.refresh();
+              onOpenChange(false);
+            } else {
+              setError(result.error || "Failed to update event");
+            }
           }}
           className="space-y-5 pt-4"
         >
@@ -235,6 +264,48 @@ export function EditEventDialog({
                 />
               </div>
             )}
+          </div>
+
+          {/* Event Image Upload */}
+          <div className="space-y-3 p-4 bg-gray-50 rounded-lg border border-[#202020]/10">
+            <Label className="text-sm font-semibold text-[#202020]">
+              Event Poster
+            </Label>
+            
+            {/* Current image preview */}
+            {(imagePreview || eventData.image_url) && (
+              <div className="relative w-full h-40 rounded-lg overflow-hidden border border-[#202020]/10">
+                <Image
+                  src={imagePreview || eventData.image_url || ""}
+                  alt="Event poster preview"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+
+            <Input
+              type="file"
+              name="event_poster"
+              accept="image/*"
+              className="w-full border-[#202020]/20 focus:border-[#202020] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#202020] file:text-white hover:file:bg-[#303030] file:cursor-pointer bg-white"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  if (!validateFileSize(file)) {
+                    setError("Image size must be less than 4MB");
+                  } else {
+                    setError("");
+                    // Create preview URL
+                    const url = URL.createObjectURL(file);
+                    setImagePreview(url);
+                  }
+                }
+              }}
+            />
+            <span className="text-xs text-gray-500">
+              Leave empty to keep current image • Max: 4MB • JPG, PNG, WEBP
+            </span>
           </div>
 
           <div className="flex gap-3 pt-4 border-t border-[#202020]/10">

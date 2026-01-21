@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import EventsTable from "./events-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AddEvent from "./add-event";
 
 export default async function Page() {
   const culturalEvents = await prisma.eventItem.findMany({
@@ -17,17 +18,33 @@ export default async function Page() {
     orderBy: { created_at: "desc" },
   });
 
+  // Fetch all clubs for the add event dropdown
+  const clubs = await prisma.roles.findMany({
+    select: { id: true, club_name: true },
+    orderBy: { club_name: "asc" },
+  });
+
+  // Get unique club names (in case of duplicates)
+  const uniqueClubs = Array.from(
+    new Map(clubs.map((club) => [club.club_name, club])).values()
+  );
+
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-[#202020] tracking-tight mb-2">
-            Event Management
-          </h1>
-          <p className="text-gray-500 text-sm">
-            Manage all events, edit details, and control registrations
-          </p>
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold text-[#202020] tracking-tight mb-2">
+                Event Management
+              </h1>
+              <p className="text-gray-500 text-sm">
+                Manage all events, edit details, and control registrations
+              </p>
+            </div>
+            <AddEvent clubs={uniqueClubs} />
+          </div>
         </div>
 
         {/* Tabs */}
@@ -80,3 +97,4 @@ export default async function Page() {
 }
 
 export const dynamic = "force-dynamic";
+

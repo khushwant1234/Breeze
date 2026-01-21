@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { requireBreezeAdmin } from "@/lib/auth";
 
 interface ConfirmRequestBody {
   transactionId: string;
@@ -16,6 +17,10 @@ type CartItem = {
 };
 
 export async function POST(req: NextRequest) {
+  // Verify BREEZE admin access
+  const adminCheck = await requireBreezeAdmin();
+  if (adminCheck.authorized === false) return adminCheck.response;
+
   try {
     const body: ConfirmRequestBody = await req.json();
 

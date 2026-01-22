@@ -298,8 +298,9 @@ export default function CartDisplay({
                     checked={selectedDays[0]}
                     onCheckedChange={(checked) =>
                       setSelectedDays((prev) => {
-                        prev[0] = checked === true;
-                        return [...prev];
+                        const newDays = [...prev];
+                        newDays[0] = checked === true;
+                        return newDays as [boolean, boolean, boolean];
                       })
                     }
                   />
@@ -316,8 +317,9 @@ export default function CartDisplay({
                     checked={selectedDays[1]}
                     onCheckedChange={(checked) =>
                       setSelectedDays((prev) => {
-                        prev[1] = checked === true;
-                        return [...prev];
+                        const newDays = [...prev];
+                        newDays[1] = checked === true;
+                        return newDays as [boolean, boolean, boolean];
                       })
                     }
                   />
@@ -334,8 +336,9 @@ export default function CartDisplay({
                     checked={selectedDays[2]}
                     onCheckedChange={(checked) =>
                       setSelectedDays((prev) => {
-                        prev[2] = checked === true;
-                        return [...prev];
+                        const newDays = [...prev];
+                        newDays[2] = checked === true;
+                        return newDays as [boolean, boolean, boolean];
                       })
                     }
                   />

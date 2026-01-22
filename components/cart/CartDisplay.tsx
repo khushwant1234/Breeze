@@ -26,9 +26,10 @@ export default function CartDisplay({
 
   const [isLoading, setIsLoading] = useState(true);
   const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  const [selectedDays, setSelectedDays] = useState<[boolean, boolean, boolean]>(
-    [false, false, false]
-  );
+  const [day1, setDay1] = useState(false);
+  const [day2, setDay2] = useState(false);
+  const [day3, setDay3] = useState(false);
+  const selectedDays: [boolean, boolean, boolean] = [day1, day2, day3];
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -295,14 +296,8 @@ export default function CartDisplay({
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="day1"
-                    checked={selectedDays[0]}
-                    onCheckedChange={(checked) =>
-                      setSelectedDays((prev) => {
-                        const newDays = [...prev];
-                        newDays[0] = checked === true;
-                        return newDays as [boolean, boolean, boolean];
-                      })
-                    }
+                    checked={day1}
+                    onCheckedChange={(checked) => setDay1(checked === true)}
                   />
                   <label
                     htmlFor="day1"
@@ -314,14 +309,8 @@ export default function CartDisplay({
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="day2"
-                    checked={selectedDays[1]}
-                    onCheckedChange={(checked) =>
-                      setSelectedDays((prev) => {
-                        const newDays = [...prev];
-                        newDays[1] = checked === true;
-                        return newDays as [boolean, boolean, boolean];
-                      })
-                    }
+                    checked={day2}
+                    onCheckedChange={(checked) => setDay2(checked === true)}
                   />
                   <label
                     htmlFor="day2"
@@ -333,14 +322,8 @@ export default function CartDisplay({
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="day3"
-                    checked={selectedDays[2]}
-                    onCheckedChange={(checked) =>
-                      setSelectedDays((prev) => {
-                        const newDays = [...prev];
-                        newDays[2] = checked === true;
-                        return newDays as [boolean, boolean, boolean];
-                      })
-                    }
+                    checked={day3}
+                    onCheckedChange={(checked) => setDay3(checked === true)}
                   />
                   <label
                     htmlFor="day3"

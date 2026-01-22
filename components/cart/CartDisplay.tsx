@@ -193,7 +193,7 @@ export default function CartDisplay({
   ];
 
   // ACCOMMODATION DISABLED - Changed condition
-  if (allCartItems.length === 0) {
+  if (allCartItems.length === 0 && !needsAccommodation) {
     return (
       <div className="mt-10">
         <div className="mb-6 text-center flex flex-col items-center">

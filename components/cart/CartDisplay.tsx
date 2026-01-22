@@ -25,11 +25,10 @@ export default function CartDisplay({
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  // ACCOMMODATION DISABLED - Uncomment to restore
-  // const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  // const [selectedDays, setSelectedDays] = useState<[boolean, boolean, boolean]>(
-  //   [false, false, false]
-  // );
+  const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
+  const [selectedDays, setSelectedDays] = useState<[boolean, boolean, boolean]>(
+    [false, false, false]
+  );
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -197,7 +196,6 @@ export default function CartDisplay({
   if (allCartItems.length === 0) {
     return (
       <div className="mt-10">
-        {/* ACCOMMODATION DISABLED - Uncomment to restore
         <div className="mb-6 text-center flex flex-col items-center">
           <label className="block text-lg font-semibold mb-3 text-white">
             Do you need accommodation? (Only for external students!)
@@ -216,7 +214,6 @@ export default function CartDisplay({
             </option>
           </select>
         </div>
-        */}
         <Image
           src="/images/empty-cart-2.png"
           alt="Not Found"
@@ -250,30 +247,26 @@ export default function CartDisplay({
       return acc;
     }, 0);
 
-    // ACCOMMODATION DISABLED - Uncomment to restore
-    // let num_days = 0;
-    // selectedDays.forEach((day) => (num_days += day ? 1 : 0));
-    // const accommodationPrice = (() => {
-    //   switch (num_days) {
-    //     case 1:
-    //       return 550;
-    //     case 2:
-    //       return 900;
-    //     case 3:
-    //       return 1250;
-    //     default:
-    //       return 0;
-    //   }
-    // })();
-    // return itemsTotal + accommodationPrice;
-    
-    return itemsTotal;
+    let num_days = 0;
+    selectedDays.forEach((day) => (num_days += day ? 1 : 0));
+    const accommodationPrice = (() => {
+      switch (num_days) {
+        case 1:
+          return 649;
+        case 2:
+          return 1099;
+        case 3:
+          return 1499;
+        default:
+          return 0;
+      }
+    })();
+    return itemsTotal + accommodationPrice;
   };
 
   return (
     <div className="pt-5 min-h-screen">
       <div className="max-w-4xl mx-auto p-6">
-        {/* ACCOMMODATION DISABLED - Uncomment to restore
         <div className="mb-6 px-2">
           <label className="block text-lg font-semibold mb-3 text-white">
             Do you need accommodation? (Only for external students!)
@@ -357,7 +350,6 @@ export default function CartDisplay({
             </div>
           )}
         </div>
-        */}
 
         {/* Merch Items */}
         {Object.entries(cartItems.merch).map(([itemId, sizeVariants]) =>
@@ -452,8 +444,7 @@ export default function CartDisplay({
             Grand Total: ₹{calculateGrandTotal()}
           </div>
           <div className="flex justify-center mt-8">
-            {/* ACCOMMODATION DISABLED - Pass empty array instead of selectedDays */}
-            <CheckoutButton accommodation={[false, false, false]} />
+            <CheckoutButton accommodation={selectedDays} />
           </div>
         </div>
       </div>

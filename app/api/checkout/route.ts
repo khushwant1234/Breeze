@@ -49,13 +49,13 @@ export async function POST(req: NextRequest) {
     });
     switch (num_days) {
       case 1:
-        accommodation_price += 550;
+        accommodation_price += 649;
         break;
       case 2:
-        accommodation_price += 900;
+        accommodation_price += 1099;
         break;
       case 3:
-        accommodation_price += 1250;
+        accommodation_price += 1499;
         break;
       default:
         break;

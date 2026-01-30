@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import path from "path";
 import { requireBreezeAdmin } from "@/lib/auth";
 
 interface ConfirmRequestBody {
@@ -199,8 +200,15 @@ export async function POST(req: NextRequest) {
         });
 
         const receiptUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reciept/${transaction.token}`;
+        const pdfPath = path.join(process.cwd(), "public", "BREEZE-2026-Code-of-Conduct.pdf");
 
         await transporter.sendMail({
+          attachments: [
+            {
+              filename: "Breeze-2026-Code-of-Conduct.pdf",
+              path: pdfPath,
+            },
+          ],
           from: `"${process.env.EMAIL_FROM_NAME || "Breeze 2026"}" <${process.env.EMAIL_FROM}>`,
           to: transaction.email,
           subject: "Payment Approved - Breeze 2026 Registration Confirmed! 🎉",

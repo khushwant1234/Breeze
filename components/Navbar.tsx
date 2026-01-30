@@ -26,6 +26,7 @@ const Navbar = ({ className }: NavbarProps) => {
     { name: "Home", href: "/" },
     { name: "Events", href: "/events" },
     // { name: "Merch", href: "/merch" }, // Temporarily disabled
+    { name: "Team", href: "/team" },
     { name: "Contact Us", href: "/get-in-touch" },
   ];
 

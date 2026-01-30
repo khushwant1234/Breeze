@@ -3,7 +3,7 @@ import { updateSession } from '@/utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
   // Block access to sponsors and team pages
-  const blockedPaths = ['/sponsors', '/team']
+  const blockedPaths = ['/sponsors']
   if (blockedPaths.some(path => request.nextUrl.pathname.startsWith(path))) {
     return NextResponse.redirect(new URL('/', request.url))
   }
@@ -12,10 +12,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: [
-        '/admin/:path*', 
-        '/api/breeze-admin/:path*',
-        '/sponsors/:path*',
-        '/team/:path*',
-    ],
+  matcher: [
+    '/admin/:path*',
+    '/api/breeze-admin/:path*',
+    '/sponsors/:path*',
+  ],
 }

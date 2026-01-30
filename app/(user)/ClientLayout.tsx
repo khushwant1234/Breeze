@@ -41,7 +41,7 @@ export default function ClientLayout({
 
       <main className="w-full">{children}</main>
 
-      <Footer nextPage={nextPage} />
+      {!pathname.startsWith("/team") && <Footer nextPage={nextPage} />}
     </div>
   );
 }

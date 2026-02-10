@@ -77,6 +77,9 @@ export default async function Page() {
                       Roll Number
                     </TableHead>
                     <TableHead className="font-semibold text-[#202020]">
+                      College
+                    </TableHead>
+                    <TableHead className="font-semibold text-[#202020]">
                       Number of Passes
                     </TableHead>
                     <TableHead className="font-semibold text-[#202020]">
@@ -104,6 +107,9 @@ export default async function Page() {
                           {user.SubmittedTransaction.address}
                         </TableCell>
                         <TableCell className="text-gray-600">
+                          {user.SubmittedTransaction.student_details || "—"}
+                        </TableCell>
+                        <TableCell className="text-gray-600">
                           {Number(user.quantity)}
                         </TableCell>
                         <TableCell className="text-[#202020] font-semibold">
@@ -114,7 +120,7 @@ export default async function Page() {
                   ) : (
                     <TableRow>
                       <TableCell
-                        colSpan={5}
+                        colSpan={6}
                         className="h-24 text-center text-muted-foreground"
                       >
                         No participants currently
@@ -124,7 +130,7 @@ export default async function Page() {
                   <TableFooter>
                     <TableRow className="bg-gray-100">
                       <TableCell
-                        colSpan={5}
+                        colSpan={6}
                         className="text-right font-semibold text-[#202020]"
                       >
                         Event Total

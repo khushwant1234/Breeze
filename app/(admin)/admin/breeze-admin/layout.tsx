@@ -45,6 +45,12 @@ export default function AdminLayout({
           >
             Contact Submissions
           </Link>
+          <Link
+            href="/admin/breeze-admin/download"
+            className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+          >
+            Data Download
+          </Link>
         </nav>
         <div className="p-4 border-t border-gray-200">
           <Button

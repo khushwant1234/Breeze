@@ -37,7 +37,7 @@ export default async function Page() {
   // Group confirmed events by eventItemId in JS
   const confirmedByEvent = new Map<string, typeof allConfirmedEvents>();
   for (const ce of allConfirmedEvents) {
-    const key = ce.eventItemId;
+    const key = ce.id;
     if (!confirmedByEvent.has(key)) {
       confirmedByEvent.set(key, []);
     }
@@ -107,7 +107,7 @@ export default async function Page() {
                   {users.length > 0 ? (
                     users.map((user) => (
                       <TableRow
-                        key={user.id}
+                        key={user.token}
                         className="hover:bg-gray-50 transition-colors border-b border-[#202020]/5"
                       >
                         <TableCell className="font-medium text-[#202020]">

@@ -24,7 +24,39 @@ export default async function Page() {
     where: { event_org: curr_club.club_name },
   });
 
+  // Fetch ALL confirmed events for this club in a single query instead of one per event
+  const allConfirmedEvents = await prisma.confirmedEvent.findMany({
+    where: {
+      EventItem: {
+        event_org: curr_club.club_name,
+      },
+    },
+    include: { SubmittedTransaction: true },
+  });
+
+  // Group confirmed events by eventItemId in JS
+  const confirmedByEvent = new Map<string, typeof allConfirmedEvents>();
+  for (const ce of allConfirmedEvents) {
+    const key = ce.eventItemId;
+    if (!confirmedByEvent.has(key)) {
+      confirmedByEvent.set(key, []);
+    }
+    confirmedByEvent.get(key)!.push(ce);
+  }
+
   let grandTotal = 0;
+
+  // Pre-compute event data so we don't need async in JSX
+  const eventData = events.map((event) => {
+    const users = confirmedByEvent.get(event.id) || [];
+    const eventTotal = users.reduce(
+      (acc, user) =>
+        acc + Number(user.quantity) * Number(event.event_price),
+      0
+    );
+    grandTotal += eventTotal;
+    return { event, users, eventTotal };
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -37,25 +69,7 @@ export default async function Page() {
             View all registered participants and revenue details
           </p>
         </div>
-        {events.map(async (event) => {
-          const users = await prisma.confirmedEvent.findMany({
-            where: {
-              EventItem: {
-                event_org: curr_club.club_name,
-                id: event.id,
-              },
-            },
-            include: { SubmittedTransaction: true },
-          });
-
-          const eventTotal = users.reduce(
-            (acc, user) =>
-              acc + Number(user.quantity) * Number(event.event_price),
-            0
-          );
-          grandTotal += eventTotal;
-
-          return (
+        {eventData.map(({ event, users, eventTotal }) => (
             <div
               key={event.id}
               className="space-y-4 bg-gray-50 p-6 rounded-lg border border-[#202020]/10"
@@ -93,7 +107,7 @@ export default async function Page() {
                   {users.length > 0 ? (
                     users.map((user) => (
                       <TableRow
-                        key={event.id}
+                        key={user.id}
                         className="hover:bg-gray-50 transition-colors border-b border-[#202020]/5"
                       >
                         <TableCell className="font-medium text-[#202020]">
@@ -122,7 +136,7 @@ export default async function Page() {
                   ) : (
                     <TableRow>
                       <TableCell
-                        colSpan={6}
+                        colSpan={7}
                         className="h-24 text-center text-muted-foreground"
                       >
                         No participants currently
@@ -145,8 +159,7 @@ export default async function Page() {
                 </TableBody>
               </Table>
             </div>
-          );
-        })}
+        ))}
         <div className="mt-8 border-t border-[#202020]/20 pt-6 bg-gray-50 p-6 rounded-lg">
           <h2 className="text-2xl font-bold text-right text-[#202020]">
             Grand Total: ₹{grandTotal}

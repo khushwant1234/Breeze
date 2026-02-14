@@ -1,5 +1,7 @@
 import BasicCards from "@/components/events/BasicCards";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { Fraunces } from "next/font/google";

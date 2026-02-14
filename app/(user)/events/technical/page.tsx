@@ -4,6 +4,8 @@ import BasicCards from "@/components/events/BasicCards";
 import BottomButtons from "@/components/events/bottombuttons";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 const page = async ({
   searchParams,
 }: {

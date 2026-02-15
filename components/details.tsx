@@ -23,10 +23,10 @@ const rawData = [
   
   // UNSUPPORTED FORMATS (Browser won't render DNG/HEIC/HEIF)
   { key: 8, img: "/Anubhav.jpeg", title: "Public Relations Lead", name: "Anubhav Kansal", year: "2028" },
-  { key: 9, img: "/Nithya.jpeg", title: "Public Relations Lead", name: "Nithya Pasupuleti", year: "2027" },
+  { key: 9, img: "/Nithya.jpeg", title: "Public Relations Lead", name: "Nithya Pasupuleti", year: "2028" },
   
   { key: 10, img: "/Shubh.PNG", title: "Videography Lead", name: "Shubh Choubey", year: "2028" },
-  { key: 11, img: "/Rupinroshan.jpg", title: "Videography Lead", name: "Rupin Roshan", year: "2028" },
+  { key: 11, img: "/Rupinroshan.jpg", title: "Videography Lead", name: "Rupin Roshan", year: "2027" },
   { key: 12, img: "/Srijita.jpeg", title: "Design Lead", name: "Shrijita Guha", year: "2028" },
   { key: 13, img: "/shaivi.jpeg", title: "Design Lead", name: "Shaivi Dhandapani", year: "2028" },
   { key: 14, img: "/tanya.jpeg", title: "UI/UX Design Lead", name: "Tanya Edlyn", year: "2026" },

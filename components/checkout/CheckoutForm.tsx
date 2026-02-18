@@ -107,7 +107,7 @@ export function CheckoutForm({ amount }: CheckoutFormProps) {
         </p>
         <div className="text-center">
           <Image
-            src={"/Vedant-QR.jpeg"}
+            src={"/snehil-qr.jpeg"}
             width={300}
             height={300}
             alt="UPI Payment QR"

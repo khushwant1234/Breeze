@@ -26,10 +26,9 @@ export default function CartDisplay({
 
   const [isLoading, setIsLoading] = useState(true);
   const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  const [day1, setDay1] = useState(false);
   const [day2, setDay2] = useState(false);
   const [day3, setDay3] = useState(false);
-  const selectedDays: [boolean, boolean, boolean] = [day1, day2, day3];
+  const selectedDays: [boolean, boolean, boolean] = [false, day2, day3];
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -207,10 +206,10 @@ export default function CartDisplay({
               setNeedsAccommodation(e.target.value === "yes");
             }}
           >
-            <option value="no" className="bg-[#8200C1] text-white">
+            <option value="no" style={{ backgroundColor: '#8200C1', color: 'white' }}>
               No
             </option>
-            <option value="yes" className="bg-[#8200C1] text-white">
+            <option value="yes" style={{ backgroundColor: '#8200C1', color: 'white' }}>
               Yes
             </option>
           </select>
@@ -256,8 +255,6 @@ export default function CartDisplay({
           return 649;
         case 2:
           return 1099;
-        case 3:
-          return 1499;
         default:
           return 0;
       }
@@ -279,10 +276,10 @@ export default function CartDisplay({
             }}
             value={needsAccommodation ? "yes" : "no"}
           >
-            <option value="no" className="bg-[#8200C1] text-white">
+            <option value="no" style={{ backgroundColor: '#8200C1', color: 'white' }}>
               No
             </option>
-            <option value="yes" className="bg-[#8200C1] text-white">
+            <option value="yes" style={{ backgroundColor: '#8200C1', color: 'white' }}>
               Yes
             </option>
           </select>
@@ -293,19 +290,6 @@ export default function CartDisplay({
                 Select days:
               </label>
               <div className="flex flex-col space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="day1"
-                    checked={day1}
-                    onCheckedChange={(checked) => setDay1(checked === true)}
-                  />
-                  <label
-                    htmlFor="day1"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Day 1 (20th February)
-                  </label>
-                </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="day2"

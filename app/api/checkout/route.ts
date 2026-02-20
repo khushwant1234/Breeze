@@ -54,9 +54,6 @@ export async function POST(req: NextRequest) {
       case 2:
         accommodation_price += 1099;
         break;
-      case 3:
-        accommodation_price += 1499;
-        break;
       default:
         break;
     }

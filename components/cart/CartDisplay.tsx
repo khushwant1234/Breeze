@@ -3,7 +3,6 @@ import Image from "next/image";
 import { MerchItem, EventItem } from "@prisma/client";
 import CheckoutButton from "@/components/cart/CheckoutButton";
 import { useEffect, useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface CartDisplayProps {
   merch_items: MerchItem[];
@@ -25,9 +24,6 @@ export default function CartDisplay({
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  const [day3, setDay3] = useState(false);
-  const selectedDays: [boolean, boolean, boolean] = [false, false, day3];
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -191,28 +187,9 @@ export default function CartDisplay({
     ...Object.values(cartItems.events).flat(),
   ];
 
-  // ACCOMMODATION DISABLED - Changed condition
-  if (allCartItems.length === 0 && !needsAccommodation) {
+  if (allCartItems.length === 0) {
     return (
       <div className="mt-10">
-        <div className="mb-6 text-center flex flex-col items-center">
-          <label className="block text-lg font-semibold mb-3 text-white">
-            Do you need accommodation? (Only for external students!)
-          </label>
-          <select
-            className="w-full max-w-xs p-3 border-2 border-white/30 rounded-lg bg-white/10 backdrop-blur-sm text-white font-medium cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:border-[#ffbc00] focus:ring-2 focus:ring-[#ffbc00]/50"
-            onChange={(e) => {
-              setNeedsAccommodation(e.target.value === "yes");
-            }}
-          >
-            <option value="no" style={{ backgroundColor: '#8200C1', color: 'white' }}>
-              No
-            </option>
-            <option value="yes" style={{ backgroundColor: '#8200C1', color: 'white' }}>
-              Yes
-            </option>
-          </select>
-        </div>
         <Image
           src="/images/empty-cart-2.png"
           alt="Not Found"
@@ -246,56 +223,12 @@ export default function CartDisplay({
       return acc;
     }, 0);
 
-    const accommodationPrice = day3 ? 649 : 0;
-    return itemsTotal + accommodationPrice;
+    return itemsTotal;
   };
 
   return (
     <div className="pt-5 min-h-screen">
       <div className="max-w-4xl mx-auto p-6">
-        <div className="mb-6 px-2">
-          <label className="block text-lg font-semibold mb-3 text-white">
-            Do you need accommodation? (Only for external students!)
-          </label>
-          <select
-            className="w-full max-w-xs p-3 border-2 border-white/30 rounded-lg bg-white/10 backdrop-blur-sm text-white font-medium cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:border-[#ffbc00] focus:ring-2 focus:ring-[#ffbc00]/50"
-            onChange={(e) => {
-              setNeedsAccommodation(e.target.value === "yes");
-            }}
-            value={needsAccommodation ? "yes" : "no"}
-          >
-            <option value="no" style={{ backgroundColor: '#8200C1', color: 'white' }}>
-              No
-            </option>
-            <option value="yes" style={{ backgroundColor: '#8200C1', color: 'white' }}>
-              Yes
-            </option>
-          </select>
-
-          {needsAccommodation && (
-            <div className="mt-4 space-y-2">
-              <label className="block text-sm font-medium mb-2">
-                Select days:
-              </label>
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="day3"
-                    checked={day3}
-                    onCheckedChange={(checked) => setDay3(checked === true)}
-                  />
-                  <label
-                    htmlFor="day3"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Day 3 (22nd February)
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Merch Items */}
         {Object.entries(cartItems.merch).map(([itemId, sizeVariants]) =>
           sizeVariants.map((item) => (
@@ -389,7 +322,7 @@ export default function CartDisplay({
             Grand Total: ₹{calculateGrandTotal()}
           </div>
           <div className="flex justify-center mt-8">
-            <CheckoutButton accommodation={selectedDays} />
+            <CheckoutButton accommodation={[false, false, false]} />
           </div>
         </div>
       </div>

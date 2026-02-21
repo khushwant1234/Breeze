@@ -38,18 +38,8 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    let num_days = 0;
-    let accommodation_array = [];
+    let accommodation_array: any[] = [];
     let accommodation_price = 0;
-    accommodation.forEach((day, i) => {
-      if (day) {
-        num_days += 1;
-        accommodation_array.push(Object.values(accommodation_option)[i]);
-      }
-    });
-    if (num_days === 1) {
-      accommodation_price = 649;
-    }
 
     const id = crypto.randomBytes(32).toString("hex");
     try {

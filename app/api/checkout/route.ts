@@ -47,15 +47,8 @@ export async function POST(req: NextRequest) {
         accommodation_array.push(Object.values(accommodation_option)[i]);
       }
     });
-    switch (num_days) {
-      case 1:
-        accommodation_price += 649;
-        break;
-      case 2:
-        accommodation_price += 1099;
-        break;
-      default:
-        break;
+    if (num_days === 1) {
+      accommodation_price = 649;
     }
 
     const id = crypto.randomBytes(32).toString("hex");

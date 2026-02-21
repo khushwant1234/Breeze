@@ -26,9 +26,8 @@ export default function CartDisplay({
 
   const [isLoading, setIsLoading] = useState(true);
   const [needsAccommodation, setNeedsAccommodation] = useState<boolean>(false);
-  const [day2, setDay2] = useState(false);
   const [day3, setDay3] = useState(false);
-  const selectedDays: [boolean, boolean, boolean] = [false, day2, day3];
+  const selectedDays: [boolean, boolean, boolean] = [false, false, day3];
 
   useEffect(() => {
     const updateCartFromStorage = () => {
@@ -247,18 +246,7 @@ export default function CartDisplay({
       return acc;
     }, 0);
 
-    let num_days = 0;
-    selectedDays.forEach((day) => (num_days += day ? 1 : 0));
-    const accommodationPrice = (() => {
-      switch (num_days) {
-        case 1:
-          return 649;
-        case 2:
-          return 1099;
-        default:
-          return 0;
-      }
-    })();
+    const accommodationPrice = day3 ? 649 : 0;
     return itemsTotal + accommodationPrice;
   };
 
@@ -290,19 +278,6 @@ export default function CartDisplay({
                 Select days:
               </label>
               <div className="flex flex-col space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="day2"
-                    checked={day2}
-                    onCheckedChange={(checked) => setDay2(checked === true)}
-                  />
-                  <label
-                    htmlFor="day2"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Day 2 (21st February)
-                  </label>
-                </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="day3"

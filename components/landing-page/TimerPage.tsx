@@ -31,7 +31,7 @@ function calculateTimeLeft(targetDate: string): TimeLeft {
 }
 
 export default function TimerPage() {
-  const targetDate = "2026-02-19T23:59:59";
+  const targetDate = "2026-03-31T23:59:59";
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(targetDate));
   const [isClient, setIsClient] = useState(false);
 

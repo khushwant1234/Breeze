@@ -162,7 +162,7 @@ const LoadingScreen = ({
 
 
 export default function ParallaxHero() {
-  const targetDate = "2026-02-19T23:59:59";
+  const targetDate = "2026-03-31T23:59:59";
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(
     calculateTimeLeft(targetDate)
   );

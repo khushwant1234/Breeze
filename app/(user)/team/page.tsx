@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { motion, AnimatePresence, PanInfo } from "motion/react";
 import { X } from "lucide-react";
 import { teamMembers, TeamMember } from "@/components/details"; // Ensure this matches your file path
 
